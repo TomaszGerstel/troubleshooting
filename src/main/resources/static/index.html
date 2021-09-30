@@ -47,13 +47,14 @@
     <div class="main" ng-hide="showRegisterForm">
     
   <h1>Wybierz problem z listy: </h1>
-    
-	<select size="5">
-		<option class="plist" ng-repeat="problem in problemContr.problems"
-			ng-mousedown="problemContr.loadData(problem.id)" title="pokaż rozwiązania">
+  <div class="choose">
+    <ul class="problems_list">	
+		<li class="plist" ng-repeat="problem in problemContr.problems"
+			ng-click="problemContr.loadData(problem.id)" title="pokaż rozwiązania">
 			{{problem.name}}
-		</option>
-	</select>
+		</li>
+	</ul>
+	</div>	
 	
 	</div>
 	</div>
