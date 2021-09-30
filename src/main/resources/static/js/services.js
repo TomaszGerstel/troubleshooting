@@ -33,7 +33,7 @@ angular.module('app')
 //	}
  });
 
-const LOGIN_ENDPOINT = '/login';
-const LOGOUT_ENDPOINT = '/logout';
+const LOGIN_ENDPOINT = 'login';
+const LOGOUT_ENDPOINT = 'logout';
 const REGISTER_ENDPOINT = '/api/register';
 
