@@ -115,6 +115,10 @@ h1 {
 	cursor: pointer;
 }
 
+select {
+	height: 100px;
+}
+
 .selectp {
 	padding: 12px;
 }
