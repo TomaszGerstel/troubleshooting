@@ -9,9 +9,7 @@ import com.tg.security.CustomUserDetailsService;
 
 @Controller
 public class AuthenticationController {
-	
-	CustomUserDetailsService customUserDetailsService;
-	
+		
 	@PostMapping("/login")
 	@ResponseBody
 	public Principal login(Principal user) {
