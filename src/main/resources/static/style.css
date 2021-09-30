@@ -4,7 +4,7 @@ body {
 	margin: 1 auto;
 	text-align: left;
 	width: 100%;	
-	font-family: sans-serif;
+	font-family: ;
 	font-size: 12px;	
 	margin: 0;
 	background: azure url(images/back.png) repeat-x 0cm 2.4cm;
@@ -145,7 +145,7 @@ option {
 	font-size: 1.5em;
 	font-weight: 600;
 	background-color: azure;
-	font-family: sans-serif;
+	font-family: monospace;
 }
 	
 .info {
@@ -156,6 +156,7 @@ option {
 	padding-right: 10px;
 	display: flex;
 	font-size: 18px;
+	font-family:monospace;
 	color: black;
 	text-align: justify;
 	background: rgba(0, 128, 150, 0.7);
