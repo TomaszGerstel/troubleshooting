@@ -82,8 +82,7 @@ angular.module('app')
 			vm.user.$save(function(data) {
 //				vm.loadData(cause.problemId);	// odświeża listę przyczyn	
 				vm.user = new User();
-				alert ('rejestracja udana!');
-				
+				alert ('rejestracja udana!');				
 			});
 		}
 		
