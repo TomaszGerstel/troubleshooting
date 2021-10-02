@@ -36,11 +36,13 @@
         
         </div>
         </div>
-        <div class="block">
+        
+        <div class="main">
+    
         
    
  
-    <div class="main" ng-hide="showRegisterForm">
+    
     
   <h1>Wybierz problem z listy: </h1>
   <div class="choose">
@@ -52,10 +54,8 @@
 	</ul>
 	</div>	
 	
-	</div>
-	</div>
-	
-<div class="block">
+
+
 <div class="details" ng-show="problemContr.details">
 <h1>{{problemContr.details.name}}</h1>
    <h3>Szczegóły: {{problemContr.details.description}}</h3> 
@@ -73,7 +73,7 @@
 		</form>
 		</div>
 		<div ng-show="!authenticated"> 
- 	<h3>Zaloguj się aby dodać nowy wpis</h3> 	
+ 	<h3><i>Zaloguj się aby dodać nowy wpis</i></h3> 	
  </div>
     </div>    
     <div class="detal">   
@@ -98,14 +98,18 @@
 		</div>
 		
 			<div ng-show="!authenticated"> 
- 	<h3>Zaloguj się aby dodać nowy wpis</h3> 	
+ 	<h3><i>Zaloguj się aby dodać nowy wpis</i></h3> 	
  </div>
     </div>
+    </div>
     </div>   
+    <div class="block">
         <div class="footer">
         <p>&copy TG 2021</p>
     </div>
     </div>
+   
+    
     
 	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
