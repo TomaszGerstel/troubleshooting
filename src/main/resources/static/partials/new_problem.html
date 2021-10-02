@@ -9,14 +9,13 @@
 
 <div class="top-bar"></div>
   <div class="block">
-  
-   
+    <div class="logo">
+    <img ng-src="images/logo.png" />
+    </div>
      <div class="menu">
      <ul>       
         <li><span ng-click="problemContr.home()">Home</span></li>
         <li><span ng-click="showInfo = true">Info</span></li>
-        <li><span ng-click="showInfo = true">Rejestracja</span></li>
-        
         </ul>
         <div class="login" ng-show="!authenticated">
         <form>
@@ -29,16 +28,21 @@
  	
  </div>
     </div>   
-     <div class="logo">
-    <img ng-src="images/logo.png" />
-    </div>
    <div class="info"><p ng-show="showInfo">Narzędzie to baza nieprawidłowości występujących podczas produkcji opakowań. Pomocne w usuwaniu wad butelki/preformy.</p>
+   <br>
+  <a ng-click="showRegisterForm = true">Rejestracja</a> 
+     
+        </div>
         
+        <div class="main" ng-show="showRegisterForm">
+          <div class="login">
+        <form>
+ 		<input type="text" ng-model="problemContr.name" required="required" placeholder="login"><br>
+ 		<input type="password" ng-model="problemContr.password" required="required" placeholder="hasło"><br>
+ 		<button class="login_button" ng-click="problemContr.register()">ZAREJESTRUJ SIĘ</button></form>
         </div>
         </div>
-        <div class="block">
-        
-   
+     
  
     <div class="main" ng-hide="showRegisterForm">
     

@@ -5,7 +5,7 @@ angular.module('app')
 .service('AuthenticationService', function($http) {
 	
  	this.authenticate = function(credentials, successCallback) {
- 		var authHeader = {Authorization: 'Basic ' + btoa(credentials.username+':'+credentials.password)};
+ 		var authHeader = {Authorization: 'Basic '+btoa(credentials.username+':'+credentials.password)};
  		var config = {headers: authHeader};
  		$http
  		.post(LOGIN_ENDPOINT, {}, config)
@@ -18,8 +18,8 @@ angular.module('app')
  		});
  	}
 	this.logout = function(successCallback) {
- 		$http.post(LOGOUT_ENDPOINT)
- 		.then(successCallback());
+ 		delete $http.defaults.headers.post.Authorization;
+ 		(successCallback());
 	}
 	
 //	this.register = function(name, password) {

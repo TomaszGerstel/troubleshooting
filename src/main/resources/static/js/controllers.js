@@ -20,13 +20,19 @@ angular.module('app')
 		vm.solution = new Solution();
 		vm.cause = new Cause();
 		vm.user = new User();	
+		
 	
 
 		function refreshData() {
+			
 			vm.problems = Problem.query(
+				
+				
+				
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
+					
 				},
 				function error(response) {
 					console.log(response.status);
@@ -52,6 +58,7 @@ angular.module('app')
 		}
 
 		vm.loadData = function(id) {
+			console.log("user: " +vm.credentials.username);
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
 			vm.details = Problem.get({ problemId: id });
@@ -68,11 +75,13 @@ angular.module('app')
 			},
 				function error(response) {
 					console.log(response.status);
+					
 				});
 		}
 
 		vm.login = function() {
 			AuthenticationService.authenticate(vm.credentials, loginSuccess);
+			
 		}
 		
 		vm.register = function(user) {
@@ -108,6 +117,7 @@ angular.module('app')
 
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 		refreshData();
+
 	});
 	
 	

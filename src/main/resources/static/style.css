@@ -3,61 +3,69 @@
 body {
 	margin: 1 auto;
 	text-align: left;
-	width: 100%;	
+	width: 100%;
 	font-family: monospace;
-	font-size: 12px;	
+	font-size: 24px;
 	margin: 0;
-	background: azure url(images/back.png) repeat-x 0cm 2.4cm;
+	background: azure url(images/back.png) repeat-x 0cm 5cm;
 }
 
 .top-bar {
-    height:91px;
-    background: url(images/topb.png) repeat-x;    
+	height: 210px;
+	background: url(images/topb.png) repeat-x;
 }
 
 .block {
 	width: 920px;
 	margin: 0 auto;
 	text-align: left;
+	display: block;
 }
+
+
 
 .logo {
 	float: left;
-	margin-top: -80px;
+	margin-top: -135px;
+	
+	height: 350;
+	
 }
 
 .menu {
 	float: right;
-	margin-top: -80px;
-	display: inline-flex;
+	margin-top: -165px;
+	display: flex;
+
 }
 
 .menu ul {
-	
-	justify-content: initial;
+	float: right;
 	padding-top: 32px;
+	padding-left: 0px;
+
+	display: flex;
 }
 
 .menu li {
 	display: block;
 	float: left;
-	
 	margin-left: 10px;
+	
 }
 
-.menu span{
+.menu span {
 	color: white;
-	font-size: 14px;
+	font-size: 20px;
 	display: block;
 	float: left;
 	padding: 5px 15px 5px 15px;
 	text-decoration: none;
 	margin-left: 10px;
 	cursor: pointer;
-	
 }
 
-.menu span:hover {	
+.menu span:hover {
 	background: rgba(0, 128, 150, 0.7);
 }
 
@@ -66,12 +74,17 @@ body {
 	text-decoration: none;
 	background: none;
 	border: none;
-	  color: white;
-  cursor: pointer;
-  font-family: monospace;
-  width: 170px;
-  position: relative;
-  top: 51%;  
+	color: white;
+	cursor: pointer;
+	font-family: monospace;
+	width: 200px;
+	position: relative;
+	top: 51%;
+	font-size: 20px;
+}
+
+.login {
+	margin-top: -20px;
 }
 
 .login_button:hover {
@@ -80,12 +93,13 @@ body {
 
 .login input {
 	background-color: azure;
-	
+	width: 200px;
+	height: 30px;
 }
 
 .main {
 	width: 920px;
-	height: 260px;
+	height: 330px;
 	padding-top: 10px;
 	float: left;
 	margin: 0 auto;
@@ -96,57 +110,58 @@ body {
 h2 {
 	color: grey;
 	background-color: black;
-	font-size: 18px;
+	font-size: 1.2em;
 	opacity: 0.8;
 	padding: 8px;
 }
 
 h1 {
 	color: rgb(254, 156, 24);
-	background-color: black;	
-	opacity: 0.8;	
-	font-size: 24px;
-	font-weight:normal;
-	color:  rgb(254, 156, 24);
+	background-color: black;
+	opacity: 0.8;
+	font-size: 1.5em;
+	font-weight: normal;
+	color: rgb(254, 156, 24);
 	padding: 10px;
+	margin: 0 auto;
 }
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 2em;
+	font-size: 1.5em;
 	font-weight: 600;
 	background-color: azure;
 	font-family: monospace;
-	height: 130px;
-	width: 40%;
-	list-style-type:none;
-	margin: 0, 0, 0, 0;
-}
-
-.problem_list ul {
-	padding-left: 0;
-	margin-left: 0;
-	text-align: left;
+	margin: 0 auto;
+	width: 100%;
+	list-style-type: none;
+	padding-left: 5px;
+	
+	
 }
 
 .choose {
 	padding-left: 0;
 	margin-left: 0;
+	margin-top: 10px;
 	text-align: left;
+	margin-bottom: 50px;
+	height: 220px;
+	float: left;
 }
 
 ::-webkit-scrollbar {
-  width: 15px;
+	width: 15px;
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background:  rgba(0, 128, 150, 0.7);
-  border-radius: 10px;
+	background: rgba(0, 128, 150, 0.7);
+	border-radius: 10px;
 }
 
 .plist {
@@ -155,6 +170,10 @@ h1 {
 
 .selectp {
 	padding: 12px;
+}
+
+.plist:hover {
+	background-color: grey;
 }
 
 .display {
@@ -185,23 +204,20 @@ option {
 	background-color: azure;
 	font-family: monospace;
 }
-	
+
 .info {
-	height: 200px;
-	width: 520px;
-	padding-left: 35px;
-	padding-top: 10px;
-	padding-right: 10px;
+	height: 155px;
+	width: 545px;
+	padding: 5px;
 	display: flex;
-	font-size: 18px;
-	font-family:monospace;
+	font-size: 0.8em;
+	font-family: monospace;
 	color: black;
 	text-align: justify;
 	background: rgba(0, 128, 150, 0.7);
 	justify-content: right;
 	display: block;
-	float: left
-
+	float: right;
 }
 
 .info div {
@@ -210,7 +226,6 @@ option {
 	align-content: center;
 	display: block;
 	padding-top: 35px;
-	
 }
 
 .details {
@@ -236,13 +251,13 @@ option {
 	color: #555;
 	line-height: 22px;
 	text-align: left;
-	font-size: 16px;
+	font-size: 1em;
 }
 
 .detal {
 	width: 450px;
 	float: left;
-	padding: 5px;	
+	padding: 5px;
 }
 
 .footer {
