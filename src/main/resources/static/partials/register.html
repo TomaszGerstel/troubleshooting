@@ -1,124 +1,19 @@
-<!DOCTYPE html>
-<html ng-app="app">
-<head>
 <meta charset="UTF-8"></meta>
-<title>Problemy jakościowe</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body ng-controller="ProblemController as problemContr">
+<div class="main">
+	<div class="info">
+		<h1>Rejestracja</h1>
 
-<div class="top-bar"></div>
-  <div class="block">
-    <div class="logo">
-    <img ng-src="images/logo.png" />
-    </div>
-     <div class="menu">
-     <ul>       
-        <li><span ng-click="problemContr.home()">Home</span></li>
-        <li><span ng-click="showInfo = true">Info</span></li>
-        </ul>
-        <div class="login" ng-show="!authenticated">
-        <form>
- 		<input type="text" ng-model="problemContr.credentials.username" required="required" placeholder="login"><br>
- 		<input type="password" ng-model="problemContr.credentials.password" required="required" placeholder="hasło"><br>
- 		<button class="login_button" ng-click="problemContr.login()">ZALOGUJ SIĘ</button></form>
-        </div>
-         <div class="login" ng-show="authenticated">
- 	<button class="login_button" ng-click="problemContr.logout()">WYLOGUJ SIĘ</button>
- 	
- </div>
-    </div>   
-   <div class="info"><p ng-show="showInfo">Narzędzie to baza nieprawidłowości występujących podczas produkcji opakowań. Pomocne w usuwaniu wad butelki/preformy.</p>
-   <br>
-  <a ng-click="showRegisterForm = true">Rejestracja</a> 
-     
-        </div>
-        
-        <div class="main" ng-show="showRegisterForm">
-          <div class="login">
-        <form>
- 		<input type="text" ng-model="problemContr.name" required="required" placeholder="login"><br>
- 		<input type="password" ng-model="problemContr.password" required="required" placeholder="hasło"><br>
- 		<button class="login_button" ng-click="problemContr.register()">ZAREJESTRUJ SIĘ</button></form>
-        </div>
-        </div>
-     
- 
-    <div class="main" ng-hide="showRegisterForm">
-    
-  <h1>Wybierz problem z listy: </h1>
-  <div class="choose">
-    <ul class="problems_list">	
-		<li class="plist" ng-repeat="problem in problemContr.problems"
-			ng-click="problemContr.loadData(problem.id)" title="pokaż rozwiązania">
-			{{problem.name}}
-		</li>
-	</ul>
-	</div>	
-	
-	</div>
-	</div>
-	
-<div class="block">
-<div class="details" ng-show="problemContr.details">
-<h1>{{problemContr.details.name}}</h1>
-   <h3>Szczegóły: {{problemContr.details.description}}</h3> 
-   <div class="detal">   
-   <h2>Przyczyny</h2>
-        <ol>
-			<li ng-repeat="cause in problemContr.causes"><b>{{cause.description}}; </b><br>{{cause.remarks}}</li>
-		</ol>    
-     <p class="add" ng-click="problemContr.showAddCauseForm()" ng-show="authenticated">Dodaj przyczynę do wybranego problemu ({{problemContr.details.name}})</p>
-    <div ng-show="problemContr.showCauseForm">
-		<form ng-show="authenticated">
-			<label for="opis_p">Podaj opis przyczyny:</label><br>
-			<textarea id="opis_p" ng-model="problemContr.cause.description" rows="3" cols="30" maxlength="250" required></textarea><br>
-			<button class="add_button" ng-click="problemContr.addCause(problemContr.cause)">Dodaj przyczynę</button>
-		</form>
+		<div class="register">
+
+			<form>
+				<input type="text" ng-model="regCtrl.name" required="required"
+					placeholder="login"><br> <input type="password"
+					ng-model="regCtrl.password" required="required"
+					placeholder="hasło"><br>
+				<button class="register_button" ng-click="regCtrl.register()">ZAREJESTRUJ
+					SIĘ</button>
+			</form>
 		</div>
-		<div ng-show="!authenticated"> 
- 	<h3>Zaloguj się aby dodać nowy wpis</h3> 	
- </div>
-    </div>    
-    <div class="detal">   
-   <h2>Rozwiązania</h2>        <ol>
-			<li ng-repeat="solution in problemContr.solutions"><b>{{solution.description}}; </b><br>{{solution.remarks}}</li>
-		</ol>   
-    <p class="add" ng-click="problemContr.showAddSolutionForm()" ng-show="authenticated">Dodaj rozwiązanie do wybranego problemu ({{problemContr.details.name}})</p>
-    <div ng-show="problemContr.showSolutionForm">
-		<form ng-show="authenticated">
-			<label for="opis_r">Podaj opis rozwiązania:</label><br>
-			<textarea id="opis_r" ng-model="problemContr.solution.description" rows="3" cols="30" maxlength="250" required></textarea><br>
-			<label for="uwagi">Uwagi:</label><br>
-			<textarea id="uwagi" ng-model="problemContr.solution.remarks" rows="2" cols="30" maxlength="200"></textarea><br>
-			<label for="proprytet">Określ wagę/priorytet rozwiązania:</label><br>
-			<select type="number" id="priorytet" class="selectp" ng-model="problemContr.solution.priority" placeholder="Priorytet">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-			</select><br>		
-			<button class="add_button" ng-click="problemContr.addSolution(problemContr.solution)">Dodaj rozwiązanie</button>
-		</form>
-		</div>
-		
-			<div ng-show="!authenticated"> 
- 	<h3>Zaloguj się aby dodać nowy wpis</h3> 	
- </div>
-    </div>
-    </div>   
-        <div class="footer">
-        <p>&copy TG 2021</p>
-    </div>
-    </div>
-    
-	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
-	<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
-	<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
-	<script src="js/config.js" type="application/javascript"></script>
-	<script src="js/services.js" type="application/javascript"></script>
-	<script src="js/controllers.js" type="application/javascript"></script>
-	 
-	
-</body>
-</html>
+	</div>
+</div>
+
