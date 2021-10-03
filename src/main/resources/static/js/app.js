@@ -19,7 +19,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				controllerAs: 'regCtrl'
 			})
 			.when('/login', {
-				templateUrl: 'partials/problems.html',
+				templateUrl: 'partials/login.html',
 				controller: 'ProblemController',
 				controllerAs: 'problemContr'
 			})
@@ -35,7 +35,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	.constant('LOGIN_ENDPOINT', 'login')
 	.constant('LOGOUT_ENDPOINT', 'logout')
 	.service('AuthenticationService', function($http) {
-
+		var vm = this;
 		this.authenticate = function(credentials, successCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
 			var config = { headers: authHeader };
@@ -45,8 +45,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					$http.defaults.headers.post.Authorization = authHeader.Authorization;
 					successCallback();
 				}, function error(reason) {
+
 					console.log('Login error');
 					console.log(reason);
+					vm.errMessage = reason;
+					alert(vm.errMessage);
 				});
 		}
 		this.logout = function(successCallback) {
@@ -63,6 +66,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		//		.post(REGISTER_ENDPOINT, {params: parameters})
 		//		;
 		//	}
+
 	})
 	.controller('RegisterController', function($resource) {
 		var vm = this;
@@ -100,18 +104,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.cause = new Cause();
 		vm.user = new User();
 
-
-
 		function refreshData() {
-
 			vm.problems = Problem.query(
-
-
-
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
-
 				},
 				function error(response) {
 					console.log(response.status);
@@ -154,16 +151,12 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			},
 				function error(response) {
 					console.log(response.status);
-
 				});
 		}
 
 		vm.login = function() {
 			AuthenticationService.authenticate(vm.credentials, loginSuccess);
-
 		}
-
-
 
 		vm.logout = function() {
 			AuthenticationService.logout(logoutSuccess);
@@ -190,7 +183,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 	})
 	.config(function($httpProvider) {
-
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	});
 

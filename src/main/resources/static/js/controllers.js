@@ -110,10 +110,6 @@ angular.module('app')
 		vm.showAddCauseForm = function() {
 			vm.showCauseForm = true;
 		}
-		
-		vm.home = function() {
-			window.location.reload();
-		}
 
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 		refreshData();

@@ -4,39 +4,25 @@
 <meta charset="UTF-8"></meta>
 <title>Problemy jakościowe</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
 	<div class="top-bar"></div>
 	<div class="block" ng-controller="ProblemController as problemContr">
 		<div class="menu">
 			<ul>
-				<li><a href="#!problems">Home</a></li>
-				<li><a href="#!info">Info</a></li>
-				<li><a href="#!register">Rejestracja</a></li>
-
+				<li><a href="#!problems"><i class="fas fa-home"></i><br>Home</a></li>
+				<li><a href="#!info"><i class="fas fa-info-circle"></i><br>Info</a></li>
+				<li><a href="#!register"><i class="fas fa-user-plus"></i><br>Register</a></li>
+				<li ng-show="!authenticated"><a href="#!login"><i
+						class="fas fa-sign-in-alt"></i><br>LOGIN</a></li>
+				<li ng-show="authenticated" ng-click="problemContr.logout()"><a
+					href=""><i class="fas fa-sign-out-alt"></i><br>LOGOUT</a></li>
 			</ul>
-			<div class="login" ng-show="!authenticated">
-				<form>
-					<input type="text" ng-model="problemContr.credentials.username"
-						required="required" placeholder="login"><br> <input
-						type="password" ng-model="problemContr.credentials.password"
-						required="required" placeholder="hasło"><br>
-					<button class="login_button" ng-click="problemContr.login()">ZALOGUJ
-						SIĘ</button>
-				</form>
-			</div>
-			<div class="login" ng-show="authenticated">
-				<button class="login_button" ng-click="problemContr.logout()">WYLOGUJ
-					SIĘ</button>
-			</div>
 		</div>
 		<div class="logo">
 			<img ng-src="images/logo.png" />
-		</div>
-		<div class="info">
-			<p ng-show="showInfo">Narzędzie to baza nieprawidłowości
-				występujących podczas produkcji opakowań. Pomocne w usuwaniu wad
-				butelki/preformy.</p>
 		</div>
 	</div>
 	<div ng-view></div>
@@ -51,7 +37,6 @@
 		src="bower_components/angular-route/angular-route.js"></script>
 	<script type="text/javascript"
 		src="bower_components/angular-resource/angular-resource.js"></script>
-
 	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
