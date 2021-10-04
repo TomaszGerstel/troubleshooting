@@ -2,7 +2,8 @@
 <div class="main">
 	<div class="table">
 		<h1>Logowanie</h1>
-		<div class="register" ng-show="!authenticated">
+		<h3 ng-show="problemContr.showErrMessage">Nieprawidłowe dane logowania! Spróbuj ponownie.</h3>
+		<div class="register" ng-show="!authenticated">		
 			<form>
 				<input type="text" ng-model="problemContr.credentials.username"
 					required="required" placeholder="login"><br> <input
@@ -11,6 +12,7 @@
 				<button class="login_button" ng-click="problemContr.login()">ZALOGUJ
 					SIĘ</button>
 			</form>
+			
 		</div>
 	</div>
 </div>

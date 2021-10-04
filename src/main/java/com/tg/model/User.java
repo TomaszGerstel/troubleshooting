@@ -5,12 +5,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	@NotEmpty(message = "To pole nie może być puste. Podaj nazwę użytkownika.")
+	@Size(min = 2, max = 30)
     private String name;
+	@NotEmpty(message = "To pole nie może być puste. Musisz utworzyć hasło.")
     private String password;
     private Long roleId;
     

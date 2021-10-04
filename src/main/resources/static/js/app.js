@@ -32,10 +32,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				redirectTo: '/problems'
 			});
 	})
-	.constant('LOGIN_ENDPOINT', 'login')
-	.constant('LOGOUT_ENDPOINT', 'logout')
+	//.constant('LOGIN_ENDPOINT', 'login')
+	//.constant('LOGOUT_ENDPOINT', 'logout')
 	.service('AuthenticationService', function($http) {
 		var vm = this;
+		vm.loginErr = false;
 		this.authenticate = function(credentials, successCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
 			var config = { headers: authHeader };
@@ -44,12 +45,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				.then(function success(value) {
 					$http.defaults.headers.post.Authorization = authHeader.Authorization;
 					successCallback();
+
 				}, function error(reason) {
 
 					console.log('Login error');
 					console.log(reason);
-					vm.errMessage = reason;
-					alert(vm.errMessage);
+					vm.loginErr = true;
+					//	window.location.reload();
+
+					//alert(vm.errMessage);
 				});
 		}
 		this.logout = function(successCallback) {
@@ -68,7 +72,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		//	}
 
 	})
-	.controller('RegisterController', function($resource) {
+	.controller('RegisterController', function($http, $location, $resource) {
 		var vm = this;
 		var User = $resource('register');
 		vm.user = new User();
@@ -78,24 +82,43 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.user.password = vm.password;
 			vm.user.$save(function() {
 				vm.user = new User();
-				alert('rejestracja udana!');
-			});
+		//		$location.path('/');
+		//		alert('rejestracja udana!');
+				vm.errorMessage = 'Rejestracja się powiodła! Możesz się zalogować.'
+
+			},
+				function error(response) {
+					console.log(response.status);
+					if (response.status == 409) {
+						vm.errorMessage = response.data;
+						console.log(response.data);
+					}
+					else {
+						vm.errorMessage = 'Rejestracja nieudana!';
+					}
+					vm.message = '';
+				}
+			)
 		}
 	})
 	.controller('ProblemController', function($http, $resource, $rootScope, $location, AuthenticationService) {
+
 		var vm = this;
+
 		var Problem = $resource('api/problems/:problemId');
 		var Solution = $resource('api/problems/solutions/:problemId');
 		var Cause = $resource('api/problems/causes/:problemId');
+
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
 			$location.path('/');
 		}
+
 		var logoutSuccess = function() {
 			$rootScope.authenticated = false;
 			$location.path('/');
-			vm.home();
 		}
+
 		var User = $resource('register/:userId');
 
 		vm.credentials = {};
@@ -156,6 +179,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.login = function() {
 			AuthenticationService.authenticate(vm.credentials, loginSuccess);
+			if (AuthenticationService.loginErr == true) vm.showErrMess();
+		}
+
+		vm.showErrMess = function() {
+			vm.showErrMessage = true;
 		}
 
 		vm.logout = function() {
@@ -174,13 +202,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.showCauseForm = true;
 		}
 
-		vm.home = function() {
-			window.location.reload();
-		}
-
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 		refreshData();
-
 	})
 	.config(function($httpProvider) {
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
