@@ -166,13 +166,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			});
 		}
 
-		vm.deleteCause = function(id, problemId) {
+		vm.deleteCause = function(id, problemId, successCallback) {
 			vm.causeToDelete.$delete({ causeId: id });
+			successCallback;
 			vm.loadData(problemId);
 		}
 
-		vm.deleteSolution = function(id, problemId) {
+		vm.deleteSolution = function(id, problemId, successCallback) {
 			vm.solutionToDelete.$delete({ solutionId: id });
+			successCallback;
 			vm.loadData(problemId);
 		}
 
