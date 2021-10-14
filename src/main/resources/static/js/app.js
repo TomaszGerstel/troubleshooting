@@ -166,17 +166,28 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			});
 		}
 
-		vm.deleteCause = function(id, problemId, successCallback) {
-			vm.causeToDelete.$delete({ causeId: id });
-			successCallback;
-			vm.loadData(problemId);
+		vm.deleteCause = function(id, problemId) {
+			vm.causeToDelete.$delete({ causeId: id })
+			.then(function success(value) {
+					console.log('Cause deleted');
+					vm.loadData(problemId);
+				},
+					function error(reason) {
+						console.log('deleting record error');
+					});			
 		}
 
 		vm.deleteSolution = function(id, problemId, successCallback) {
-			vm.solutionToDelete.$delete({ solutionId: id });
-			successCallback;
-			vm.loadData(problemId);
+			vm.solutionToDelete.$delete({ solutionId: id })
+			.then(function success(value) {
+					console.log('Cause deleted');
+					vm.loadData(problemId);
+				},
+					function error(reason) {
+						console.log('deleting record error');
+					});			
 		}
+			
 
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
