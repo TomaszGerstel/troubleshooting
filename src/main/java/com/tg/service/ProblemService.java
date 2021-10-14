@@ -14,22 +14,26 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tg.repository.CauseRepository;
 import com.tg.repository.ProblemRepository;
 import com.tg.repository.SolutionRepository;
+import com.tg.repository.UserRepository;
 import com.tg.model.Problem;
 import com.tg.model.Cause;
 import com.tg.model.Solution;
 
 @Service
 public class ProblemService {
-	
+
 	final ProblemRepository problemRepo;
 	final CauseRepository causeRepo;
 	final SolutionRepository solutionRepo;
-	
-	@Autowired	
-	public ProblemService (ProblemRepository problemRepo, CauseRepository causeRepo, SolutionRepository solutionRepo) {
-		this.problemRepo =problemRepo;
+	final UserRepository userRepo;
+
+	@Autowired
+	public ProblemService(ProblemRepository problemRepo, CauseRepository causeRepo, SolutionRepository solutionRepo,
+			UserRepository userRepo) {
+		this.problemRepo = problemRepo;
 		this.causeRepo = causeRepo;
-		this.solutionRepo = solutionRepo;		
+		this.solutionRepo = solutionRepo;
+		this.userRepo = userRepo;
 	}
 
 	public List<Problem> findAll() {
@@ -39,27 +43,44 @@ public class ProblemService {
 	public Optional<Problem> findById(Long id) {
 		return problemRepo.findById(id);
 	}
-	
+
 	public List<Solution> showSolutions(Integer problemId) {
 		
 		List<Solution> solutions = solutionRepo.findByProblemId(problemId);
-		return solutions;		
+
+		solutions.stream().filter(solution -> solution.getUserId() != null)
+		.forEach(solution -> solution.setUserName(userRepo.getById(solution.getUserId()).getName()));
+		
+		return solutions;
 	}
-	
+
 	public Solution saveSolution(Solution solution) {
 		solutionRepo.save(solution);
 		return solution;
 	}
-	
+
 	public List<Cause> showCauses(Integer problemId) {
-		
+
 		List<Cause> causes = causeRepo.findByProblemId(problemId);
-		return causes;		
+		
+		causes.stream().filter(cause -> cause.getUserId() != null)
+		.forEach(cause -> cause.setUserName(userRepo.getById(cause.getUserId()).getName()));
+		
+		return causes;
 	}
-	
+
 	public Cause saveCause(Cause cause) {
 		causeRepo.save(cause);
 		return cause;
 	}
 	
+	public void deleteCause(Long id) {
+		causeRepo.deleteById(id);
+	}
+	
+	public void deleteSolution(Long id) {
+		solutionRepo.deleteById(id);
+	}
+	
+
 }

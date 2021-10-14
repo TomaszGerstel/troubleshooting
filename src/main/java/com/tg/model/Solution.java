@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity(name = "solutions")
 public class Solution {
@@ -13,24 +14,18 @@ public class Solution {
 	private Long id;
 	private String description;
 	private String remarks;
-	private Integer userId;
+	private Long userId;
 	private Integer priority;
 	private Integer problemId;
+	@Transient
+	private String userName;
 
 
 	public Solution() {
 		super();
 	}
 
-	public Solution(String description, String remarks, Integer userId, Integer priority, Integer problemId) {
-		super();
-		this.description = description;
-		this.remarks = remarks;
-		this.userId = userId;
-		this.priority = priority;
-		this.problemId = problemId;
-	}	
-public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -38,7 +33,6 @@ public class Solution {
 		this.id = id;
 	}
 
-	
 	public String getDescription() {
 		return description;
 	}
@@ -55,11 +49,11 @@ public class Solution {
 		this.remarks = remarks;
 	}
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -74,9 +68,17 @@ public class Solution {
 	public Integer getProblemId() {
 		return problemId;
 	}
-
+;
 	public void setProblemId(Integer problemId) {
 		this.problemId = problemId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Override
@@ -137,7 +139,11 @@ public class Solution {
 	@Override
 	public String toString() {
 		return "Solution [id=" + id + ", description=" + description + ", remarks=" + remarks + ", userId=" + userId
-				+ ", priority=" + priority + ", problemId=" + problemId + "]";
+				+ ", priority=" + priority + ", problemId=" + problemId + ", userName=" + userName + "]";
 	}
+
+
+
+
 
 }

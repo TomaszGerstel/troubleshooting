@@ -14,10 +14,10 @@ public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	@NotEmpty(message = "To pole nie może być puste. Podaj nazwę użytkownika.")
-	@Size(min = 2, max = 30)
+	@NotEmpty(message = "Podaj nazwę użytkownika")
+	@Size(min = 2, max = 30, message = "Nazwa użytkownika musi mieć od 2 do 30 znaków")
     private String name;
-	@NotEmpty(message = "To pole nie może być puste. Musisz utworzyć hasło.")
+	@NotEmpty(message = "Musisz utworzyć hasło")
     private String password;
     private Long roleId;
     

@@ -10,7 +10,7 @@ import com.tg.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User findByName(String name);
+	Optional<User> findByName(String name);
 
 	Optional<User> findById(Integer id);
 

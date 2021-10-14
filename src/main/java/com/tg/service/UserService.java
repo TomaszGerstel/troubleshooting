@@ -1,10 +1,13 @@
 package com.tg.service;
 
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 
 import com.tg.model.User;
 import com.tg.model.UserRole;
@@ -24,6 +27,10 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	public UserService() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -41,13 +48,16 @@ public class UserService {
 		user.setPassword(passwordHash);
 		return userRepository.save(user);
 	}
+	
 
-	public User findUser(String name) {
-		return userRepository.findByName(name);
+
+	public Optional<User> findById(Long id) {
+		
+		return userRepository.findById(id);
 	}
 	
-	public User findUser(Long id) {
-		return userRepository.findById(id).get();
+	public Optional<User> findUser(String name) {
+		return userRepository.findByName(name);
 	}
 
 //	public void updateUser(Integer id, User user) {
@@ -59,6 +69,29 @@ public class UserService {
 	public Iterable<User> displayUser() {
 		Iterable<User> allUsers = userRepository.findAll();
 		return allUsers;
+	}
+
+	public HashMap<String, Long> findUserId(String name) {
+		Optional<User> userFromBase = userRepository.findByName(name);
+		Long id = userFromBase.get().getId();
+		HashMap<String, Long> map = new HashMap<>();
+		map.put("id", id);
+		return map;
+	}
+	
+	public HashMap<String, String> findUserName(Long id) {
+		Optional<User> userFromBase = userRepository.findById(id);
+		String name = userFromBase.get().getName();
+		HashMap<String, String> map = new HashMap<>();
+		map.put("name", name);
+		return map;
+	}
+
+	public String getUserName(Long id) {
+		User user = userRepository.getById(id);
+		 String name = user.getName();
+		 return name;// TODO Auto-generated method
+		
 	}
 
 //	public void deleteUser(Integer id) {

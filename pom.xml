@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>troubleshooting</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Solving production problems</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -58,6 +58,12 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.4.0.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+</dependency>
 
 	</dependencies>
 

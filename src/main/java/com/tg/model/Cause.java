@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity(name = "causes")
 public class Cause {
@@ -13,13 +14,15 @@ public class Cause {
 	private Long id;
 	private String description;
 	private Integer problemId;
-	private Integer userId;
+	private Long userId;
+	@Transient
+	private String userName;
 	
 	public Cause() {
 		super();
 	}	
 	
-	public Cause(String description, Integer problemId, Integer userId) {
+	public Cause(String description, Integer problemId, Long userId) {
 		super();
 		this.description = description;
 		this.problemId = problemId;
@@ -50,18 +53,30 @@ public class Cause {
 		this.problemId = problemId;
 	}
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Override
 	public String toString() {
 		return "Cause [id=" + id + ", description=" + description + ", problemId=" + problemId + ", userId=" + userId
-				+ "]";
+				+ ", userName=" + userName + "]";
 	}
+	
+	
+
+
 	
 }
