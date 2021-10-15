@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
         .headers().frameOptions().disable().and()
         .httpBasic().and()
-        .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+        .csrf().disable()
+   //         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
         .authorizeRequests()
         	.antMatchers("/api/user/register").permitAll()
             .antMatchers(HttpMethod.POST).authenticated().and()
