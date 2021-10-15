@@ -28,11 +28,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				controller: '',
 				controllerAs: ''
 			})
-			.when('/username/:userName', {
-				templateUrl: '',
-				controller: 'ProblemController',
-				controllerAs: 'problemContr'
-			})
 			.otherwise({
 				redirectTo: '/problems'
 			});
@@ -132,12 +127,14 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
+		
 
 		function refreshData() {
 			vm.problems = Problem.query(
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
+					if (AuthenticationService.loginErr == true) vm.showErrMess();
 				},
 				function error(response) {
 					console.log(response.status);
@@ -177,10 +174,10 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					});			
 		}
 
-		vm.deleteSolution = function(id, problemId, successCallback) {
+		vm.deleteSolution = function(id, problemId) {
 			vm.solutionToDelete.$delete({ solutionId: id })
 			.then(function success(value) {
-					console.log('Cause deleted');
+					console.log('Solution deleted');
 					vm.loadData(problemId);
 				},
 					function error(reason) {

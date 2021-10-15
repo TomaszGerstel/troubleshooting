@@ -279,8 +279,13 @@ option {
 	float: left;
 }
 
+.detal:first-of-type {
+	width: 350px;
+}
+
 .detal:last-of-type {
 	margin-left: 20px;
+	width: 550px;
 }
 
 .footer {

@@ -1,23 +1,20 @@
 package com.tg.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.tg.model.Cause;
+import com.tg.model.Problem;
+import com.tg.model.Solution;
 import com.tg.repository.CauseRepository;
 import com.tg.repository.ProblemRepository;
 import com.tg.repository.SolutionRepository;
 import com.tg.repository.UserRepository;
-import com.tg.model.Problem;
-import com.tg.model.Cause;
-import com.tg.model.Solution;
 
 @Service
 public class ProblemService {
@@ -47,11 +44,16 @@ public class ProblemService {
 	public List<Solution> showSolutions(Integer problemId) {
 		
 		List<Solution> solutions = solutionRepo.findByProblemId(problemId);
+		
+		solutions.stream().filter(solution -> solution.getPriority() == null).forEach(solution -> solution.setPriority(3));
 
 		solutions.stream().filter(solution -> solution.getUserId() != null)
-		.forEach(solution -> solution.setUserName(userRepo.getById(solution.getUserId()).getName()));
+				.forEach(solution -> solution.setUserName(userRepo.getById(solution.getUserId()).getName()));
 		
-		return solutions;
+		List<Solution> sortedSolutions = solutions.stream().sorted(Comparator.comparing(Solution::getPriority))
+				.collect(Collectors.toList()); 
+		
+		return sortedSolutions;
 	}
 
 	public Solution saveSolution(Solution solution) {
@@ -62,10 +64,10 @@ public class ProblemService {
 	public List<Cause> showCauses(Integer problemId) {
 
 		List<Cause> causes = causeRepo.findByProblemId(problemId);
-		
+
 		causes.stream().filter(cause -> cause.getUserId() != null)
-		.forEach(cause -> cause.setUserName(userRepo.getById(cause.getUserId()).getName()));
-		
+				.forEach(cause -> cause.setUserName(userRepo.getById(cause.getUserId()).getName()));
+
 		return causes;
 	}
 
@@ -73,14 +75,13 @@ public class ProblemService {
 		causeRepo.save(cause);
 		return cause;
 	}
-	
+
 	public void deleteCause(Long id) {
 		causeRepo.deleteById(id);
 	}
-	
+
 	public void deleteSolution(Long id) {
 		solutionRepo.deleteById(id);
 	}
-	
 
 }

@@ -2,6 +2,7 @@ package com.tg.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -74,12 +75,12 @@ public class ProblemController {
 		return ResponseEntity.created(location).body(save);
 	}
 
-	@DeleteMapping(path = "causes/{id}")
+	@DeleteMapping(path = "/causes/{id}")
 	public void deleteCause(@PathVariable Long id) {
 		problemService.deleteCause(id);
 	}
 
-	@DeleteMapping(path = "solutions/{id}")
+	@DeleteMapping(path = "/solutions/{id}")
 	public void deleteSolution(@PathVariable Long id) {
 		problemService.deleteSolution(id);
 	}
