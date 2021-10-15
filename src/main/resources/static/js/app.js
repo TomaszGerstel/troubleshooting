@@ -128,7 +128,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
 		
-
 		function refreshData() {
 			vm.problems = Problem.query(
 				function success(data, headers) {
@@ -183,16 +182,18 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					function error(reason) {
 						console.log('deleting record error');
 					});			
-		}
-			
+		}			
 
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
-			vm.details = Problem.get({ problemId: id });
+			vm.image = 'images/temporary.png';
+			vm.details = Problem.get({ problemId: id });	
 			vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
 				console.log('Pobrano dane: ' + data);
 				console.log(headers('Content-Type'));
+				console.log('adres ob: '+vm.details.imageAddress)
+				vm.image = vm.details.imageAddress;
 			},
 				function error(response) {
 					console.log(response.status);

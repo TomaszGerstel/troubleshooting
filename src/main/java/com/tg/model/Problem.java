@@ -13,13 +13,15 @@ public class Problem {
     private Long id;
     private String name;
     private String description;
+    private String imageAddress;
  
     public Problem() {}    
      
-    public Problem(String name, String description) {
+    public Problem(String name, String description, String imageAddress) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.imageAddress = imageAddress;
 	}
 
 	public Long getId() {
@@ -46,9 +48,18 @@ public class Problem {
         this.description = description;
     }
 
+	public String getImageAddress() {
+		return imageAddress;
+	}
+
+	public void setImageAddress(String imageAddress) {
+		this.imageAddress = imageAddress;
+	}
+
 	@Override
 	public String toString() {
-		return "Problem [id=" + id + ", name=" + name + ", description=" + description + "]";
+		return "Problem [id=" + id + ", name=" + name + ", description=" + description + ", imageAddress="
+				+ imageAddress + "]";
 	}
 
 }
