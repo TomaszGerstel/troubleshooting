@@ -186,14 +186,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
-			vm.showCauseForm = false;
-			vm.image = 'images/temporary.png';
+			vm.showCauseForm = false;			
 			vm.details = Problem.get({ problemId: id });	
 			vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano dane: ' + data);
-				console.log(headers('Content-Type'));
-				console.log('adres ob: '+vm.details.imageAddress)
+				if (vm.details.imageAddress==null) vm.image = 'images/temporary.png';
 				vm.image = vm.details.imageAddress;
+				console.log('Pobrano dane: ' + data);
+				console.log(headers('Content-Type'));				
 			},
 				function error(response) {
 					console.log(response.status);
