@@ -127,7 +127,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
-		
+
 		function refreshData() {
 			vm.problems = Problem.query(
 				function success(data, headers) {
@@ -164,46 +164,55 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.deleteCause = function(id, problemId) {
 			vm.causeToDelete.$delete({ causeId: id })
-			.then(function success(value) {
+				.then(function success(value) {
 					console.log('Cause deleted');
 					vm.loadData(problemId);
 				},
 					function error(reason) {
 						console.log('deleting record error');
-					});			
+					});
 		}
 
 		vm.deleteSolution = function(id, problemId) {
 			vm.solutionToDelete.$delete({ solutionId: id })
-			.then(function success(value) {
+				.then(function success(value) {
 					console.log('Solution deleted');
 					vm.loadData(problemId);
 				},
 					function error(reason) {
 						console.log('deleting record error');
-					});			
-		}			
+					});
+		}
 
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
-			vm.showCauseForm = false;			
-			vm.details = Problem.get({ problemId: id });	
-			vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
-				if (vm.details.imageAddress==null) vm.image = 'images/temporary.png';
-				vm.image = vm.details.imageAddress;
-				console.log('Pobrano dane: ' + data);
-				console.log(headers('Content-Type'));				
-			},
+			vm.showCauseForm = false;
+
+			vm.details = Problem.get({ problemId: id },
+				function success(data, headers) {
+
+					if (vm.details.imageAddress == null) vm.image = 'images/temporary.png';
+					
+					vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
+						vm.image = vm.details.imageAddress;
+						console.log('Pobrano rozwiązania: ' + data);
+						console.log(headers('Content-Type'));
+					},
+						function error(response) {
+							console.log(response.status);
+						});
+					vm.causes = Cause.query({ problemId: id }, function success(data, headers) {
+						console.log('Pobrano przyczyny: ' + data);
+						console.log(headers('Content-Type'));
+					},
+						function error(response) {
+							console.log(response.status);
+						})
+				},
 				function error(response) {
 					console.log(response.status);
-				});
-			vm.causes = Cause.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano dane: ' + data);
-				console.log(headers('Content-Type'));
-			},
-				function error(response) {
-					console.log(response.status);
-				});
+				}
+			);
 		}
 
 		vm.login = function() {
