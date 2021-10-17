@@ -3,8 +3,9 @@
 	<h1>Wybierz problem z listy lub wyszukaj:</h1>
 	<div class="search">
 		<form>
+		<span class="search_icon"><i class="fas fa-search"></i></span>
 			<input id="" ng-model="problemContr.problemName"
-				rows="1" cols="30" maxlength="250" required></input>
+				rows="1" cols="30" maxlength="250"></input>
 			<button class=""
 				ng-click="problemContr.refreshData(problemContr.problemName)">Wyszukaj</button>
 				<button class=""
@@ -12,6 +13,7 @@
 		</form>
 	</div>
 	<div class="choose">
+	
 		<ul class="problems_list">
 			<li class="plist" ng-repeat="problem in problemContr.problems"
 				ng-click="problemContr.loadData(problem.id)"

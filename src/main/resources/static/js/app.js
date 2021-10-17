@@ -129,7 +129,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
-		//vm.problemName = "Wada2";
 
 		vm.refreshData = function (name) {
 			vm.problems = Problems.query({ problemName: name },
@@ -221,7 +220,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.login = function() {
 			AuthenticationService.authenticate(vm.credentials, loginSuccess);
 			if (AuthenticationService.loginErr == true) vm.showErrMess();
-			refreshData();
+			vm.refreshData();
 		}
 
 		vm.showErrMess = function() {

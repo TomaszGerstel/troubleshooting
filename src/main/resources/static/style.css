@@ -7,7 +7,7 @@ body {
 	font-family: monospace;
 	font-size: 24px;
 	margin: 0;
-	background: azure url(images/back.png) 0cm 8cm;
+	background: azure url(images/back.png) 4cm 5cm;
 }
 
 .top-bar {
@@ -25,7 +25,6 @@ body {
 
 .main {
 	width: 920px;
-	height: 600px;
 	padding-top: 10px;
 	display: inherit;
 	margin: 0 auto;
@@ -89,10 +88,9 @@ body {
 }
 
 .search form{
-	align-content: left;
+	
 	display:flex;
 	padding-top: 10px;
-	align-content: space-between;
 }
 
 .search button {
@@ -103,10 +101,19 @@ body {
 	font-weight: 400;
 	letter-spacing: .1em;
 	cursor: pointer;
+	opacity: 0.8;
 }
 
 .search button:hover {
-	opacity: 0.7;
+	opacity: 1;
+}
+
+.search_icon {	
+	color: black;
+	font-size: 1.6em;
+	font-weight: 300;
+	padding: 5px;
+	background: rgba(0, 128, 150, 0.7);
 }
 
 .login {
@@ -131,8 +138,8 @@ body {
 
 .login input, .register input, .search input {
 	background-color: azure;
-	font-size: 1em;
-	width: 350px;
+	font-size: 1.5em;
+	width: 380px;
 	height: 50px;
 	display: flex;
 }
@@ -165,9 +172,8 @@ h1 {
 	font-family: monospace;
 	margin: 0 auto;
 	margin-left: 0;
-	min-width: 35%;
-	max-width: 50%;
-	height: 310px;
+	width: 48%;
+	height: 450px;
 	list-style-type: none;
 	padding-left: 5px;
 }
@@ -178,11 +184,11 @@ h1 {
 	margin-left: 0;
 	margin-top: 10px;
 	text-align: left;
-	margin-bottom: 50px;
-	height: 280px;
-	width: 920px;
-	align-content: left;
-	display: inline-flex;
+	margin-bottom: 40px;
+	height: 420px;
+	width: 910px;
+	
+	display: flex;
 }
 
 .choose img {
@@ -190,7 +196,7 @@ h1 {
 	align-content: right;
 	float: right;
 	width: 450px;
-	height: 310px;
+	height: 450px;
 }
 
 ::-webkit-scrollbar {
@@ -209,13 +215,10 @@ h1 {
 
 .plist {
 	cursor: pointer;
-	padding: 7px;
-	line-height: 80%;
+	padding: 8px;
+	line-height: 85%;
 }
 
-.selectp {
-	padding: 20px;
-}
 
 .plist:hover {
 	background-color: grey;
@@ -252,7 +255,7 @@ option {
 
 .table {
 	min-height: 110px;
-	max-height: 900px;
+	max-height: 1300px;
 	min-width: 545px;
 	padding: 5px;
 	display: flex;
@@ -327,6 +330,7 @@ option {
 	width: 910px;
 	float: left;
 	border-top: 1px solid #CCC;
+	margin-top: 20px;
 }
 
 #opis_r, #opis_p, #uwagi, button {
