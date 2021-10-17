@@ -40,6 +40,10 @@ public class ProblemService {
 	public Optional<Problem> findById(Long id) {
 		return problemRepo.findById(id);
 	}
+	
+	public List<Problem> findByProblemName(String problemName) {
+		return problemRepo.findAllByNameContainingIgnoreCase(problemName);
+	}
 
 	public List<Solution> showSolutions(Integer problemId) {
 		

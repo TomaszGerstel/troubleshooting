@@ -1,18 +1,29 @@
 <meta charset="UTF-8"></meta>
 <div class="main">
-	<h1>Wybierz problem z listy:</h1>
+	<h1>Wybierz problem z listy lub wyszukaj:</h1>
+	<div class="search">
+		<form>
+			<input id="" ng-model="problemContr.problemName"
+				rows="1" cols="30" maxlength="250" required></input>
+			<button class=""
+				ng-click="problemContr.refreshData(problemContr.problemName)">Wyszukaj</button>
+				<button class=""
+				ng-click="problemContr.refreshData()">Pokaż wszystkie</button>
+		</form>
+	</div>
 	<div class="choose">
 		<ul class="problems_list">
 			<li class="plist" ng-repeat="problem in problemContr.problems"
 				ng-click="problemContr.loadData(problem.id)"
 				title="pokaż rozwiązania">{{problem.name}}</li>
 		</ul>
-		
-		<img ng-src="{{problemContr.image}}" alt="" onerror="this.src='images/temporary.png'">
+
+		<img ng-src="{{problemContr.image}}" alt=""
+			onerror="this.src='images/temporary.png'">
 	</div>
 	<div class="details" ng-show="problemContr.details">
 		<h1>{{problemContr.details.name}}</h1>
-		<h3>Szczegóły: {{problemContr.details.description}}</h3>
+		<p>Szczegóły: {{problemContr.details.description}}</p>
 		<div class="detal">
 			<h2>Przyczyny</h2>
 			<ol>

@@ -2,7 +2,6 @@ package com.tg.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,20 +12,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tg.model.Cause;
 import com.tg.model.Problem;
 import com.tg.model.Solution;
-import com.tg.model.User;
-import com.tg.repository.ProblemRepository;
 import com.tg.service.ProblemService;
-import com.tg.service.UserService;
 
 @RestController
-@RequestMapping("/api/problems")
+@RequestMapping("/api")
 public class ProblemController {
 
 	private final ProblemService problemService;
@@ -36,24 +32,30 @@ public class ProblemController {
 		this.problemService = problemService;
 	}
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/problems", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Problem>> allProblems() {
 		List<Problem> allProblems = problemService.findAll();
 		return ResponseEntity.ok(allProblems);
 	}
 
-	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/problems/{problemName}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Problem>> allProblemsByName(@PathVariable String problemName) {
+		List<Problem> allProblems = problemService.findByProblemName(problemName);
+		return ResponseEntity.ok(allProblems);
+	}
+
+	@GetMapping(path = "/problem/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Problem> getProblemById(@PathVariable Long id) {
 		return problemService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
-	@GetMapping(path = "/solutions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/problem/solutions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Solution>> getSolutionsById(@PathVariable Integer id) {
 		List<Solution> solutions = problemService.showSolutions(id);
 		return ResponseEntity.ok(solutions);
 	}
 
-	@PostMapping(path = "/solutions", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/problem/solutions", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveSolution(@RequestBody Solution solution) {
 		Solution save = problemService.saveSolution(solution);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
@@ -61,13 +63,13 @@ public class ProblemController {
 		return ResponseEntity.created(location).body(save);
 	}
 
-	@GetMapping(path = "/causes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/problem/causes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Cause>> getCauseById(@PathVariable Integer id) {
 		List<Cause> causes = problemService.showCauses(id);
 		return ResponseEntity.ok(causes);
 	}
 
-	@PostMapping(path = "/causes", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/problem/causes", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveCause(@RequestBody Cause cause) {
 		Cause save = problemService.saveCause(cause);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
@@ -75,12 +77,12 @@ public class ProblemController {
 		return ResponseEntity.created(location).body(save);
 	}
 
-	@DeleteMapping(path = "/causes/{id}")
+	@DeleteMapping(path = "problem/causes/{id}")
 	public void deleteCause(@PathVariable Long id) {
 		problemService.deleteCause(id);
 	}
 
-	@DeleteMapping(path = "/solutions/{id}")
+	@DeleteMapping(path = "problem/solutions/{id}")
 	public void deleteSolution(@PathVariable Long id) {
 		problemService.deleteSolution(id);
 	}

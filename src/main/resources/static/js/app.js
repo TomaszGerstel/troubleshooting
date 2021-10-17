@@ -103,12 +103,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		var vm = this;
 
-		var Problem = $resource('api/problems/:problemId');
-		var Solution = $resource('api/problems/solutions/:problemId');
-		var Cause = $resource('api/problems/causes/:problemId');
+		var Problem = $resource('api/problem/:problemId');
+		var Problems = $resource('api/problems/:problemName');
+		var Solution = $resource('api/problem/solutions/:problemId');
+		var Cause = $resource('api/problem/causes/:problemId');
 
-		var DeleteCause = $resource('api/problems/causes/:causeId');
-		var DeleteSolution = $resource('api/problems/solutions/:solutionId')
+		var DeleteCause = $resource('api/problem/causes/:causeId');
+		var DeleteSolution = $resource('api/problem/solutions/:solutionId')
 
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
@@ -122,18 +123,20 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.credentials = {};
 		vm.problem = new Problem();
+		vm.problems = {};
 		vm.solution = new Solution();
 		vm.cause = new Cause();
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
+		//vm.problemName = "Wada2";
 
-		function refreshData() {
-			vm.problems = Problem.query(
+		vm.refreshData = function (name) {
+			vm.problems = Problems.query({ problemName: name },
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
-					if (AuthenticationService.loginErr == true) vm.showErrMess();
+		//			if (AuthenticationService.loginErr == true) vm.showErrMess();
 				},
 				function error(response) {
 					console.log(response.status);
@@ -239,7 +242,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 
-		refreshData();
+		vm.refreshData();
 	})
 	.config(function($httpProvider) {
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
