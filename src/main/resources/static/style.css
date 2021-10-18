@@ -90,7 +90,8 @@ body {
 .search form{
 	
 	display:flex;
-	padding-top: 10px;
+	padding-top: 30px;
+	padding-bottom: 20px;
 }
 
 .search button {
@@ -140,7 +141,7 @@ body {
 	background-color: azure;
 	font-size: 1.5em;
 	width: 380px;
-	height: 50px;
+	height: 57px;
 	display: flex;
 }
 
@@ -178,6 +179,9 @@ h1 {
 	padding-left: 5px;
 }
 
+.problems_list li:nth-of-type(odd) {
+	background-color: rgba(0, 128, 150, 0.1);
+}
 
 .choose {
 	padding-left: 0;
@@ -197,6 +201,7 @@ h1 {
 	float: right;
 	width: 450px;
 	height: 450px;
+	background-color: rgba(0, 128, 150, 0.4);
 }
 
 ::-webkit-scrollbar {
