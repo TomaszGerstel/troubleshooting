@@ -1,9 +1,12 @@
 package com.tg.model;
 
+import java.io.File;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity(name = "problems")
 public class Problem {
@@ -14,6 +17,9 @@ public class Problem {
     private String name;
     private String description;
     private String imageAddress;
+    @Transient
+    private File image;
+    
  
     public Problem() {}    
      
@@ -54,6 +60,14 @@ public class Problem {
 
 	public void setImageAddress(String imageAddress) {
 		this.imageAddress = imageAddress;
+	}
+	
+	public File getImage() {
+		return image;
+	}
+
+	public void setImage(File image) {
+		this.image = image;
 	}
 
 	@Override

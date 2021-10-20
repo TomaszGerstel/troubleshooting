@@ -1,12 +1,18 @@
 package com.tg.service;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tg.model.Cause;
 import com.tg.model.Problem;
@@ -86,6 +92,13 @@ public class ProblemService {
 
 	public void deleteSolution(Long id) {
 		solutionRepo.deleteById(id);
+	}
+
+	public Problem saveProblem(Problem problem) {
+	
+		problemRepo.save(problem);
+
+		return null;
 	}
 
 }

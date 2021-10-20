@@ -30,6 +30,7 @@ body {
 	margin: 0 auto;
 	text-align: left;
 	align-content: left;
+	padding-top: 30px;
 }
 
 .logo {
@@ -87,9 +88,9 @@ body {
 	font-size: 20px;
 }
 
-.search form{
-	
+.search form{	
 	display:flex;
+	justify-content: space-between;
 	padding-top: 30px;
 	padding-bottom: 20px;
 }
@@ -101,8 +102,9 @@ body {
 	line-height: 24px;
 	font-weight: 400;
 	letter-spacing: .1em;
+	text-transform: uppercase;
 	cursor: pointer;
-	opacity: 0.8;
+	opacity: 0.7;
 }
 
 .search button:hover {
@@ -234,6 +236,10 @@ h1 {
 	width: 50%;
 }
 
+.add {
+	font-size: 1em;
+}
+
 .add_button {
 	background-color: black;
 	color: #858585;
@@ -295,6 +301,14 @@ option {
 	justify-content: space-between;
 	padding: 10px;
 	background: azure;
+}
+
+.details p {
+	font-size: 1em;
+}
+
+.details h1 {
+	font-size: 1.5em;
 }
 
 .add, a {

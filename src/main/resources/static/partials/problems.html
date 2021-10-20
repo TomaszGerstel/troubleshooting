@@ -3,17 +3,17 @@
 	<h1>Wybierz problem z listy lub wyszukaj:</h1>
 	<div class="search">
 		<form>
-		<span class="search_icon"><i class="fas fa-search"></i></span>
-			<input id="" ng-model="problemContr.problemName"
-				rows="1" cols="30" maxlength="250"></input>
+			<span class="search_icon"><i class="fas fa-search"></i></span> <input
+				id="" ng-model="problemContr.problemName" rows="1" cols="30"
+				maxlength="250"></input>
 			<button class=""
 				ng-click="problemContr.refreshData(problemContr.problemName)">Wyszukaj</button>
-				<button class=""
-				ng-click="problemContr.refreshData()">Pokaż wszystkie</button>
+			<button class="" ng-click="problemContr.refreshData()">Pokaż
+				wszystkie</button>
 		</form>
 	</div>
 	<div class="choose">
-	
+
 		<ul class="problems_list">
 			<li class="plist" ng-repeat="problem in problemContr.problems"
 				ng-click="problemContr.loadData(problem.id)"
@@ -23,9 +23,10 @@
 		<img ng-src="{{problemContr.image}}" alt=""
 			onerror="this.src='images/temporary.png'">
 	</div>
+
 	<div class="details" ng-show="problemContr.details">
-		<h1>{{problemContr.details.name}}</h1>
-		<p>Szczegóły: {{problemContr.details.description}}</p>
+			<h1>{{problemContr.details.name}}</h1>
+			<p>Szczegóły: {{problemContr.details.description}}</p>
 		<div class="detal">
 			<h2>Przyczyny</h2>
 			<ol>
@@ -34,7 +35,7 @@
 						{{cause.userName}}</i> <span
 					ng-show="problemContr.userName==cause.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteCause(cause.id, cause.problemId)"></i>
+						ng-click="problemContr.deleteCause(cause.id, cause.problemId)"> Usuń</i>
 				</span></li>
 			</ol>
 			<p class="add" ng-click="problemContr.showAddCauseForm()"
@@ -65,7 +66,7 @@
 					ng-show="solution.userName">dodał: {{solution.userName}}</i> <span
 					ng-show="problemContr.userName==solution.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteSolution(solution.id, solution.problemId)"></i>
+						ng-click="problemContr.deleteSolution(solution.id, solution.problemId)"> Usuń</i>
 				</span></li>
 			</ol>
 			<p class="add" ng-click="problemContr.showAddSolutionForm()"

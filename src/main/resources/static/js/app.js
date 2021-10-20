@@ -28,6 +28,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				controller: '',
 				controllerAs: ''
 			})
+			.when('/addproblem', {
+				templateUrl: 'partials/new_problem.html',
+				controller: 'ProblemController',
+				controllerAs: 'problemContr'
+			})
 			.otherwise({
 				redirectTo: '/problems'
 			});
@@ -109,8 +114,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		var Cause = $resource('api/problem/causes/:problemId');
 
 		var DeleteCause = $resource('api/problem/causes/:causeId');
-		var DeleteSolution = $resource('api/problem/solutions/:solutionId')
-
+		var DeleteSolution = $resource('api/problem/solutions/:solutionId');
+		
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
 			$location.path('/');
@@ -141,12 +146,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					console.log(response.status);
 				});
 		}
-
+		
 		vm.addSolution = function(solution) {
 			vm.solution.problemId = vm.details.id;
 			vm.solution.userId = AuthenticationService.currentId;
 			console.log('Pobrano dane: id: ' + AuthenticationService.currentId);
-			console.log('metoda, user: ' + AuthenticationService.name);
 			console.log(vm.solution._proto_);
 			vm.solution.$save(function(data) {
 				vm.loadData(solution.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
