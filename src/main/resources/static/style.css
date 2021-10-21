@@ -90,11 +90,13 @@ body {
 }
 
 .search form {	
-	display: flex;
-	
-	
+	display: inline-block;	
 	padding-top: 30px;
-	padding-bottom: 20px;
+
+}
+
+.search_input {
+	display: flex;
 }
 
 .search button {
@@ -107,7 +109,8 @@ body {
 	text-transform: uppercase;
 	cursor: pointer;
 	opacity: 0.7;
-
+	height: 60px;
+	margin-top: 8px;
 }
 
 .search button:hover {
@@ -178,7 +181,7 @@ h1 {
 	margin: 0 auto;
 	margin-left: 0;
 	width: 48%;
-	height: 450px;
+	height: 385px;
 	list-style-type: none;
 	padding-left: 5px;
 }
@@ -191,6 +194,7 @@ h1 {
 	padding-left: 0;
 	margin-left: 0;
 	margin-top: 10px;
+	
 	text-align: left;
 	margin-bottom: 40px;
 	height: 420px;
@@ -206,6 +210,7 @@ h1 {
 	width: 450px;
 	height: 450px;
 	background-color: rgba(0, 128, 150, 0.4);
+	margin-top: -66px;
 }
 
 ::-webkit-scrollbar {

@@ -3,10 +3,13 @@
 	<h1>Wybierz problem z listy lub wyszukaj:</h1>
 	<div class="search">
 		<form>
+			<span class="search_input">
 			<span class="search_icon"><i class="fas fa-search"></i></span> <input
 				id="" ng-model="problemContr.problemName" rows="1" cols="30"
-				maxlength="25" ng-keydown="problemContr.refreshData(problemContr.problemName)"></input>			
-			<button class="" ng-click="problemContr.refreshData()"><i class="far fa-list-alt"></i> Pokaż wszystkie problemy</button>
+				maxlength="25" ng-keyup="problemContr.refreshData(problemContr.problemName)"></input>
+			</span>
+						
+			<button class="" ng-click="problemContr.refreshData()"><i class="fas fa-sync-alt"></i> <i class="far fa-list-alt"></i> Pokaż wszystkie problemy</button>
 		</form>
 	</div>
 	<div class="choose">
