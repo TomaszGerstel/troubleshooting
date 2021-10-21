@@ -5,11 +5,8 @@
 		<form>
 			<span class="search_icon"><i class="fas fa-search"></i></span> <input
 				id="" ng-model="problemContr.problemName" rows="1" cols="30"
-				maxlength="250"></input>
-			<button class=""
-				ng-click="problemContr.refreshData(problemContr.problemName)">Wyszukaj</button>
-			<button class="" ng-click="problemContr.refreshData()">Pokaż
-				wszystkie</button>
+				maxlength="25" ng-keydown="problemContr.refreshData(problemContr.problemName)"></input>			
+			<button class="" ng-click="problemContr.refreshData()"><i class="far fa-list-alt"></i> Pokaż wszystkie problemy</button>
 		</form>
 	</div>
 	<div class="choose">
@@ -25,18 +22,19 @@
 	</div>
 
 	<div class="details" ng-show="problemContr.details">
-			<h1>{{problemContr.details.name}}</h1>
-			<p>Szczegóły: {{problemContr.details.description}}</p>
+		<h1>{{problemContr.details.name}}</h1>
+		<p class="details_p">Szczegóły:
+			{{problemContr.details.description}}</p>
 		<div class="detal">
 			<h2>Przyczyny</h2>
 			<ol>
 				<li ng-repeat="cause in problemContr.causes"><b>{{cause.description}};
-				</b><br>{{cause.remarks}}<br> <i ng-show="cause.userName">dodał:
-						{{cause.userName}}</i> <span
+				</b><br>
+				<i ng-show="cause.userName">dodał: {{cause.userName}}</i> <span
 					ng-show="problemContr.userName==cause.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteCause(cause.id, cause.problemId)"> Usuń</i>
-				</span></li>
+						ng-click="problemContr.deleteCause(cause.id, cause.problemId)">
+							Usuń</i> </span></li>
 			</ol>
 			<p class="add" ng-click="problemContr.showAddCauseForm()"
 				ng-show="authenticated">Dodaj przyczynę do wybranego problemu
@@ -66,8 +64,8 @@
 					ng-show="solution.userName">dodał: {{solution.userName}}</i> <span
 					ng-show="problemContr.userName==solution.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteSolution(solution.id, solution.problemId)"> Usuń</i>
-				</span></li>
+						ng-click="problemContr.deleteSolution(solution.id, solution.problemId)">
+							Usuń</i> </span></li>
 			</ol>
 			<p class="add" ng-click="problemContr.showAddSolutionForm()"
 				ng-show="authenticated">Dodaj rozwiązanie do wybranego problemu

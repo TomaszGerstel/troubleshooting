@@ -8,11 +8,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				controller: 'ProblemController',
 				controllerAs: 'problemContr'
 			})
-			.when('/problems/:id', {
-				templateUrl: 'partials/problems.html',
-				controller: 'ProblemController',
-				controllerAs: 'problemContr'
-			})
+//			.when('/problems/:id', {
+	//			templateUrl: 'partials/problems.html',
+		//		controller: 'ProblemController',
+			//	controllerAs: 'problemContr'
+		//	})
 			.when('/register', {
 				templateUrl: 'partials/register.html',
 				controller: 'RegisterController',
@@ -20,8 +20,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			})
 			.when('/login', {
 				templateUrl: 'partials/login.html',
-				controller: 'ProblemController',
-				controllerAs: 'problemContr'
+				controller: 'LoginController',
+				controllerAs: 'loginCtrl'
 			})
 			.when('/info', {
 				templateUrl: 'partials/info.html',
@@ -104,6 +104,36 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			)
 		}
 	})
+	.controller('LoginController', function($rootScope, $location, AuthenticationService) {
+		
+		var vm = this;
+		vm.credentials = {};
+		
+		var loginSuccess = function() {
+			$rootScope.authenticated = true;
+			$location.path('/');
+		}
+
+		var logoutSuccess = function() {
+			$rootScope.authenticated = false;
+			$location.path('/');
+		}
+		
+		vm.login = function() {
+			AuthenticationService.authenticate(vm.credentials, loginSuccess);
+			if (AuthenticationService.loginErr == true) vm.showErrMess();
+	//		vm.refreshData();
+		}
+
+		vm.showErrMess = function() {
+			vm.showErrMessage = true;
+		}
+
+		vm.logout = function() {
+			AuthenticationService.logout(logoutSuccess);
+		}
+		
+	})
 	.controller('ProblemController', function($http, $resource, $rootScope, $location, AuthenticationService) {
 
 		var vm = this;
@@ -115,18 +145,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		var DeleteCause = $resource('api/problem/causes/:causeId');
 		var DeleteSolution = $resource('api/problem/solutions/:solutionId');
-		
-		var loginSuccess = function() {
-			$rootScope.authenticated = true;
-			$location.path('/');
-		}
 
-		var logoutSuccess = function() {
-			$rootScope.authenticated = false;
-			$location.path('/');
-		}
-
-		vm.credentials = {};
 		vm.problem = new Problem();
 		vm.problems = {};
 		vm.solution = new Solution();
@@ -219,20 +238,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					console.log(response.status);
 				}
 			);
-		}
-
-		vm.login = function() {
-			AuthenticationService.authenticate(vm.credentials, loginSuccess);
-			if (AuthenticationService.loginErr == true) vm.showErrMess();
-			vm.refreshData();
-		}
-
-		vm.showErrMess = function() {
-			vm.showErrMessage = true;
-		}
-
-		vm.logout = function() {
-			AuthenticationService.logout(logoutSuccess);
 		}
 
 		vm.showAddSolutionForm = function() {
