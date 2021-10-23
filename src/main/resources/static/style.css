@@ -31,7 +31,7 @@ body {
 	margin: 0 auto;
 	text-align: left;
 	align-content: left;
-	padding-top: 30px;
+	padding-top: 10px;
 }
 
 .logo {
@@ -85,13 +85,13 @@ body {
 	cursor: pointer;
 	font-family: monospace;
 	font-weight: bold;
-	width: 357px;
+	width: 398px;
 	font-size: 20px;
 }
 
 .search form {	
 	display: inline-block;	
-	padding-top: 30px;
+	padding-top: 8px;
 
 }
 
@@ -106,11 +106,13 @@ body {
 	line-height: 24px;
 	font-weight: 400;
 	letter-spacing: .1em;
-	text-transform: uppercase;
+
 	cursor: pointer;
 	opacity: 0.7;
-	height: 60px;
+	height: 70px;
 	margin-top: 8px;
+	text-align: left;
+	padding-left: 20px;
 }
 
 .search button:hover {
@@ -137,8 +139,7 @@ body {
 }
 
 .register form {
-	padding: 10px;
-	width: 350px;
+	padding: 10px;	
 }
 
 .login_button:hover, .register_button:hover {
@@ -148,7 +149,7 @@ body {
 .login input, .register input, .search input {
 	background-color: azure;
 	font-size: 1.5em;
-	width: 380px;
+	width: 390px;
 	height: 57px;
 	display: flex;
 }
@@ -181,7 +182,7 @@ h1 {
 	margin: 0 auto;
 	margin-left: 0;
 	width: 48%;
-	height: 385px;
+	height: 373px;
 	list-style-type: none;
 	padding-left: 5px;
 }
@@ -196,10 +197,10 @@ h1 {
 	margin-top: 10px;
 	
 	text-align: left;
-	margin-bottom: 40px;
-	height: 420px;
-	width: 910px;
-	
+
+	height: 383px;
+
+	width: 910;
 	display: flex;
 }
 
@@ -210,7 +211,7 @@ h1 {
 	width: 450px;
 	height: 450px;
 	background-color: rgba(0, 128, 150, 0.4);
-	margin-top: -66px;
+	margin-top: -77px;
 }
 
 ::-webkit-scrollbar {
@@ -328,7 +329,7 @@ option {
 	text-decoration: underline;
 }
 
-.detal li, .details p {
+.detal li, select, .details p {
 	color: #555;
 	text-align: left;
 	font-size: 1.1em;
@@ -345,6 +346,10 @@ option {
 	margin-left: 20px;
 	width: 540px;
 	float: left;
+}
+
+.detal form {
+	font-size: 1em;
 }
 
 .footer {

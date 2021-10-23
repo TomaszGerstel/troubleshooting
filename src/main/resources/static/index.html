@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="top-bar"></div>
-	<div class="block" ng-controller="ProblemController as problemContr">
+	<div class="block" ng-controller="LoginController as loginCtrl">
 		<div class="menu">
 			<ul>
 				<li><a href="#!problems"><i class="fas fa-home"></i><br>Home</a></li>
@@ -17,7 +17,7 @@
 				<li><a href="#!register"><i class="fas fa-user-plus"></i><br>Register</a></li>
 				<li ng-show="!authenticated"><a href="#!login"><i
 						class="fas fa-sign-in-alt"></i><br>LOGIN</a></li>
-				<li ng-show="authenticated" ng-click="problemContr.logout()"><a
+				<li ng-show="authenticated" ng-click="loginCtrl.logout()"><a
 					href=""><i class="fas fa-sign-out-alt"></i><br>LOGOUT</a></li>
 			</ul>
 		</div>

@@ -8,11 +8,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				controller: 'ProblemController',
 				controllerAs: 'problemContr'
 			})
-//			.when('/problems/:id', {
-	//			templateUrl: 'partials/problems.html',
-		//		controller: 'ProblemController',
-			//	controllerAs: 'problemContr'
-		//	})
 			.when('/register', {
 				templateUrl: 'partials/register.html',
 				controller: 'RegisterController',
@@ -37,16 +32,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				redirectTo: '/problems'
 			});
 	})
-	//.constant('LOGIN_ENDPOINT', 'login')
-	//.constant('LOGOUT_ENDPOINT', 'logout')
-	.service('AuthenticationService', function($http, $resource) {
+	.service('AuthenticationService', function($http, $resource, User) {	
 		var vm = this;
 		var CurrentUserId = $resource('api/user/userid/:userName');
 		vm.loginErr = false;
 		vm.name;
 		vm.currentId;
-
-		this.authenticate = function(credentials, successCallback) {
+		vm.user = new User();
+		vm.registerMessage;
+		vm.authenticate = function(credentials, successCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
 			var config = { headers: authHeader };
 			$http
@@ -63,11 +57,10 @@ angular.module('app', ['ngRoute', 'ngResource'])
 						vm.loginErr = true;
 					});
 		}
-		this.logout = function(successCallback) {
+		vm.logout = function(successCallback) {
 			delete $http.defaults.headers.post.Authorization;
 			(successCallback());
 		};
-
 		vm.currentUserId = function() {
 			vm.getCurrentId = CurrentUserId.get({ userName: vm.name }, function success(data, headers) {
 				console.log('Pobrano dane: ' + data.id);
@@ -78,74 +71,74 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					console.log(response.status);
 				});
 		};
-	})
-	.controller('RegisterController', function($http, $location, $resource) {
-		var vm = this;
-		var User = $resource('api/user/register');
-		vm.user = new User();
-		vm.register = function(user) {
+		vm.register = function(user, registerCallback) {
 			console.log(vm.user._proto_);
-			vm.user.name = vm.name;
-			vm.user.password = vm.password;
-			vm.user.$save(function() {
+			vm.user = user;
+
+			user.$save(function() {
 				vm.user = new User();
-				vm.errorMessage = 'Rejestracja się powiodła! Możesz się zalogować.'
+				vm.registerMessage = 'Rejestracja się powiodła! Możesz się zalogować.'
+				registerCallback();
 			},
 				function error(response) {
 					console.log(response.status);
 					if (response.status == 409) {
-						vm.errorMessage = response.data[0];
+						vm.registerMessage = response.data[0];
 						console.log(response.data);
 					}
 					else {
-						vm.errorMessage = 'Rejestracja nieudana!';
+						vm.registerMessage = 'Rejestracja nieudana!';
 					}
-				}
+					registerCallback();
+		 		}
 			)
 		}
 	})
+	.factory('User', function($resource) {
+		return $resource('api/user/register');
+	})
+	.controller('RegisterController', function($http, AuthenticationService, User) {
+		var vm = this;
+		vm.user = new User();
+		vm.registerMassage;
+		vm.register = function() {
+			AuthenticationService.register(vm.user, registerCallback);
+			vm.user = new User();
+		}
+		var registerCallback = function() {
+			vm.registerMessage = AuthenticationService.registerMessage;
+		}
+	})
 	.controller('LoginController', function($rootScope, $location, AuthenticationService) {
-		
 		var vm = this;
 		vm.credentials = {};
-		
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
 			$location.path('/');
 		}
-
 		var logoutSuccess = function() {
 			$rootScope.authenticated = false;
 			$location.path('/');
 		}
-		
 		vm.login = function() {
 			AuthenticationService.authenticate(vm.credentials, loginSuccess);
 			if (AuthenticationService.loginErr == true) vm.showErrMess();
-	//		vm.refreshData();
 		}
-
 		vm.showErrMess = function() {
 			vm.showErrMessage = true;
 		}
-
 		vm.logout = function() {
 			AuthenticationService.logout(logoutSuccess);
 		}
-		
 	})
-	.controller('ProblemController', function($http, $resource, $rootScope, $location, AuthenticationService) {
-
+	.controller('ProblemController', function($http, $resource, AuthenticationService) {
 		var vm = this;
-
 		var Problem = $resource('api/problem/:problemId');
 		var Problems = $resource('api/problems/:problemName');
 		var Solution = $resource('api/problem/solutions/:problemId');
 		var Cause = $resource('api/problem/causes/:problemId');
-
 		var DeleteCause = $resource('api/problem/causes/:causeId');
 		var DeleteSolution = $resource('api/problem/solutions/:solutionId');
-
 		vm.problem = new Problem();
 		vm.problems = {};
 		vm.solution = new Solution();
@@ -154,18 +147,16 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
 
-		vm.refreshData = function (name) {
+		vm.refreshData = function(name) {
 			vm.problems = Problems.query({ problemName: name },
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
-		//			if (AuthenticationService.loginErr == true) vm.showErrMess();
 				},
 				function error(response) {
 					console.log(response.status);
 				});
 		}
-		
 		vm.addSolution = function(solution) {
 			vm.solution.problemId = vm.details.id;
 			vm.solution.userId = AuthenticationService.currentId;
@@ -176,7 +167,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				vm.solution = new Solution();
 			});
 		}
-
 		vm.addCause = function(cause) {
 			vm.cause.problemId = vm.details.id;
 			vm.cause.userId = AuthenticationService.currentId;
@@ -186,7 +176,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				vm.cause = new Cause();
 			});
 		}
-
 		vm.deleteCause = function(id, problemId) {
 			vm.causeToDelete.$delete({ causeId: id })
 				.then(function success(value) {
@@ -197,7 +186,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 						console.log('deleting record error');
 					});
 		}
-
 		vm.deleteSolution = function(id, problemId) {
 			vm.solutionToDelete.$delete({ solutionId: id })
 				.then(function success(value) {
@@ -208,16 +196,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 						console.log('deleting record error');
 					});
 		}
-
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
 
 			vm.details = Problem.get({ problemId: id },
 				function success(data, headers) {
-
 					if (vm.details.imageAddress == null) vm.image = 'images/temporary.png';
-					
 					vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
 						vm.image = vm.details.imageAddress;
 						console.log('Pobrano rozwiązania: ' + data);
@@ -243,11 +228,9 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;
 		}
-
 		vm.showAddCauseForm = function() {
 			vm.showCauseForm = true;
 		}
-
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 
 		vm.refreshData();
