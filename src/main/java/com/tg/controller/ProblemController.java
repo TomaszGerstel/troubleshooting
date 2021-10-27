@@ -3,6 +3,7 @@ package com.tg.controller;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tg.model.Cause;
 import com.tg.model.Problem;
+import com.tg.model.ProblemNameToDisplay;
 import com.tg.model.Solution;
 import com.tg.service.ProblemService;
 
@@ -37,8 +39,8 @@ public class ProblemController {
 	}
 
 	@GetMapping(path = "/problems", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Problem>> allProblems() {
-		List<Problem> allProblems = problemService.findAll();
+	public ResponseEntity<List<ProblemNameToDisplay>> allProblems() {
+		List<ProblemNameToDisplay> allProblems = problemService.findAll();
 		return ResponseEntity.ok(allProblems);
 	}
 

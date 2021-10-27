@@ -5,54 +5,50 @@
 		<form>
 			<span class="search_input"> <span class="search_icon"><i
 					class="fas fa-search"></i></span> <input id=""
-				ng-model="problemContr.problemName" rows="1" cols="30"
+				ng-model="problemCtrl.problemName" rows="1" cols="30"
 				maxlength="25"
-				ng-keyup="problemContr.refreshData(problemContr.problemName)"></input>
+				ng-keyup="problemCtrl.refreshData(problemCtrl.problemName)"></input>
 			</span>
-
-			<button class="" ng-click="problemContr.refreshData()">
+			<button class="" ng-click="problemCtrl.refreshData()">
 				<i class="fas fa-sync-alt"></i> Pokaż wszystko
 			</button>
 		</form>
 	</div>
 	<div class="choose">
-
 		<ul class="problems_list">
-			<li class="plist" ng-repeat="problem in problemContr.problems"
-				ng-click="problemContr.loadData(problem.id)"
+			<li class="plist" ng-repeat="problem in problemCtrl.problems"
+				ng-click="problemCtrl.loadData(problem.id)"
 				title="pokaż rozwiązania">{{problem.name}}</li>
 		</ul>
-
-		<img ng-src="{{problemContr.image}}" alt=""
+		<img ng-src="{{problemCtrl.image}}" alt=""
 			onerror="this.src='images/temporary.png'">
 	</div>
-
-	<div class="details" ng-show="problemContr.details">
-		<h1>{{problemContr.details.name}}</h1>
+	<div class="details" ng-show="problemCtrl.details">
+		<h1>{{problemCtrl.details.name}}</h1>
 		<p class="details_p">Szczegóły:
-			{{problemContr.details.description}}</p>
+			{{problemCtrl.details.description}}</p>
 		<div class="detal">
 			<h2>Przyczyny</h2>
 			<ol>
-				<li ng-repeat="cause in problemContr.causes"><b>{{cause.description}};
-				</b><br> <i ng-show="cause.userName">dodał: {{cause.userName}}</i>
+				<li ng-repeat="cause in problemCtrl.causes"><b>{{cause.description}};
+				</b><i ng-show="cause.userName"><br>dodał: {{cause.userName}}</i>
 					<span
-					ng-show="problemContr.userName==cause.userName && authenticated"><br>
+					ng-show="problemCtrl.userName==cause.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteCause(cause.id, cause.problemId)">
+						ng-click="problemCtrl.deleteCause(cause.id, cause.problemId)">
 							Usuń</i> </span></li>
 			</ol>
-			<p class="add" ng-click="problemContr.showAddCauseForm()"
+			<p class="add" ng-click="problemCtrl.showAddCauseForm()"
 				ng-show="authenticated">Dodaj przyczynę do wybranego problemu
-				({{problemContr.details.name}})</p>
-			<div ng-show="problemContr.showCauseForm">
+				({{problemCtrl.details.name}})</p>
+			<div ng-show="problemCtrl.showCauseForm">
 				<form ng-show="authenticated">
 					<label for="opis_p">Podaj opis przyczyny:</label><br>
-					<textarea id="opis_p" ng-model="problemContr.cause.description"
+					<textarea id="opis_p" ng-model="problemCtrl.cause.description"
 						rows="3" cols="30" maxlength="250" required></textarea>
 					<br>
 					<button class="add_button"
-						ng-click="problemContr.addCause(problemContr.cause)">Dodaj
+						ng-click="problemCtrl.addCause(problemCtrl.cause)">Dodaj
 						przyczynę</button>
 				</form>
 			</div>
@@ -65,35 +61,35 @@
 		<div class="detal">
 			<h2>Rozwiązania</h2>
 			<ol>
-				<li ng-repeat="solution in problemContr.solutions"><b>{{solution.description}}
-				</b><br> <span ng-show="solution.remarks">{{solution.remarks}}
-				</span> <i ng-show="solution.userName">dodał: {{solution.userName}}</i> <span
-					ng-show="problemContr.userName==solution.userName && authenticated"><br>
+				<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}}
+				</b> <span ng-show="solution.remarks"><br>{{solution.remarks}}
+				</span> <i ng-show="solution.userName"><br>dodał: {{solution.userName}}</i> <span
+					ng-show="problemCtrl.userName==solution.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemContr.deleteSolution(solution.id, solution.problemId)">
+						ng-click="problemCtrl.deleteSolution(solution.id, solution.problemId)">
 					</i></span></li>
 			</ol>
-			<p class="add" ng-click="problemContr.showAddSolutionForm()"
+			<p class="add" ng-click="problemCtrl.showAddSolutionForm()"
 				ng-show="authenticated">Dodaj rozwiązanie do wybranego problemu
-				({{problemContr.details.name}})</p>
-			<div ng-show="problemContr.showSolutionForm">
+				({{problemCtrl.details.name}})</p>
+			<div ng-show="problemCtrl.showSolutionForm">
 				<form ng-show="authenticated">
 					<label for="opis_r">Podaj opis rozwiązania:</label><br>
-					<textarea id="opis_r" ng-model="problemContr.solution.description"
+					<textarea id="opis_r" ng-model="problemCtrl.solution.description"
 						rows="3" cols="30" maxlength="250" required></textarea>
 					<br> <label for="uwagi">Uwagi:</label><br>
-					<textarea id="uwagi" ng-model="problemContr.solution.remarks"
+					<textarea id="uwagi" ng-model="problemCtrl.solution.remarks"
 						rows="2" cols="30" maxlength="200"></textarea>
 					<br> <label for="proprytet">Określ wagę/priorytet
 						rozwiązania:</label><br> <select type="number" id="priorytet"
-						class="selectp" ng-model="problemContr.solution.priority"
+						class="selectp" ng-model="problemCtrl.solution.priority"
 						placeholder="Priorytet">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 					</select><br>
 					<button class="add_button"
-						ng-click="problemContr.addSolution(problemContr.solution)">Dodaj
+						ng-click="problemCtrl.addSolution(problemCtrl.solution)">Dodaj
 						rozwiązanie</button>
 				</form>
 			</div>

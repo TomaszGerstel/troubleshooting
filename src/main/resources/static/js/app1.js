@@ -25,7 +25,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			})
 			.when('/addproblem', {
 				templateUrl: 'partials/new_problem.html',
-				controller: 'ProblemController',
+				controller: 'troubleController',
 				controllerAs: 'problemCtrl'
 			})
 			.otherwise({
@@ -117,7 +117,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			)
 		}
 	})
-
 	.controller('RegisterController', function($http, AuthenticationService, User) {
 		var vm = this;
 		vm.user = new User();
@@ -152,47 +151,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
-
-	// refactor, najpierw funkcja load data
-	.service('ProblemService', function($http, $resource, AuthenticationService, Problem,
-		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
-		var vm = this;
-
-		vm.problem = new Problem();
-		vm.problems = {};
-		vm.solution = new Solution();
-		vm.cause = new Cause();
-		vm.userName = AuthenticationService.name;
-		vm.causeToDelete = new DeleteCause();
-		vm.solutionToDelete = new DeleteSolution();
-
-		vm.getProblemDetails = function(id, successCallback) {
-			return Problem.get({ problemId: id }, function success(data, headers) {
-				console.log('Wybrano problem: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				successCallback();
-			},function error(response) {
-					console.log(response.status);
-				});
-		}
-		vm.getCauses = function(id) {
-			return Cause.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano przyczyny dla wybranego problemu: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				},
-				function error(response) {
-					console.log(response.status);
-				});
-		}
-		vm.getSolutions = function(id) {
-			return Solution.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano rozwiązania dla wybranego problemu: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				},
-				function error(response) {
-					console.log(response.status);
-				});
-		}
+	.service('ProblemService', function($http, $resource) {
 		vm.addSolution = function(solution) {
 			vm.solution.problemId = vm.details.id;
 			vm.solution.userId = AuthenticationService.currentId;
@@ -207,26 +166,24 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	.controller('ProblemController', function($http, $resource, AuthenticationService, ProblemService, Problem,
 		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
 		var vm = this;
-		//		var Problem = $resource('api/problem/:problemId');
-		//		var Problems = $resource('api/problems/:problemName');
-		//		var Solution = $resource('api/problem/solutions/:problemId');
-		//		var Cause = $resource('api/problem/causes/:problemId');
-		//		var DeleteCause = $resource('api/problem/causes/:causeId');
-		//		var DeleteSolution = $resource('api/problem/solutions/:solutionId');
-		//vm.problem = new Problem();
+				var Problem = $resource('api/problem/:problemId');
+				var Problems = $resource('api/problems/:problemName');
+				var Solution = $resource('api/problem/solutions/:problemId');
+				var Cause = $resource('api/problem/causes/:problemId');
+				var DeleteCause = $resource('api/problem/causes/:causeId');
+				var DeleteSolution = $resource('api/problem/solutions/:solutionId');
+		vm.problem = new Problem();
 		vm.problems = {};
 		vm.solution = new Solution();
 		vm.cause = new Cause();
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
-		vm.image;
-		vm.details;
 
 		vm.refreshData = function(name) {
 			vm.problems = Problems.query({ problemName: name },
 				function success(data, headers) {
-					console.log('Pobrano dane: ' + JSON.stringify(data));
+					console.log('Pobrano dane: ' + data);
 					console.log(headers('Content-Type'));
 				},
 				function error(response) {
@@ -275,15 +232,31 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
-			vm.details = ProblemService.getProblemDetails((id),
-				vm.success = function() {
-					if (vm.details.imageAddress == null) { vm.image = 'images/temporary.png' }
-					else vm.image = vm.details.imageAddress;			
-				});
-			vm.solutions = ProblemService.getSolutions(id);	
-			vm.causes = ProblemService.getCauses(id);	
-		}
 
+			vm.details = Problem.get({ problemId: id },
+				function success(data, headers) {
+					if (vm.details.imageAddress == null) vm.image = 'images/temporary.png';
+					vm.solutions = Solution.query({ problemId: id }, function success(data, headers) {
+						vm.image = vm.details.imageAddress;
+						console.log('Pobrano rozwiązania: ' + data);
+						console.log(headers('Content-Type'));
+					},
+						function error(response) {
+							console.log(response.status);
+						});
+					vm.causes = Cause.query({ problemId: id }, function success(data, headers) {
+						console.log('Pobrano przyczyny: ' + data);
+						console.log(headers('Content-Type'));
+					},
+						function error(response) {
+							console.log(response.status);
+						})
+				},
+				function error(response) {
+					console.log(response.status);
+				}
+			);
+		}
 
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;

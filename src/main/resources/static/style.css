@@ -102,11 +102,10 @@ body {
 .search button {
 	background-color: black;
 	color: rgb(254, 156, 24);
-	font-size: 0.8em;
+	font-size: 1em;
 	line-height: 24px;
 	font-weight: 400;
 	letter-spacing: .1em;
-
 	cursor: pointer;
 	opacity: 0.7;
 	height: 70px;

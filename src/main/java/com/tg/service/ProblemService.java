@@ -3,9 +3,14 @@ package com.tg.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -16,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tg.model.Cause;
 import com.tg.model.Problem;
+import com.tg.model.ProblemNameToDisplay;
 import com.tg.model.Solution;
 import com.tg.repository.CauseRepository;
 import com.tg.repository.ProblemRepository;
@@ -39,8 +45,25 @@ public class ProblemService {
 		this.userRepo = userRepo;
 	}
 
-	public List<Problem> findAll() {
-		return problemRepo.findAll();
+	public List<ProblemNameToDisplay> findAll() {
+		List<Problem> allProblems = problemRepo.findAll();
+//		Collections.sort(allProblems, new ProblemNamesComparator());
+//		List<Problem> allSortedProblems = allProblems.stream().sorted(Comparator.comparing(Problem::getName)).collect(Collectors.toList());
+		List<ProblemNameToDisplay> allProblemNames = new ArrayList<>();		
+		for(Problem p : allProblems ) {
+			ProblemNameToDisplay problemDisplay = new ProblemNameToDisplay();
+			problemDisplay.setId(p.getId());
+			problemDisplay.setName(p.getName());
+			allProblemNames.add(problemDisplay);
+		}
+//		List<ProblemNameToDisplay> sortedProblems = allProblemNames.stream()
+//				.sorted(Comparator.comparing(ProblemNameToDisplay::getName)).collect(Collectors.toList());
+//		Set<Date> limitDates = new TreeSet<>(new TheComparator());
+//		List<ProblemNameToDisplay> sortedProblems = allProblemNames.stream().sorted(ProblemNamesComparator::compare)				.collect(Collectors.toList());
+//		return sortedProblems;
+		
+		Collections.sort(allProblemNames, new ProblemNamesComparator());
+		return allProblemNames;
 	}
 
 	public Optional<Problem> findById(Long id) {
