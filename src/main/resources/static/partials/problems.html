@@ -38,7 +38,8 @@
 						ng-click="problemCtrl.deleteCause(cause.id, cause.problemId)">
 							Usuń</i> </span></li>
 			</ol>
-			<p class="add" ng-click="problemCtrl.showAddCauseForm()"
+			<div class="add" >
+			<p ng-click="problemCtrl.showAddCauseForm()"
 				ng-show="authenticated">Dodaj przyczynę do wybranego problemu
 				({{problemCtrl.details.name}})</p>
 			<div ng-show="problemCtrl.showCauseForm">
@@ -51,6 +52,7 @@
 						ng-click="problemCtrl.addCause(problemCtrl.cause)">Dodaj
 						przyczynę</button>
 				</form>
+			</div>
 			</div>
 			<div ng-show="!authenticated">
 				<h3>
@@ -69,7 +71,8 @@
 						ng-click="problemCtrl.deleteSolution(solution.id, solution.problemId)">
 					</i></span></li>
 			</ol>
-			<p class="add" ng-click="problemCtrl.showAddSolutionForm()"
+			<div class="add" >
+			<p ng-click="problemCtrl.showAddSolutionForm()"
 				ng-show="authenticated">Dodaj rozwiązanie do wybranego problemu
 				({{problemCtrl.details.name}})</p>
 			<div ng-show="problemCtrl.showSolutionForm">
@@ -92,6 +95,7 @@
 						ng-click="problemCtrl.addSolution(problemCtrl.solution)">Dodaj
 						rozwiązanie</button>
 				</form>
+			</div>
 			</div>
 			<div ng-show="!authenticated">
 				<h3>

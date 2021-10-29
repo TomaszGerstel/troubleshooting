@@ -12,7 +12,7 @@ body {
 }
 
 .top-bar {
-	height: 240px;
+	height: 250px;
 	background: url(images/topb.png) repeat-x;
 }
 
@@ -36,8 +36,9 @@ body {
 
 .logo {
 	float: left;
-	margin-top: -220px;
-	height: 350;
+	margin-top: -230px;
+	width: 330px;
+	height: 290px;
 }
 
 .menu {
@@ -316,24 +317,31 @@ option {
 	font-size: 1.5em;
 }
 
-.add, a {
+.add p, a {
 	color: #222;
-	font-size: 1em;
+	
 	font-weight: bold;
 	cursor: pointer;
 	text-decoration: underline;
 }
 
-.add:hover {
-	text-decoration: underline;
-}
 
-.detal li, select, .details p {
+
+.detal li, .details p {
 	color: #555;
 	text-align: left;
 	font-size: 1.1em;
 	margin: 8px auto;
 	padding-bottom: 5px;
+}
+
+select {
+	color: #555;
+	font-size: 1.1em;
+	margin: 8px auto;
+	height: 60px;
+	width: 60px;
+
 }
 
 .detal:first-of-type {
