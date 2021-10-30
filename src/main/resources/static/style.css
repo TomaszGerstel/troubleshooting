@@ -12,13 +12,13 @@ body {
 }
 
 .top-bar {
-	height: 250px;
+	height: 260px;
 	background: url(images/topb.png) repeat-x;
 }
 
 .block {
 	width: 920px;
-	height: 80px;
+	height: 45px;
 	margin: 0 auto;
 	text-align: left;
 	display: block;
@@ -36,14 +36,14 @@ body {
 
 .logo {
 	float: left;
-	margin-top: -230px;
+	margin-top: -255px;
 	width: 330px;
 	height: 290px;
 }
 
 .menu {
 	float: right;
-	margin-top: -200px;
+	margin-top: -220px;
 	display: inline;
 	width: 560px;
 	align-content: center;
