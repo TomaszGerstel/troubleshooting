@@ -1,12 +1,11 @@
 @charset "UTF-8";
 
 body {
-	margin: 1 auto;
 	text-align: left;
 	width: 100%;
 	font-family: monospace;
 	font-size: 24px;
-	margin: 0;
+	margin: 0 auto;
 	background: azure url(images/back.png);
 	background-size: 980px 500px;
 }
@@ -18,7 +17,7 @@ body {
 
 .block {
 	width: 920px;
-	height: 45px;
+	height: 65px;
 	margin: 0 auto;
 	text-align: left;
 	display: block;
@@ -36,14 +35,12 @@ body {
 
 .logo {
 	float: left;
-	margin-top: -255px;
-	width: 330px;
-	height: 290px;
+	margin-top: -235px;
 }
 
 .menu {
 	float: right;
-	margin-top: -220px;
+	margin-top: -210px;
 	display: inline;
 	width: 560px;
 	align-content: center;
@@ -211,17 +208,20 @@ h1 {
 	width: 450px;
 	height: 450px;
 	background-color: rgba(0, 128, 150, 0.4);
-	margin-top: -77px;
-}
-
-.choose img:hover {
-  
-    transform: translate(-50%) scale(2,2);     
+	margin-top: -77px;	
+	transform: translate(0%) scale(1,1);     
     transition-timing-function: ease-out;
     transition-duration: 250ms;
-          
+}
+
+.choose img:hover {  
+    transform: translate(-35%) scale(1.7,1.7);     
+    transition-timing-function: ease-out;
+    transition-duration: 250ms;          
     position: relative;
     z-index: 99;
+    background-color: transparent;
+    filter: drop-shadow(0px 0px 25px black);
 }
 
 ::-webkit-scrollbar {

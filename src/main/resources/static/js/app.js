@@ -37,27 +37,21 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	})
 	.factory('Problem', function($resource) {
 		return $resource('api/problem/:problemId');
-
 	})
 	.factory('Problems', function($resource) {
 		return $resource('api/problems/:problemName');
-
 	})
 	.factory('Solution', function($resource) {
 		return $resource('api/problem/solutions/:problemId');
-
 	})
 	.factory('Cause', function($resource) {
 		return $resource('api/problem/causes/:problemId');
-
 	})
 	.factory('DeleteSolution', function($resource) {
 		return $resource('api/problem/solutions/:solutionId');
-
 	})
 	.factory('DeleteCause', function($resource) {
 		return $resource('api/problem/causes/:causeId');
-
 	})
 	.service('AuthenticationService', function($http, $resource) {
 		var vm = this;
@@ -117,8 +111,97 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			)
 		}
 	})
+	.service('ProblemService', function(AuthenticationService, Problem,
+		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
+		var vm = this;
 
-	.controller('RegisterController', function($http, AuthenticationService, User) {
+		vm.problem = new Problem();
+		vm.problems = {};
+		vm.solution = new Solution();
+		vm.cause = new Cause();
+		vm.userName = AuthenticationService.name;
+		vm.causeToDelete = new DeleteCause();
+		vm.solutionToDelete = new DeleteSolution();
+
+		vm.getProblemsList = function(name) {
+			return Problems.query({ problemName: name },
+				function success(data, headers) {
+					console.log('Pobrano dane: ' + JSON.stringify(data));
+					console.log(headers('Content-Type'));
+				},
+				function error(response) {
+					console.log(response.status);
+				});
+		}
+		vm.getProblemDetails = function(id, successCallback) {
+			return Problem.get({ problemId: id }, function success(data, headers) {
+				console.log('Wybrano problem: ' + JSON.stringify(data));
+				console.log(headers('Content-Type'));
+				successCallback();
+			}, function error(response) {
+				console.log(response.status);
+			});
+		}
+		vm.getCauses = function(id) {
+			return Cause.query({ problemId: id }, function success(data, headers) {
+				console.log('Pobrano przyczyny dla wybranego problemu: ' + JSON.stringify(data));
+				console.log(headers('Content-Type'));
+			},
+				function error(response) {
+					console.log(response.status);
+				});
+		}
+		vm.getSolutions = function(id) {
+			return Solution.query({ problemId: id }, function success(data, headers) {
+				console.log('Pobrano rozwiązania dla wybranego problemu: ' + JSON.stringify(data));
+				console.log(headers('Content-Type'));
+			},
+				function error(response) {
+					console.log(response.status);
+				});
+		}
+		vm.addSolution = function(solution, problemId, successCallback) {
+			vm.solution = solution;
+			vm.solution.userId = AuthenticationService.currentId;
+			vm.solution.problemId = problemId;
+			vm.solution.$save(function(data) {
+				console.log('Dodano rozwiązanie: ' + JSON.stringify(data));
+				successCallback();
+				vm.solution = new Solution();
+			});
+		}
+		vm.addCause = function(cause, problemId, successCallback) {
+			vm.cause = cause;
+			vm.cause.userId = AuthenticationService.currentId;
+			vm.cause.problemId = problemId;
+			vm.cause.$save(function(data) {
+				console.log('Dodano przyczynę: ' + JSON.stringify(data));
+				successCallback();
+				vm.cause = new Cause();
+			});
+		}
+		vm.deleteCause = function(id, successCallback) {
+			vm.causeToDelete.$delete({ causeId: id })
+				.then(function success() {
+					console.log('Cause deleted');
+					successCallback();
+				},
+					function error(reason) {
+						console.log('deleting record error' + reason);
+					});
+		}
+		vm.deleteSolution = function(id, successCallback) {
+			vm.solutionToDelete.$delete({ solutionId: id })
+				.then(function success() {
+					console.log('Solution deleted');
+					successCallback();
+				},
+					function error(reason) {
+						console.log('deleting record error' + reason);
+					});
+		}
+	})
+	.controller('RegisterController', function(AuthenticationService, User) {
 		var vm = this;
 		vm.user = new User();
 		vm.registerMassage;
@@ -152,68 +235,10 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
+	.controller('ProblemController', function(AuthenticationService, ProblemService,
+		Solution, Cause, DeleteSolution, DeleteCause) {
 
-	// refactor, najpierw funkcja load data
-	.service('ProblemService', function($http, $resource, AuthenticationService, Problem,
-		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
 		var vm = this;
-
-		vm.problem = new Problem();
-		vm.problems = {};
-		vm.solution = new Solution();
-		vm.cause = new Cause();
-		vm.userName = AuthenticationService.name;
-		vm.causeToDelete = new DeleteCause();
-		vm.solutionToDelete = new DeleteSolution();
-
-		vm.getProblemDetails = function(id, successCallback) {
-			return Problem.get({ problemId: id }, function success(data, headers) {
-				console.log('Wybrano problem: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				successCallback();
-			},function error(response) {
-					console.log(response.status);
-				});
-		}
-		vm.getCauses = function(id) {
-			return Cause.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano przyczyny dla wybranego problemu: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				},
-				function error(response) {
-					console.log(response.status);
-				});
-		}
-		vm.getSolutions = function(id) {
-			return Solution.query({ problemId: id }, function success(data, headers) {
-				console.log('Pobrano rozwiązania dla wybranego problemu: ' + JSON.stringify(data));
-				console.log(headers('Content-Type'));
-				},
-				function error(response) {
-					console.log(response.status);
-				});
-		}
-		vm.addSolution = function(solution) {
-			vm.solution.problemId = vm.details.id;
-			vm.solution.userId = AuthenticationService.currentId;
-			console.log('Pobrano dane: id: ' + AuthenticationService.currentId);
-			console.log(vm.solution._proto_);
-			vm.solution.$save(function(data) {
-				vm.loadData(solution.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
-				vm.solution = new Solution();
-			});
-		}
-	})
-	.controller('ProblemController', function($http, $resource, AuthenticationService, ProblemService, Problem,
-		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
-		var vm = this;
-		//		var Problem = $resource('api/problem/:problemId');
-		//		var Problems = $resource('api/problems/:problemName');
-		//		var Solution = $resource('api/problem/solutions/:problemId');
-		//		var Cause = $resource('api/problem/causes/:problemId');
-		//		var DeleteCause = $resource('api/problem/causes/:causeId');
-		//		var DeleteSolution = $resource('api/problem/solutions/:solutionId');
-		//vm.problem = new Problem();
 		vm.problems = {};
 		vm.solution = new Solution();
 		vm.cause = new Cause();
@@ -224,53 +249,33 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.details;
 
 		vm.refreshData = function(name) {
-			vm.problems = Problems.query({ problemName: name },
-				function success(data, headers) {
-					console.log('Pobrano dane: ' + JSON.stringify(data));
-					console.log(headers('Content-Type'));
-				},
-				function error(response) {
-					console.log(response.status);
-				});
+			vm.problems = ProblemService.getProblemsList(name);
 		}
 		vm.addSolution = function(solution) {
-			vm.solution.problemId = vm.details.id;
-			vm.solution.userId = AuthenticationService.currentId;
-			console.log('Pobrano dane: id: ' + AuthenticationService.currentId);
-			console.log(vm.solution._proto_);
-			vm.solution.$save(function(data) {
-				vm.loadData(solution.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
-				vm.solution = new Solution();
-			});
+			ProblemService.addSolution(solution, vm.details.id,
+				vm.success = function() {
+					vm.loadData(solution.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
+					vm.solution = new Solution();
+				});
 		}
 		vm.addCause = function(cause) {
-			vm.cause.problemId = vm.details.id;
-			vm.cause.userId = AuthenticationService.currentId;
-			console.log(vm.cause._proto_);
-			vm.cause.$save(function(data) {
-				vm.loadData(cause.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
-				vm.cause = new Cause();
-			});
+			ProblemService.addCause(cause, vm.details.id,
+				vm.success = function() {
+					vm.loadData(cause.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
+					vm.cause = new Cause();
+				});
 		}
 		vm.deleteCause = function(id, problemId) {
-			vm.causeToDelete.$delete({ causeId: id })
-				.then(function success(value) {
-					console.log('Cause deleted');
+			ProblemService.deleteCause(id,
+				vm.success = function() {
 					vm.loadData(problemId);
-				},
-					function error(reason) {
-						console.log('deleting record error');
-					});
+				});
 		}
 		vm.deleteSolution = function(id, problemId) {
-			vm.solutionToDelete.$delete({ solutionId: id })
-				.then(function success(value) {
-					console.log('Solution deleted');
+			ProblemService.deleteSolution(id,
+				vm.success = function() {
 					vm.loadData(problemId);
-				},
-					function error(reason) {
-						console.log('deleting record error');
-					});
+				});
 		}
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
@@ -278,13 +283,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.details = ProblemService.getProblemDetails((id),
 				vm.success = function() {
 					if (vm.details.imageAddress == null) { vm.image = 'images/temporary.png' }
-					else vm.image = vm.details.imageAddress;			
+					else vm.image = vm.details.imageAddress;
 				});
-			vm.solutions = ProblemService.getSolutions(id);	
-			vm.causes = ProblemService.getCauses(id);	
+			vm.solutions = ProblemService.getSolutions(id);
+			vm.causes = ProblemService.getCauses(id);
 		}
-
-
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;
 		}
