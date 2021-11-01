@@ -216,10 +216,10 @@ h1 {
 
 .choose img:hover {
   
-    transform: translate(-50%) scale(1.6,1.6);     
+    transform: translate(-50%) scale(2,2);     
     transition-timing-function: ease-out;
-    transition-duration: 250ms;    
-      
+    transition-duration: 250ms;
+          
     position: relative;
     z-index: 99;
 }
