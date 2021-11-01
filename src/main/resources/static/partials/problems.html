@@ -25,7 +25,7 @@
 	</div>
 	<div class="details" ng-show="problemCtrl.details">
 		<h1>{{problemCtrl.details.name}}</h1>
-		<p class="details_p">Szczegóły:
+		<p class="details_p">Opis:
 			{{problemCtrl.details.description}}</p>
 		<div class="detal">
 			<h2>Przyczyny</h2>
@@ -63,8 +63,8 @@
 		<div class="detal">
 			<h2>Rozwiązania</h2>
 			<ol>
-				<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}}
-				</b> <span ng-show="solution.remarks"><br>{{solution.remarks}}
+				<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}};
+				</b> <span ng-show="solution.remarks"><br>{{solution.remarks}};
 				</span> <i ng-show="solution.userName"><br>dodał: {{solution.userName}}</i> <span
 					ng-show="problemCtrl.userName==solution.userName && authenticated"><br>
 						<i class="fas fa-trash-alt" title="usuń"
