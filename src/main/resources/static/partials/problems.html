@@ -22,82 +22,86 @@
 		<img ng-src="{{problemCtrl.image}}" alt=""
 			onerror="this.src='images/temporary.png'">
 	</div>
-	<div class="details" ng-show="problemCtrl.details">
+	<div class="data" ng-show="problemCtrl.details">
 		<h1>{{problemCtrl.details.name}}</h1>
-		<p class="details_p">Opis: {{problemCtrl.details.description}}</p>
-		<div class="detal">
-			<h2>Przyczyny</h2>
-			<ol>
-				<li ng-repeat="cause in problemCtrl.causes"><b>{{cause.description}};
-				</b><i ng-show="cause.userName"><br>dodał: {{cause.userName}}</i> <span
-					ng-show="problemCtrl.userName==cause.userName && authenticated"><br>
-						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemCtrl.deleteCause(cause.id, cause.problemId)">
-					</i> </span></li>
-			</ol>
-			<div class="add">
-				<p ng-click="problemCtrl.showAddCauseForm()" ng-show="authenticated">Dodaj
-					przyczynę do wybranego problemu ({{problemCtrl.details.name}})</p>
-				<div ng-show="problemCtrl.showCauseForm">
-					<form ng-show="authenticated">
-						<label for="opis_p">Podaj opis przyczyny:</label><br>
-						<textarea id="opis_p" ng-model="problemCtrl.cause.description"
-							rows="3" cols="30" maxlength="250" required></textarea>
-						<br>
-						<button class="add_button"
-							ng-click="problemCtrl.addCause(problemCtrl.cause)">Dodaj
-							przyczynę</button>
-					</form>
+		<p class="details">Opis: {{problemCtrl.details.description}}</p>
+		<div class="records_block">
+			<div class="records">
+				<h2>Przyczyny</h2>
+				<ol>
+					<li ng-repeat="cause in problemCtrl.causes"><b>{{cause.description}};
+					</b><i ng-show="cause.userName"><br>dodał: {{cause.userName}}</i>
+						<span
+						ng-show="problemCtrl.userName==cause.userName && authenticated"><br>
+							<i class="fas fa-trash-alt" title="usuń"
+							ng-click="problemCtrl.deleteCause(cause.id, cause.problemId)">
+						</i> </span></li>
+				</ol>
+				<div class="add">
+					<p ng-click="problemCtrl.showAddCauseForm()"
+						ng-show="authenticated">Dodaj przyczynę do wybranego problemu
+						({{problemCtrl.details.name}})</p>
+					<div ng-show="problemCtrl.showCauseForm">
+						<form ng-show="authenticated">
+							<label for="opis_p">Podaj opis przyczyny:</label><br>
+							<textarea id="opis_p" ng-model="problemCtrl.cause.description"
+								rows="3" cols="20" maxlength="250" required></textarea>
+							<br>
+							<button class="add_button"
+								ng-click="problemCtrl.addCause(problemCtrl.cause)">Dodaj
+								przyczynę</button>
+						</form>
+					</div>
+				</div>
+				<div ng-show="!authenticated">
+					<h3>
+						<i>Zaloguj się aby dodać nowy wpis</i>
+					</h3>
 				</div>
 			</div>
-			<div ng-show="!authenticated">
-				<h3>
-					<i>Zaloguj się aby dodać nowy wpis</i>
-				</h3>
-			</div>
-		</div>
-		<div class="detal">
-			<h2>Rozwiązania</h2>
-			<ol>
-				<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}};
-				</b> <span ng-show="solution.remarks"><br>{{solution.remarks}};
-				</span> <i ng-show="solution.userName"><br>dodał:
-						{{solution.userName}}</i> <span
-					ng-show="problemCtrl.userName==solution.userName && authenticated"><br>
-						<i class="fas fa-trash-alt" title="usuń"
-						ng-click="problemCtrl.deleteSolution(solution.id, solution.problemId)">
-					</i></span></li>
-			</ol>
-			<div class="add">
-				<p ng-click="problemCtrl.showAddSolutionForm()"
-					ng-show="authenticated">Dodaj rozwiązanie do wybranego problemu
-					({{problemCtrl.details.name}})</p>
-				<div ng-show="problemCtrl.showSolutionForm">
-					<form ng-show="authenticated">
-						<label for="opis_r">Podaj opis rozwiązania:</label><br>
-						<textarea id="opis_r" ng-model="problemCtrl.solution.description"
-							rows="3" cols="30" maxlength="250" required></textarea>
-						<br> <label for="uwagi">Uwagi:</label><br>
-						<textarea id="uwagi" ng-model="problemCtrl.solution.remarks"
-							rows="2" cols="30" maxlength="200"></textarea>
-						<br> <label for="proprytet">Określ wagę/priorytet
-							rozwiązania:</label><br> <select type="number" id="priorytet"
-							class="selectp" ng-model="problemCtrl.solution.priority"
-							placeholder="Priorytet">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-						</select><br>
-						<button class="add_button"
-							ng-click="problemCtrl.addSolution(problemCtrl.solution)">Dodaj
-							rozwiązanie</button>
-					</form>
+			<div class="records">
+				<h2>Rozwiązania</h2>
+				<ol>
+					<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}};
+					</b> <span ng-show="solution.remarks"><br>{{solution.remarks}};
+					</span> <i ng-show="solution.userName"><br>dodał:
+							{{solution.userName}}</i> <span
+						ng-show="problemCtrl.userName==solution.userName && authenticated"><br>
+							<i class="fas fa-trash-alt" title="usuń"
+							ng-click="problemCtrl.deleteSolution(solution.id, solution.problemId)">
+						</i></span></li>
+				</ol>
+				<div class="add">
+					<p ng-click="problemCtrl.showAddSolutionForm()"
+						ng-show="authenticated">Dodaj rozwiązanie do wybranego
+						problemu ({{problemCtrl.details.name}})</p>
+					<div ng-show="problemCtrl.showSolutionForm">
+						<form ng-show="authenticated">
+							<label for="opis_r">Podaj opis rozwiązania:</label><br>
+							<textarea id="opis_r" ng-model="problemCtrl.solution.description"
+								rows="3" cols="30" maxlength="250" required></textarea>
+							<br> <label for="uwagi">Uwagi:</label><br>
+							<textarea id="uwagi" ng-model="problemCtrl.solution.remarks"
+								rows="2" cols="30" maxlength="200"></textarea>
+							<br> <label for="proprytet">Określ wagę/priorytet
+								rozwiązania:</label><br> <select type="number" id="priorytet"
+								class="selectp" ng-model="problemCtrl.solution.priority"
+								placeholder="Priorytet">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select><br>
+							<button class="add_button"
+								ng-click="problemCtrl.addSolution(problemCtrl.solution)">Dodaj
+								rozwiązanie</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			<div ng-show="!authenticated">
-				<h3>
-					<i>Zaloguj się aby dodać nowy wpis</i>
-				</h3>
+				<div ng-show="!authenticated">
+					<h3>
+						<i>Zaloguj się aby dodać nowy wpis</i>
+					</h3>
+				</div>
 			</div>
 		</div>
 	</div>
