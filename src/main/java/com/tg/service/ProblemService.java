@@ -47,8 +47,6 @@ public class ProblemService {
 
 	public List<ProblemNameToDisplay> findAll() {
 		List<Problem> allProblems = problemRepo.findAll();
-//		Collections.sort(allProblems, new ProblemNamesComparator());
-//		List<Problem> allSortedProblems = allProblems.stream().sorted(Comparator.comparing(Problem::getName)).collect(Collectors.toList());
 		List<ProblemNameToDisplay> allProblemNames = new ArrayList<>();		
 		for(Problem p : allProblems ) {
 			ProblemNameToDisplay problemDisplay = new ProblemNameToDisplay();
@@ -56,12 +54,6 @@ public class ProblemService {
 			problemDisplay.setName(p.getName());
 			allProblemNames.add(problemDisplay);
 		}
-//		List<ProblemNameToDisplay> sortedProblems = allProblemNames.stream()
-//				.sorted(Comparator.comparing(ProblemNameToDisplay::getName)).collect(Collectors.toList());
-//		Set<Date> limitDates = new TreeSet<>(new TheComparator());
-//		List<ProblemNameToDisplay> sortedProblems = allProblemNames.stream().sorted(ProblemNamesComparator::compare)				.collect(Collectors.toList());
-//		return sortedProblems;
-		
 		Collections.sort(allProblemNames, new ProblemNamesComparator());
 		return allProblemNames;
 	}

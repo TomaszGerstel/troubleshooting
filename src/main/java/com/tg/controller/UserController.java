@@ -64,17 +64,11 @@ public class UserController {
 		Optional<User> user = userService.findUser(userName);
 		return  !user.isEmpty();
 	}
-
-//	@GetMapping(path = "/username/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<User> getUserById(@PathVariable Long id) {
-//		User user = userService.findUser(id);
-//		return ResponseEntity.ok(user);
-//	}
 	
-	@GetMapping(path = "/username/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<HashMap<String, String>> getUserNameById(@PathVariable Long id) {
-		return ResponseEntity.ok(userService.findUserName(id));
-	}
+//	@GetMapping(path = "/username/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<HashMap<String, String>> getUserNameById(@PathVariable Long id) {
+//		return ResponseEntity.ok(userService.findUserName(id));
+//	}
 
 	@GetMapping(path = "/userid/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HashMap<String, Long>> getUserIdByName(@PathVariable String name) {
