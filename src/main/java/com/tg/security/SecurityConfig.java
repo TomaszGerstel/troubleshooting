@@ -48,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    //         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
         .authorizeRequests()
         	.antMatchers("/api/user/register").permitAll()
-            .antMatchers(HttpMethod.POST).authenticated().and()
+            .antMatchers(HttpMethod.POST).authenticated()
+//            .antMatchers("/api/problem/newProblem/**/").access("hasRole('ROLE_ADMIN')")
+            .and()
         .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

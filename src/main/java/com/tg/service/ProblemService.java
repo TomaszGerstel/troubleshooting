@@ -47,8 +47,8 @@ public class ProblemService {
 
 	public List<ProblemNameToDisplay> findAll() {
 		List<Problem> allProblems = problemRepo.findAll();
-		List<ProblemNameToDisplay> allProblemNames = new ArrayList<>();		
-		for(Problem p : allProblems ) {
+		List<ProblemNameToDisplay> allProblemNames = new ArrayList<>();
+		for (Problem p : allProblems) {
 			ProblemNameToDisplay problemDisplay = new ProblemNameToDisplay();
 			problemDisplay.setId(p.getId());
 			problemDisplay.setName(p.getName());
@@ -61,23 +61,24 @@ public class ProblemService {
 	public Optional<Problem> findById(Long id) {
 		return problemRepo.findById(id);
 	}
-	
+
 	public List<Problem> findByProblemName(String problemName) {
 		return problemRepo.findAllByNameContainingIgnoreCase(problemName);
 	}
 
 	public List<Solution> showSolutions(Integer problemId) {
-		
+
 		List<Solution> solutions = solutionRepo.findByProblemId(problemId);
-		
-		solutions.stream().filter(solution -> solution.getPriority() == null).forEach(solution -> solution.setPriority(3));
+
+		solutions.stream().filter(solution -> solution.getPriority() == null)
+				.forEach(solution -> solution.setPriority(3));
 
 		solutions.stream().filter(solution -> solution.getUserId() != null)
 				.forEach(solution -> solution.setUserName(userRepo.getById(solution.getUserId()).getName()));
-		
+
 		List<Solution> sortedSolutions = solutions.stream().sorted(Comparator.comparing(Solution::getPriority))
-				.collect(Collectors.toList()); 
-		
+				.collect(Collectors.toList());
+
 		return sortedSolutions;
 	}
 
@@ -110,10 +111,8 @@ public class ProblemService {
 	}
 
 	public Problem saveProblem(Problem problem) {
-	
 		problemRepo.save(problem);
-
-		return null;
+		return problem;
 	}
 
 }

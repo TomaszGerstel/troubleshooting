@@ -1,9 +1,19 @@
 package com.tg.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tg.model.Cause;
@@ -76,6 +90,49 @@ public class ProblemController {
 				.toUri();
 		return ResponseEntity.created(location).body(save);
 	}
+	
+	@PostMapping(path = "/problem/newProblemImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody 
+    public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) {
+    
+        File uploadDirectory = new File("uploads");
+        uploadDirectory.mkdirs(); 
+
+//      File oFile = new File("uploads/" + file.getOriginalFilename());
+        File oFile = new File("../../../../trouble_images/" + filename);
+        try (
+                OutputStream os = new FileOutputStream(oFile);
+                InputStream inputStream = file.getInputStream()) {
+
+            IOUtils.copy(inputStream, os);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.singletonList("Wystąpił błąd podczas przesyłania pliku: " + e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(Collections.singletonList("Zapisano plik: "+ filename),
+        		HttpStatus.CREATED);
+    }
+	
+	@PostMapping(path = "/problem/newProblem", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> saveProblem(@RequestBody Problem problem) {
+		Problem save = problemService.saveProblem(problem);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
+				.toUri();
+		return ResponseEntity.created(location).body(save);
+	}
+
+    @GetMapping("image/{name}")
+    public ResponseEntity<?> showImage(@PathVariable String name) throws IOException {
+        File file = new File("uploads/" + name);
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(name)))
+                .body(Files.readAllBytes(file.toPath()));
+    }
+
 	
 //	@PostMapping(path = "/problem/newproblem", consumes = MediaType.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<?> saveProblem(@RequestBody Problem problem) {

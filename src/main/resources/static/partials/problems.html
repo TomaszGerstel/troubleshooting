@@ -7,11 +7,13 @@
 					class="fas fa-search"></i></span> <input id=""
 				ng-model="problemCtrl.problemName" rows="1" cols="30" maxlength="25"
 				ng-keyup="problemCtrl.refreshData(problemCtrl.problemName)"></input>
+
 			</span>
 			<button class="" ng-click="problemCtrl.refreshData()">
 				<i class="fas fa-sync-alt"></i> Pokaż wszystko
 			</button>
 		</form>
+
 	</div>
 	<div class="choose">
 		<ul class="problems_list">
@@ -104,5 +106,11 @@
 				</div>
 			</div>
 		</div>
+
+	</div>
+	<div ng-show="authenticated">
+		<h3>
+			<a href="#!addproblem">Dodaj nowy problem</a>
+		</h3>
 	</div>
 </div>

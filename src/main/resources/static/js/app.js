@@ -53,6 +53,12 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	.factory('DeleteCause', function($resource) {
 		return $resource('api/problem/causes/:causeId');
 	})
+	.factory('NewProblem', function($resource) {
+		return $resource('api/problem/newProblem'
+	
+		)
+	})
+
 	.service('AuthenticationService', function($http, $resource) {
 		var vm = this;
 		var CurrentUserId = $resource('api/user/userid/:userName');
@@ -112,7 +118,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}
 	})
 	.service('ProblemService', function(AuthenticationService, Problem,
-		Problems, Solution, Cause, DeleteSolution, DeleteCause) {
+		Problems, Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 		var vm = this;
 
 		vm.problem = new Problem();
@@ -122,6 +128,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
+		vm.newProblem = new NewProblem();
 
 		vm.getProblemsList = function(name) {
 			return Problems.query({ problemName: name },
@@ -200,6 +207,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 						console.log('deleting record error' + reason);
 					});
 		}
+		vm.addProblem = function(problem, filename, successCallback) {
+			vm.newProblem = problem;
+			vm.newProblem.imageAddress = '../../../../trouble_images/' + filename;
+			vm.newProblem.$save(function(data) {
+				console.log('Dodano nowy problem: ' + JSON.stringify(data));
+				successCallback();
+				vm.newProblem = new NewProblem();
+			})
+		}
 	})
 	.controller('RegisterController', function(AuthenticationService, User) {
 		var vm = this;
@@ -235,8 +251,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
-	.controller('ProblemController', function(AuthenticationService, ProblemService,
-		Solution, Cause, DeleteSolution, DeleteCause) {
+	.controller('ProblemController', function($http, AuthenticationService, ProblemService,
+		Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 
 		var vm = this;
 		vm.problems = {};
@@ -245,8 +261,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.userName = AuthenticationService.name;
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
+		vm.newProblem = new NewProblem();
+
 		vm.image;
 		vm.details;
+		vm.file = {};
+		vm.file.name = "";
+		vm.formData = new FormData();
 
 		vm.refreshData = function(name) {
 			vm.problems = ProblemService.getProblemsList(name);
@@ -277,6 +298,31 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					vm.loadData(problemId);
 				});
 		}
+		vm.addProblem = function() {
+			vm.formData.append('file', vm.file);
+			vm.formData.append('filename', vm.file.name)
+			$http({
+				method: 'POST',
+				url: 'api/problem/newProblemImage',
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined },
+				data: vm.formData,
+			}).then(function success(response) {
+				console.log('Data saved ' + response);
+
+			}, function error(response) {
+				console.log('Data not saved ' + response);
+			});
+			
+			ProblemService.addProblem(vm.newProblem, vm.file.name,
+			vm.success = function() {
+				console.log("Dodano problem")
+			});			
+			
+			vm.file = {};
+			vm.file.name = "";
+			vm.formData = new FormData();			
+		}
 		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
@@ -295,9 +341,22 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.showCauseForm = true;
 		}
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
-
 		vm.refreshData();
 	})
+	.directive('fileModel', ['$parse', function($parse) {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				var model = $parse(attrs.fileModel);
+				var modelSetter = model.assign;
+				element.bind('change', function() {
+					scope.$apply(function() {
+						modelSetter(scope, element[0].files[0]);
+					});
+				});
+			}
+		};
+	}])
 	.config(function($httpProvider) {
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	});

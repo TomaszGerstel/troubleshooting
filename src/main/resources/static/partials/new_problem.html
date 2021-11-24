@@ -1,16 +1,19 @@
 <meta charset="UTF-8"></meta>
 <div class="main">
-	<h1>Dodaj nowy problem:</h1>
+	<h1>Dodaj nowy problem:</h1>	
+	
 	<form ng-show="authenticated" enctype="multipart/form-data">
-		<label for="opis_r">Określ nowy problem:</label><br>
+	<label for="opis_r">Określ nowy problem:</label><br>
 		<textarea id="opis_r" ng-model="problemCtrl.newProblem.name" rows="3" cols="30" maxlength="250"
 			required></textarea>
-		<br> <label for="uwagi">Podaj szczegóły:</label><br>
+		<br> <label for="uwagi">Podaj szczegóły (opis):</label><br>
 		<textarea id="uwagi" ng-model="problemCtrl.newProblem.description" rows="2" cols="30" maxlength="200"></textarea>
 		<br>
-		Plik:
-		<input type="file" name="fileupload" ng-model=""/>
+	
+		Dodaj zdjęcie (w formacie jpg lub png):
+		<input type="file" class="add_button" name="file" file-model="problemCtrl.file"/>
 		<br>
-		<button class="add_button" ng-click="">Dodaj</button>
+		<button class="add_button" type="submit" ng-click="problemCtrl.addProblem()">Dodaj</button>
 	</form>
 </div>
+
