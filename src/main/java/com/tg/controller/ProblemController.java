@@ -99,7 +99,7 @@ public class ProblemController {
         uploadDirectory.mkdirs(); 
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-        File oFile = new File("../../../../trouble_images/" + filename);
+        File oFile = new File("trouble_images/" + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {
