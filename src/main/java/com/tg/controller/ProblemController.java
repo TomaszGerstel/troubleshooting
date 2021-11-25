@@ -97,11 +97,13 @@ public class ProblemController {
     @ResponseBody 
     public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) throws MalformedURLException {
     
-//        File uploadDirectory = new File("../uploads");
-//        uploadDirectory.mkdirs();
+		URL url = new URL ("http://185.238.72.254:8080/trouble_images/");
+		
+        File uploadDirectory = new File("http://185.238.72.254:8080/trouble_images/");
+        uploadDirectory.mkdirs();
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-		URL url = new URL ("http://185.238.72.254:8080/trouble_images/");
+		
         File oFile = new File(url + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
@@ -114,7 +116,7 @@ public class ProblemController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
-        System.out.println ("Path to file: " + oFile.getAbsolutePath());
+//        System.out.println ("Path to file: " + oFile.getAbsolutePath());
         
         return new ResponseEntity<>(Collections.singletonList("Zapisano plik: "+ filename),
         		HttpStatus.CREATED);
