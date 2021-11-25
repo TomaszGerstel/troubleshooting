@@ -97,7 +97,7 @@ public class ProblemController {
     @ResponseBody 
     public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) throws MalformedURLException {
     
-//		URL url = new URL ("http:///185.238.72.254:8080//trouble_images//");
+
 		
 //        File uploadDirectory = new File("/var/lib/tomcat9/webapps/trouble_images");
 //        uploadDirectory.mkdirs();

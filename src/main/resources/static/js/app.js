@@ -209,7 +209,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}
 		vm.addProblem = function(problem, filename, successCallback) {
 			vm.newProblem = problem;
-			vm.newProblem.imageAddress = '../../../../trouble_images/' + filename;
+			vm.newProblem.imageAddress = filename;
 			vm.newProblem.$save(function(data) {
 				console.log('Dodano nowy problem: ' + JSON.stringify(data));
 				successCallback();
@@ -251,7 +251,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
-	.controller('ProblemController', function($http, AuthenticationService, ProblemService,
+	.controller('ProblemController', function($http, $location, AuthenticationService, ProblemService,
 		Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 
 		var vm = this;
@@ -264,6 +264,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.newProblem = new NewProblem();
 
 		vm.image;
+		const imagesFolderOnServer = '../../../../trouble_images/';
 		vm.details;
 		vm.file = {};
 		vm.file.name = "";
@@ -316,7 +317,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			
 			ProblemService.addProblem(vm.newProblem, vm.file.name,
 			vm.success = function() {
-				console.log("Dodano problem")
+				console.log("Dodano problem");
+				$location.path('/');
 			});			
 			
 			vm.file = {};
@@ -329,7 +331,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.details = ProblemService.getProblemDetails((id),
 				vm.success = function() {
 					if (vm.details.imageAddress == null) { vm.image = 'images/temporary.png' }
-					else vm.image = vm.details.imageAddress;
+					else vm.image = imagesFolderOnServer + vm.details.imageAddress;
 				});
 			vm.solutions = ProblemService.getSolutions(id);
 			vm.causes = ProblemService.getCauses(id);
