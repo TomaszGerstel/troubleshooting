@@ -99,12 +99,12 @@ public class ProblemController {
     
 //		URL url = new URL ("http:///185.238.72.254:8080//trouble_images//");
 		
-        File uploadDirectory = new File("/upload");
-        uploadDirectory.mkdirs();
+//        File uploadDirectory = new File("/var/lib/tomcat9/webapps/trouble_images");
+//        uploadDirectory.mkdirs();
 
-//      File oFile = new File("uploads/" + file.getOriginalFilename()); 
+//      File oFile = new File("uploads/" + file.getOriginalFilename());
 		
-        File oFile = new File("/upload/" + filename);
+        File oFile = new File("/var/lib/tomcat9/webapps/trouble_images/" + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {
