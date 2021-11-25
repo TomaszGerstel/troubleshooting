@@ -99,7 +99,7 @@ public class ProblemController {
 //        uploadDirectory.mkdirs(); 
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-        File oFile = new File("sftp://185.238.72.254/var/lib/tomcat9/webapps/trouble_images/" + filename);
+        File oFile = new File("http:///localhost:8080/trouble_images/" + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {
