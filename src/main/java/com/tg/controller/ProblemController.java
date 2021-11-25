@@ -95,11 +95,15 @@ public class ProblemController {
     @ResponseBody 
     public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) {
     
-      //  File uploadDirectory = new File("uploads");
-        //uploadDirectory.mkdirs(); 
+        File uploadDirectory = new File("../uploads");
+        uploadDirectory.mkdirs(); 
+        File uploadDirectory2 = new File("../../uploads2");
+        uploadDirectory2.mkdirs();
+        File uploadDirectory3 = new File("../../../uploads3");
+        uploadDirectory3.mkdirs(); 
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-        File oFile = new File("var/lib/tomcat9/webapps/trouble_images" + filename);
+        File oFile = new File("../uploads/" + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {
@@ -110,6 +114,9 @@ public class ProblemController {
             return new ResponseEntity<>(Collections.singletonList("Wystąpił błąd podczas przesyłania pliku: " + e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
+        System.out.println ("Path to file: " + oFile.getAbsolutePath());
+        
         return new ResponseEntity<>(Collections.singletonList("Zapisano plik: "+ filename),
         		HttpStatus.CREATED);
     }
