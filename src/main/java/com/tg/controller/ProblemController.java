@@ -95,15 +95,11 @@ public class ProblemController {
     @ResponseBody 
     public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) {
     
-        File uploadDirectory = new File("../uploads");
-        uploadDirectory.mkdirs(); 
-        File uploadDirectory2 = new File("../../uploads2");
-        uploadDirectory2.mkdirs();
-        File uploadDirectory3 = new File("../../../uploads3");
-        uploadDirectory3.mkdirs(); 
+//        File uploadDirectory = new File("../uploads");
+//        uploadDirectory.mkdirs(); 
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-        File oFile = new File("../uploads/" + filename);
+        File oFile = new File("http://185.238.72.254:8080/trouble_images/" + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {

@@ -209,7 +209,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}
 		vm.addProblem = function(problem, filename, successCallback) {
 			vm.newProblem = problem;
-			vm.newProblem.imageAddress = '../../../../uploads/' + filename;
+			vm.newProblem.imageAddress = '../../../../trouble_images/' + filename;
 			vm.newProblem.$save(function(data) {
 				console.log('Dodano nowy problem: ' + JSON.stringify(data));
 				successCallback();
