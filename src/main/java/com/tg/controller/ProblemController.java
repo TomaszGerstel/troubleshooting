@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Collections;
@@ -93,13 +95,14 @@ public class ProblemController {
 	
 	@PostMapping(path = "/problem/newProblemImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody 
-    public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) {
+    public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) throws MalformedURLException {
     
 //        File uploadDirectory = new File("../uploads");
-//        uploadDirectory.mkdirs(); 
+//        uploadDirectory.mkdirs();
 
 //      File oFile = new File("uploads/" + file.getOriginalFilename());
-        File oFile = new File("http:///localhost:8080/trouble_images/" + filename);
+		URL url = new URL ("http://185.238.72.254:8080/trouble_images/");
+        File oFile = new File(url + filename);
         try (
                 OutputStream os = new FileOutputStream(oFile);
                 InputStream inputStream = file.getInputStream()) {
