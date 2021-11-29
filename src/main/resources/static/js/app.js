@@ -55,16 +55,18 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	})
 	.factory('NewProblem', function($resource) {
 		return $resource('api/problem/newProblem'
-	
+
 		)
 	})
 
 	.service('AuthenticationService', function($http, $resource) {
 		var vm = this;
 		var CurrentUserId = $resource('api/user/userid/:userName');
+		var CurrentUserRole = $resource('api/user/userRole/:userId');
 		vm.loginErr = false;
 		vm.name;
 		vm.currentId;
+		vm.currentRole;
 		vm.registerMessage;
 		vm.authenticate = function(credentials, successCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
@@ -75,7 +77,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					$http.defaults.headers.post.Authorization = authHeader.Authorization;
 					vm.name = credentials.username;
 					successCallback();
-					vm.currentUserId();
+					vm.currentUserId();	
 				},
 					function error(reason) {
 						console.log('Login error');
@@ -88,15 +90,28 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			(successCallback());
 		};
 		vm.currentUserId = function() {
+			
 			vm.getCurrentId = CurrentUserId.get({ userName: vm.name }, function success(data, headers) {
 				console.log('Pobrano dane: ' + data.id);
 				console.log(headers('Content-Type'));
 				vm.currentId = data.id;
+				vm.currentUserRole(data.id);
+				
 			},
 				function error(response) {
 					console.log(response.status);
 				});
 		};
+		vm.currentUserRole = function(id) {
+			vm.getCurrentRole = CurrentUserRole.get({ userId: id}, function success(data, headers) {
+				console.log('Pobrano dane: ' + data.role);
+				console.log(headers('Content-Type'));
+				vm.currentRole = data.role;
+			},
+				function error(response) {
+					console.log(response.status);
+				})
+		}
 		vm.register = function(user, registerCallback) {
 			console.log(user._proto_);
 			user.$save(function() {
@@ -117,7 +132,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			)
 		}
 	})
-	.service('ProblemService', function(AuthenticationService, Problem,
+	.service('ProblemService', function($http, AuthenticationService, Problem,
 		Problems, Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 		var vm = this;
 
@@ -129,6 +144,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
 		vm.newProblem = new NewProblem();
+		vm.formData = new FormData();
+		
 
 		vm.getProblemsList = function(name) {
 			return Problems.query({ problemName: name },
@@ -216,6 +233,22 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				vm.newProblem = new NewProblem();
 			})
 		}
+		vm.addNewProblemImage = function(file) {
+			vm.formData.append('file', file);
+			vm.formData.append('filename', file.name)
+			$http({
+				method: 'POST',
+				url: 'api/problem/newProblemImage',
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined },
+				data: vm.formData,
+			}).then(function success(response) {
+				console.log('Data saved ' + response);
+			}, function error(response) {
+				console.log('Data not saved ' + response);
+			});
+			vm.formData = new FormData();
+		}
 	})
 	.controller('RegisterController', function(AuthenticationService, User) {
 		var vm = this;
@@ -251,7 +284,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
-	.controller('ProblemController', function($http, $location, AuthenticationService, ProblemService,
+	.controller('ProblemController', function($location, AuthenticationService, ProblemService,
 		Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 
 		var vm = this;
@@ -262,16 +295,17 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
 		vm.newProblem = new NewProblem();
-
 		vm.image;
 		const imagesFolderOnServer = '../../../../trouble_images/';
 		vm.details;
 		vm.file = {};
 		vm.file.name = "";
-		vm.formData = new FormData();
+		vm.userRole;
 
 		vm.refreshData = function(name) {
 			vm.problems = ProblemService.getProblemsList(name);
+			
+	
 		}
 		vm.addSolution = function(solution) {
 			ProblemService.addSolution(solution, vm.details.id,
@@ -299,33 +333,17 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					vm.loadData(problemId);
 				});
 		}
-		vm.addProblem = function() {
-			vm.formData.append('file', vm.file);
-			vm.formData.append('filename', vm.file.name)
-			$http({
-				method: 'POST',
-				url: 'api/problem/newProblemImage',
-				transformRequest: angular.identity,
-				headers: { 'Content-Type': undefined },
-				data: vm.formData,
-			}).then(function success(response) {
-				console.log('Data saved ' + response);
-
-			}, function error(response) {
-				console.log('Data not saved ' + response);
-			});
-			
+		vm.addNewProblem = function() {
+			ProblemService.addNewProblemImage(vm.file);
 			ProblemService.addProblem(vm.newProblem, vm.file.name,
-			vm.success = function() {
-				console.log("Dodano problem");
-				$location.path('/');
-			});			
-			
+				vm.success = function() {
+					console.log("Dodano problem");
+					$location.path('/');
+				});
 			vm.file = {};
 			vm.file.name = "";
-			vm.formData = new FormData();			
 		}
-		vm.loadData = function(id) {
+		vm.loadData = function(id) {			
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
 			vm.details = ProblemService.getProblemDetails((id),
@@ -335,6 +353,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				});
 			vm.solutions = ProblemService.getSolutions(id);
 			vm.causes = ProblemService.getCauses(id);
+			vm.userRole = AuthenticationService.currentRole;
+			
 		}
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;

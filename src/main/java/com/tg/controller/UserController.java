@@ -74,4 +74,9 @@ public class UserController {
 	public ResponseEntity<HashMap<String, Long>> getUserIdByName(@PathVariable String name) {
 		return ResponseEntity.ok(userService.findUserId(name));
 	}
+	
+	@GetMapping(path = "/userRole/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<HashMap<String, String>> getUserRole(@PathVariable Long id) {
+		return ResponseEntity.ok(userService.getUserRole(id));
+	}
 }

@@ -92,36 +92,26 @@ public class ProblemController {
 				.toUri();
 		return ResponseEntity.created(location).body(save);
 	}
-	
+
 	@PostMapping(path = "/problem/newProblemImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseBody 
-    public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename) throws MalformedURLException {
-    
+	@ResponseBody
+	public ResponseEntity<?> handleFile(@RequestPart(name = "file") MultipartFile file, String filename)
+			throws MalformedURLException {
 
-		
-//        File uploadDirectory = new File("/var/lib/tomcat9/webapps/trouble_images");
-//        uploadDirectory.mkdirs();
+		File oFile = new File("/var/lib/tomcat9/webapps/trouble_images/" + filename);
+		try (OutputStream os = new FileOutputStream(oFile); InputStream inputStream = file.getInputStream()) {
 
-//      File oFile = new File("uploads/" + file.getOriginalFilename());
-		
-        File oFile = new File("/var/lib/tomcat9/webapps/trouble_images/" + filename);
-        try (
-                OutputStream os = new FileOutputStream(oFile);
-                InputStream inputStream = file.getInputStream()) {
-
-            IOUtils.copy(inputStream, os);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(Collections.singletonList("Wystąpił błąd podczas przesyłania pliku: " + e.getMessage()),
+			IOUtils.copy(inputStream, os);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(
+					Collections.singletonList("Wystąpił błąd podczas przesyłania pliku: " + e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        
-//        System.out.println ("Path to file: " + oFile.getAbsolutePath());
-        
-        return new ResponseEntity<>(Collections.singletonList("Zapisano plik: "+ filename),
-        		HttpStatus.CREATED);
-    }
-	
+		}
+
+		return new ResponseEntity<>(Collections.singletonList("Zapisano plik: " + filename), HttpStatus.CREATED);
+	}
+
 	@PostMapping(path = "/problem/newProblem", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveProblem(@RequestBody Problem problem) {
 		Problem save = problemService.saveProblem(problem);
@@ -129,26 +119,6 @@ public class ProblemController {
 				.toUri();
 		return ResponseEntity.created(location).body(save);
 	}
-
-    @GetMapping("image/{name}")
-    public ResponseEntity<?> showImage(@PathVariable String name) throws IOException {
-        File file = new File("uploads/" + name);
-        if (!file.exists()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(name)))
-                .body(Files.readAllBytes(file.toPath()));
-    }
-
-	
-//	@PostMapping(path = "/problem/newproblem", consumes = MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<?> saveProblem(@RequestBody Problem problem) {
-//		Problem save = problemService.saveProblem(problem);
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
-//				.toUri();
-//		return ResponseEntity.created(location).body(save);
-//	}
 
 	@DeleteMapping(path = "problem/causes/{id}")
 	public void deleteCause(@PathVariable Long id) {

@@ -48,8 +48,6 @@ public class UserService {
 		user.setPassword(passwordHash);
 		return userRepository.save(user);
 	}
-	
-
 
 	public Optional<User> findById(Long id) {
 		
@@ -58,6 +56,15 @@ public class UserService {
 	
 	public Optional<User> findUser(String name) {
 		return userRepository.findByName(name);
+	}
+	
+	public HashMap<String, String> getUserRole(Long id) {
+		User user = userRepository.getById(id);
+		UserRole userRole = roleRepository.getById(user.getRoleId());		
+		HashMap<String, String> map = new HashMap<>();
+		String role = userRole.getRole();
+		map.put("role", role);
+		return map;
 	}
 
 //	public void updateUser(Integer id, User user) {
@@ -86,13 +93,18 @@ public class UserService {
 		map.put("name", name);
 		return map;
 	}
+	
+//	public User userDetails(String name) {
+//		
+//	}
+	
 
-	public String getUserName(Long id) {
-		User user = userRepository.getById(id);
-		 String name = user.getName();
-		 return name;// TODO Auto-generated method
-		
-	}
+//	public String getUserName(Long id) {
+//		User user = userRepository.getById(id);
+//		 String name = user.getName();
+//		 return name;// TODO Auto-generated method
+//		
+//	}
 
 //	public void deleteUser(Integer id) {
 //		foodDiaryRepo.deleteByUserId(id);

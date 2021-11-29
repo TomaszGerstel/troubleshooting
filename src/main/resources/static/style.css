@@ -1,14 +1,18 @@
 @charset "UTF-8";
 
+html {
+	font-family: monospace;
+	font-size: 24px;	
+}
+
 body {
 	text-align: left;
-	width: 100%;
-	font-family: monospace;
-	font-size: 24px;
+	width: 100%;	
 	margin: 0 auto;
 	background: azure url(images/back.png);
 	background-size: 980px 500px;
 	display: block;
+	
 }
 
 h1 {
@@ -183,17 +187,23 @@ h2 {
 }
 
 ::-webkit-scrollbar {
-	width: 15px;
+	width: 15px;	
+}
+
+body::-webkit-scrollbar {
+	display: none;	
 }
 
 ::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 5px grey;
 	border-radius: 10px;
+	
 }
 
 ::-webkit-scrollbar-thumb {
 	background: rgba(0, 128, 150, 0.7);
 	border-radius: 10px;
+	
 }
 
 .data {
@@ -206,7 +216,7 @@ h2 {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.7rem;
+	font-size: 1.3em;
 }
 
 .records_block {
@@ -231,7 +241,7 @@ h2 {
 .records li, .records p {
 	color: #555;
 	text-align: left;
-	font-size: 1.7rem;
+	font-size: 1.3em;
 	margin: 8px auto;
 	padding-bottom: 5px;
 }
@@ -289,7 +299,7 @@ textarea {
 
 .board h3 {
 	text-align: center;
-	font-size: 1.3rem;
+	font-size: 1.7em;
 	padding-top: 10px;
 	margin: 0 auto;
 }
@@ -298,7 +308,11 @@ textarea {
 	padding: 10px;
 	text-indent: 1.5em;
 	margin: 0 auto;
-	font-size: 1em;
+	font-size: 0.9em;
+}
+
+.board .important {
+	color: white;
 }
 
 .login {
@@ -340,6 +354,11 @@ textarea {
 	width: 390px;
 	height: 57px;
 	display: flex;
+}
+
+.manage_link {
+	color: black;
+	background: rgba(0, 128, 150, 0.7);
 }
 
 .footer {

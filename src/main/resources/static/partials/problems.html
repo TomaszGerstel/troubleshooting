@@ -108,9 +108,10 @@
 		</div>
 
 	</div>
-	<div ng-show="authenticated">
+		<div ng-show="authenticated && problemCtrl.userRole=='ADMIN'" class="manage_link">
 		<h3>
-			<a href="#!addproblem">Dodaj nowy problem</a>
+			<a href="#!addproblem"><i class="fas fa-tasks"></i> Dodaj nowy problem / zarządzaj problemami</a>
 		</h3>
 	</div>
+
 </div>
