@@ -59,14 +59,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		)
 	})
 
-	.service('AuthenticationService', function($http, $resource) {
+	.service('AuthenticationService', function($rootScope, $http, $resource) {
 		var vm = this;
 		var CurrentUserId = $resource('api/user/userid/:userName');
 		var CurrentUserRole = $resource('api/user/userRole/:userId');
 		vm.loginErr = false;
 		vm.name;
 		vm.currentId;
-		vm.currentRole;
 		vm.registerMessage;
 		vm.authenticate = function(credentials, successCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
@@ -106,7 +105,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.getCurrentRole = CurrentUserRole.get({ userId: id}, function success(data, headers) {
 				console.log('Pobrano dane: ' + data.role);
 				console.log(headers('Content-Type'));
-				vm.currentRole = data.role;
+				$rootScope.currentRole = data.role;
 			},
 				function error(response) {
 					console.log(response.status);
@@ -147,15 +146,16 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.formData = new FormData();
 		
 
-		vm.getProblemsList = function(name) {
+		vm.getProblemsList = function(name, successCallback) {
 			return Problems.query({ problemName: name },
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + JSON.stringify(data));
 					console.log(headers('Content-Type'));
+					successCallback();
 				},
 				function error(response) {
 					console.log(response.status);
-				});
+				});				
 		}
 		vm.getProblemDetails = function(id, successCallback) {
 			return Problem.get({ problemId: id }, function success(data, headers) {
@@ -234,6 +234,10 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			})
 		}
 		vm.addNewProblemImage = function(file) {
+			if(file.name == "") {
+				console.log('brak grafiki dla nowego problemu');
+				return;
+			}
 			vm.formData.append('file', file);
 			vm.formData.append('filename', file.name)
 			$http({
@@ -267,7 +271,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.credentials = {};
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
-			$location.path('/');
+			$location.path('/problems');
 		}
 		var logoutSuccess = function() {
 			$rootScope.authenticated = false;
@@ -284,7 +288,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			AuthenticationService.logout(logoutSuccess);
 		}
 	})
-	.controller('ProblemController', function($location, AuthenticationService, ProblemService,
+	.controller('ProblemController', function($rootScope, $location, AuthenticationService, ProblemService,
 		Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
 
 		var vm = this;
@@ -300,12 +304,12 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.details;
 		vm.file = {};
 		vm.file.name = "";
-		vm.userRole;
+		vm.accessInfo = "";
 
 		vm.refreshData = function(name) {
-			vm.problems = ProblemService.getProblemsList(name);
-			
-	
+			vm.problems = ProblemService.getProblemsList(name, vm.success = function() {
+				});
+				
 		}
 		vm.addSolution = function(solution) {
 			ProblemService.addSolution(solution, vm.details.id,
@@ -334,7 +338,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				});
 		}
 		vm.addNewProblem = function() {
-			ProblemService.addNewProblemImage(vm.file);
+			if($rootScope.currentRole != 'ADMIN') {vm.accessInfo = 'Brak dostępu'; return;}
+			ProblemService.addNewProblemImage(vm.file);			
 			ProblemService.addProblem(vm.newProblem, vm.file.name,
 				vm.success = function() {
 					console.log("Dodano problem");
@@ -352,9 +357,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					else vm.image = imagesFolderOnServer + vm.details.imageAddress;
 				});
 			vm.solutions = ProblemService.getSolutions(id);
-			vm.causes = ProblemService.getCauses(id);
-			vm.userRole = AuthenticationService.currentRole;
-			
+			vm.causes = ProblemService.getCauses(id);			
 		}
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;

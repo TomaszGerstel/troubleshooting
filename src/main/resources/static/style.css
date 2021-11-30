@@ -216,7 +216,7 @@ body::-webkit-scrollbar {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.3em;
+	font-size: 1.3rem;
 }
 
 .records_block {
@@ -235,13 +235,17 @@ body::-webkit-scrollbar {
 }
 
 .records form {
-	font-size: 1em;
+	font-size: 1rem;
+}
+
+.records ol {
+	margin-left: 10px;
 }
 
 .records li, .records p {
 	color: #555;
 	text-align: left;
-	font-size: 1.3em;
+	font-size: 1.3rem;
 	margin: 8px auto;
 	padding-bottom: 5px;
 }
@@ -308,7 +312,7 @@ textarea {
 	padding: 10px;
 	text-indent: 1.5em;
 	margin: 0 auto;
-	font-size: 0.9em;
+	font-size: 0.7rem;
 }
 
 .board .important {
