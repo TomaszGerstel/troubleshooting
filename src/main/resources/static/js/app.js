@@ -20,8 +20,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			})
 			.when('/info', {
 				templateUrl: 'partials/info.html',
-				controller: '',
-				controllerAs: ''
+				controller: 'InfoController',
+				controllerAs: 'infoCtrl'
 			})
 			.when('/addproblem', {
 				templateUrl: 'partials/new_problem.html',
@@ -54,9 +54,10 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		return $resource('api/problem/causes/:causeId');
 	})
 	.factory('NewProblem', function($resource) {
-		return $resource('api/problem/newProblem'
-
-		)
+		return $resource('api/problem/newProblem');
+	})
+	.factory('Comment', function($resource) {
+		return $resource('api/problem/comments');
 	})
 
 	.service('AuthenticationService', function($rootScope, $http, $resource) {
@@ -76,7 +77,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					$http.defaults.headers.post.Authorization = authHeader.Authorization;
 					vm.name = credentials.username;
 					successCallback();
-					vm.currentUserId();	
+					vm.currentUserId();
 				},
 					function error(reason) {
 						console.log('Login error');
@@ -89,20 +90,20 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			(successCallback());
 		};
 		vm.currentUserId = function() {
-			
+
 			vm.getCurrentId = CurrentUserId.get({ userName: vm.name }, function success(data, headers) {
 				console.log('Pobrano dane: ' + data.id);
 				console.log(headers('Content-Type'));
 				vm.currentId = data.id;
 				vm.currentUserRole(data.id);
-				
+
 			},
 				function error(response) {
 					console.log(response.status);
 				});
 		};
 		vm.currentUserRole = function(id) {
-			vm.getCurrentRole = CurrentUserRole.get({ userId: id}, function success(data, headers) {
+			vm.getCurrentRole = CurrentUserRole.get({ userId: id }, function success(data, headers) {
 				console.log('Pobrano dane: ' + data.role);
 				console.log(headers('Content-Type'));
 				$rootScope.currentRole = data.role;
@@ -144,7 +145,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.solutionToDelete = new DeleteSolution();
 		vm.newProblem = new NewProblem();
 		vm.formData = new FormData();
-		
 
 		vm.getProblemsList = function(name, successCallback) {
 			return Problems.query({ problemName: name },
@@ -155,7 +155,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				},
 				function error(response) {
 					console.log(response.status);
-				});				
+				});
 		}
 		vm.getProblemDetails = function(id, successCallback) {
 			return Problem.get({ problemId: id }, function success(data, headers) {
@@ -234,7 +234,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			})
 		}
 		vm.addNewProblemImage = function(file) {
-			if(file.name == "") {
+			if (file.name == "") {
 				console.log('brak grafiki dla nowego problemu');
 				return;
 			}
@@ -252,6 +252,32 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				console.log('Data not saved ' + response);
 			});
 			vm.formData = new FormData();
+		}
+
+	})
+	.service('InfoService', function(Comment) {
+		
+		var vm = this;
+		vm.comment = new Comment();
+
+		vm.addNewComment = function(comment, successCallback) {
+			vm.comment = comment;
+			vm.comment.$save(function(data) {
+				console.log('Wysłano wiadomość: ' + JSON.stringify(data));
+				successCallback();
+				vm.comment = new Comment();
+			});
+		}
+		vm.getComments = function() {
+			return Comment.query(
+				function success(data, headers) {
+					console.log('Pobrano dane: ' + JSON.stringify(data));
+					console.log(headers('Content-Type'));
+					successCallback();
+				},
+				function error(response) {
+					console.log(response.status);
+				});
 		}
 	})
 	.controller('RegisterController', function(AuthenticationService, User) {
@@ -289,7 +315,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}
 	})
 	.controller('ProblemController', function($rootScope, $location, AuthenticationService, ProblemService,
-		Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
+		Solution, Cause, DeleteSolution, DeleteCause, NewProblem, InfoService) {
 
 		var vm = this;
 		vm.problems = {};
@@ -299,6 +325,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.causeToDelete = new DeleteCause();
 		vm.solutionToDelete = new DeleteSolution();
 		vm.newProblem = new NewProblem();
+		vm.comments = {};
 		vm.image;
 		const imagesFolderOnServer = '../../../../trouble_images/';
 		vm.details;
@@ -308,9 +335,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		vm.refreshData = function(name) {
 			vm.problems = ProblemService.getProblemsList(name, vm.success = function() {
-				});
-				
+			});
+
 		}
+		vm.loadComments = function() {
+			vm.comments = InfoService.getComments(vm.success = function() {
+			});
+		}
+		
+		
 		vm.addSolution = function(solution) {
 			ProblemService.addSolution(solution, vm.details.id,
 				vm.success = function() {
@@ -338,8 +371,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				});
 		}
 		vm.addNewProblem = function() {
-			if($rootScope.currentRole != 'ADMIN') {vm.accessInfo = 'Brak dostępu'; return;}
-			ProblemService.addNewProblemImage(vm.file);			
+			if ($rootScope.currentRole != 'ADMIN') { vm.accessInfo = 'Brak dostępu'; return; }
+			ProblemService.addNewProblemImage(vm.file);
 			ProblemService.addProblem(vm.newProblem, vm.file.name,
 				vm.success = function() {
 					console.log("Dodano problem");
@@ -348,7 +381,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.file = {};
 			vm.file.name = "";
 		}
-		vm.loadData = function(id) {			
+		vm.loadData = function(id) {
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
 			vm.details = ProblemService.getProblemDetails((id),
@@ -357,7 +390,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					else vm.image = imagesFolderOnServer + vm.details.imageAddress;
 				});
 			vm.solutions = ProblemService.getSolutions(id);
-			vm.causes = ProblemService.getCauses(id);			
+			vm.causes = ProblemService.getCauses(id);
 		}
 		vm.showAddSolutionForm = function() {
 			vm.showSolutionForm = true;
@@ -368,23 +401,38 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
 		vm.refreshData();
 	})
-	.directive('fileModel', ['$parse', function($parse) {
-		return {
-			restrict: 'A',
-			link: function(scope, element, attrs) {
-				var model = $parse(attrs.fileModel);
-				var modelSetter = model.assign;
-				element.bind('change', function() {
-					scope.$apply(function() {
-						modelSetter(scope, element[0].files[0]);
-					});
+	.controller('InfoController', function(InfoService, Comment) {
+
+		var vm = this;
+		vm.comment = new Comment();
+
+
+		vm.addComment = function() {
+			InfoService.addNewComment(vm.comment,
+				vm.success = function() {
+					console.log("comment added - controller")
+					vm.comment = new Comment();
 				});
-			}
-		};
-	}])
-	.config(function($httpProvider) {
-		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-	});
+
+		}
+	})
+	.directive('fileModel', ['$parse', function($parse) {
+			return {
+				restrict: 'A',
+				link: function(scope, element, attrs) {
+					var model = $parse(attrs.fileModel);
+					var modelSetter = model.assign;
+					element.bind('change', function() {
+						scope.$apply(function() {
+							modelSetter(scope, element[0].files[0]);
+						});
+					});
+				}
+			};
+		}])
+		.config(function($httpProvider) {
+			$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+		});
 
 
 

@@ -3,10 +3,12 @@ package com.tg.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,9 +25,11 @@ import com.tg.model.Cause;
 import com.tg.model.Problem;
 import com.tg.model.ProblemNameToDisplay;
 import com.tg.model.Solution;
+import com.tg.model.TroubleComments;
 import com.tg.repository.CauseRepository;
 import com.tg.repository.ProblemRepository;
 import com.tg.repository.SolutionRepository;
+import com.tg.repository.TroubleCommentsRepository;
 import com.tg.repository.UserRepository;
 
 @Service
@@ -35,14 +39,16 @@ public class ProblemService {
 	final CauseRepository causeRepo;
 	final SolutionRepository solutionRepo;
 	final UserRepository userRepo;
+	final TroubleCommentsRepository commentsRepo;
 
 	@Autowired
 	public ProblemService(ProblemRepository problemRepo, CauseRepository causeRepo, SolutionRepository solutionRepo,
-			UserRepository userRepo) {
+			UserRepository userRepo, TroubleCommentsRepository commentsRepo) {
 		this.problemRepo = problemRepo;
 		this.causeRepo = causeRepo;
 		this.solutionRepo = solutionRepo;
 		this.userRepo = userRepo;
+		this.commentsRepo = commentsRepo;
 	}
 
 	public List<ProblemNameToDisplay> findAll() {
@@ -114,5 +120,26 @@ public class ProblemService {
 		problemRepo.save(problem);
 		return problem;
 	}
+	
+	public TroubleComments saveComment(TroubleComments comment) {
+		Date date = new Date();
+		comment.setDate(date);
+		commentsRepo.save(comment);
+		return comment;
+	}
+	
+	public List<TroubleComments> showComments() {
+		
+		List<TroubleComments> allComments = commentsRepo.findAll();
+		allComments.stream().filter(comment -> comment.getDate() == null)
+		.forEach(comment -> comment.setDate(new Date(0)));
+		
+		List<TroubleComments> sortedComments = allComments.stream()
+				.sorted(Comparator.comparing(TroubleComments::getDate).reversed())
+				.collect(Collectors.toList());
+		
+		return sortedComments;	
+//		return allComments;
+	} 
 
 }

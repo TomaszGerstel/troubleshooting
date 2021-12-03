@@ -35,6 +35,7 @@ import com.tg.model.Cause;
 import com.tg.model.Problem;
 import com.tg.model.ProblemNameToDisplay;
 import com.tg.model.Solution;
+import com.tg.model.TroubleComments;
 import com.tg.service.ProblemService;
 
 @RestController
@@ -128,5 +129,19 @@ public class ProblemController {
 	@DeleteMapping(path = "problem/solutions/{id}")
 	public void deleteSolution(@PathVariable Long id) {
 		problemService.deleteSolution(id);
+	}
+	
+	@PostMapping(path = "/problem/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> saveComment(@RequestBody TroubleComments comment) {
+		TroubleComments save = problemService.saveComment(comment);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
+				.toUri();
+		return ResponseEntity.created(location).body(save);
+	}
+	
+	@GetMapping(path = "/problem/comments", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<TroubleComments>> getAllCommments() {
+		List<TroubleComments> comments = problemService.showComments();
+		return ResponseEntity.ok(comments);
 	}
 }
