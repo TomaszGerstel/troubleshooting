@@ -1,33 +1,36 @@
 <meta charset="UTF-8"></meta>
 <div class="main">
-	<h1>Dodaj nowy problem:</h1>
 
-	<form ng-show="authenticated" enctype="multipart/form-data">
-		<label for="name_p">Określ nowy problem (nazwa):</label><br>
-		<textarea id="name_p" ng-model="problemCtrl.newProblem.name" rows="2"
-			cols="30" maxlength="150" required></textarea>
-		<br> <label for="opis">Podaj szczegóły (opis):</label><br>
-		<textarea id="opis" ng-model="problemCtrl.newProblem.description"
-			rows="3" cols="30" maxlength="300"></textarea>
-		<br> <label for="image">Dodaj zdjęcie (wielkości ok 200KB
-			(max500KB)):</label> <input id="image" type="file" class="add_button"
-			name="file" file-model="problemCtrl.file" /> <br>
-		<button class="add_button" type="submit"
-			ng-click="problemCtrl.addNewProblem()">Dodaj</button>
-		<p>{{problemCtrl.accessInfo}}</p>
-	</form>
-	<hr>
-	<h1>Komentarze:</h1>
-	<div ng-show="authenticated">
-		<button class="add_button" ng-click="problemCtrl.loadComments()">Pokaż
-			komentarze</button>
-		<div ng_repeat="comment in problemCtrl.comments">
-			<h3>od: {{comment.author}}; temat: {{comment.subject}}</h3>
-			<p>data: {{comment.date}}</p>
-			<p>{{comment.message}}</p>
+	<h1>Zarządzaj:</h1>
+	<div class="board">
+	<h2>Dodaj nowy problem:</h2>
+		<form ng-show="authenticated" enctype="multipart/form-data">
+			<label for="name_p">Określ nowy problem (nazwa):</label><br>
+			<textarea id="name_p" ng-model="problemCtrl.newProblem.name" rows="2"
+				cols="30" maxlength="150" required></textarea>
+			<br> <label for="opis">Podaj szczegóły (opis):</label><br>
+			<textarea id="opis" ng-model="problemCtrl.newProblem.description"
+				rows="3" cols="30" maxlength="300"></textarea>
+			<br> <label for="image">Dodaj zdjęcie (wielkości ok
+				200KB (max500KB)):</label> <input id="image" type="file" class="add_button"
+				name="file" file-model="problemCtrl.file" /> <br>
+			<button class="add_button" type="submit"
+				ng-click="problemCtrl.addNewProblem()">Dodaj</button>
+			<p>{{problemCtrl.accessInfo}}</p>
+		</form>
+		<hr>
+		<h2>Komentarze:</h2>
+		<div ng-show="authenticated">
+			<button class="add_button" ng-click="problemCtrl.loadComments()">Pokaż
+				komentarze</button>
+			<div ng_repeat="comment in problemCtrl.comments">
+				<h4>od: {{comment.author}}; temat: {{comment.subject}}; data: {{comment.date}}</h4>
+				<p>{{comment.message}}</p>
+				<hr>
+
+			</div>
 
 		</div>
-
 	</div>
 
 </div>

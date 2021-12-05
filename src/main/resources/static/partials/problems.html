@@ -1,19 +1,28 @@
 <meta charset="UTF-8"></meta>
 <div class="main">
 	<h1>Wybierz problem z listy lub wyszukaj:</h1>
-	<div class="search">
-		<form>
-			<span class="search_input"> <span class="search_icon"><i
-					class="fas fa-search"></i></span> <input id=""
-				ng-model="problemCtrl.problemName" rows="1" cols="30" maxlength="25"
-				ng-keyup="problemCtrl.refreshData(problemCtrl.problemName)"></input>
-
-			</span>
-			<button class="" ng-click="problemCtrl.refreshData()">
-				<i class="fas fa-sync-alt"></i> Pokaż wszystko
-			</button>
-		</form>
-
+	<div class="search_block">
+		<div class="search">
+			<form>
+				<span class="search_input"> <span class="search_icon"><i
+						class="fas fa-search"></i></span> <input id=""
+					ng-model="problemCtrl.problemName" rows="1" cols="30"
+					maxlength="25"
+					ng-keyup="problemCtrl.refreshData(problemCtrl.problemName)"></input>
+				</span>
+				<button class="" ng-click="problemCtrl.refreshData()">
+					<i class="fas fa-sync-alt"></i> Pokaż wszystko
+					({{problemCtrl.problemsCount.problemsQuantity}} probl.)
+				</button>
+			</form>
+		</div>
+		<div class="search_info">
+			<h2>
+				Liczba problemów w bazie:
+				{{problemCtrl.problemsCount.problemsQuantity}}<br> Liczba
+				wpisów: {{}}
+			</h2>
+		</div>
 	</div>
 	<div class="choose">
 		<ul class="problems_list">
@@ -108,9 +117,11 @@
 		</div>
 
 	</div>
-		<div ng-show="authenticated && currentRole=='ADMIN'" class="manage_link">
+	<div ng-show="authenticated && currentRole=='ADMIN'"
+		class="manage_link">
 		<h3>
-			<a href="#!addproblem"><i class="fas fa-tasks"></i> Dodaj nowy problem / zarządzaj problemami</a>
+			<a href="#!addproblem"><i class="fas fa-tasks"></i>Zarządzaj/dodaj
+				nowy problem/zobacz wiadomości</a>
 		</h3>
 	</div>
 

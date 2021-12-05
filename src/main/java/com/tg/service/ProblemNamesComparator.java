@@ -13,9 +13,7 @@ public class ProblemNamesComparator implements Comparator<ProblemNameToDisplay> 
 		 if (p1.getName() == null || p2.getName() == null) {
 		      return 0;
 		    }
-		return p1.getName().compareToIgnoreCase(p2.getName());
+		return p1.getName().replace("\"", "").compareToIgnoreCase(p2.getName().replace("\"", ""));
 	}
-
-
 }
 

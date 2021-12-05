@@ -10,8 +10,12 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
+import java.text.ParseException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +136,7 @@ public class ProblemController {
 	}
 	
 	@PostMapping(path = "/problem/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> saveComment(@RequestBody TroubleComments comment) {
+	public ResponseEntity<?> saveComment(@RequestBody TroubleComments comment) throws ParseException {
 		TroubleComments save = problemService.saveComment(comment);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(save.getId())
 				.toUri();
@@ -143,5 +147,13 @@ public class ProblemController {
 	public ResponseEntity<List<TroubleComments>> getAllCommments() {
 		List<TroubleComments> comments = problemService.showComments();
 		return ResponseEntity.ok(comments);
+	}
+	
+	@GetMapping(path = "/problem/counts", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Long>> getCountOfProblems() {
+		Long problemCount = problemService.countProblems();
+		Map<String, Long> counter = new TreeMap<>();
+		counter.put("problemsQuantity", problemCount);
+		return ResponseEntity.ok(counter);
 	}
 }

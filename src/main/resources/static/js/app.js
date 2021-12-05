@@ -56,6 +56,9 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	.factory('NewProblem', function($resource) {
 		return $resource('api/problem/newProblem');
 	})
+	.factory('ProblemsCount', function($resource) {
+		return $resource('api/problem/counts');
+	})
 	.factory('Comment', function($resource) {
 		return $resource('api/problem/comments');
 	})
@@ -64,11 +67,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		var vm = this;
 		var CurrentUserId = $resource('api/user/userid/:userName');
 		var CurrentUserRole = $resource('api/user/userRole/:userId');
-		vm.loginErr = false;
 		vm.name;
 		vm.currentId;
 		vm.registerMessage;
-		vm.authenticate = function(credentials, successCallback) {
+		
+		vm.authenticate = function(credentials, successCallback, errorCallback) {
 			var authHeader = { Authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password) };
 			var config = { headers: authHeader };
 			$http
@@ -82,7 +85,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 					function error(reason) {
 						console.log('Login error');
 						console.log(reason);
-						vm.loginErr = true;
+						errorCallback();
 					});
 		}
 		vm.logout = function(successCallback) {
@@ -133,7 +136,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}
 	})
 	.service('ProblemService', function($http, AuthenticationService, Problem,
-		Problems, Solution, Cause, DeleteSolution, DeleteCause, NewProblem) {
+		Problems, Solution, Cause, DeleteSolution, DeleteCause, NewProblem, ProblemsCount) {
 		var vm = this;
 
 		vm.problem = new Problem();
@@ -145,7 +148,18 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.solutionToDelete = new DeleteSolution();
 		vm.newProblem = new NewProblem();
 		vm.formData = new FormData();
-
+		vm.problemsCount = new ProblemsCount();
+		
+		vm.getProblemsCount = function() {
+			return ProblemsCount.get(
+				function success(data, headers) {
+					console.log('Pobrano dane, licznik problemów: ' + data.problemsQuantity);
+					console.log(headers('Content-Type'));					
+				},
+				function error(response) {
+					console.log(response.status);
+				});
+		}			
 		vm.getProblemsList = function(name, successCallback) {
 			return Problems.query({ problemName: name },
 				function success(data, headers) {
@@ -261,7 +275,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.comment = new Comment();
 
 		vm.addNewComment = function(comment, successCallback) {
-			vm.comment = comment;
+			if(comment.author == null || comment.message == null) return;
+			vm.comment = comment;			
 			vm.comment.$save(function(data) {
 				console.log('Wysłano wiadomość: ' + JSON.stringify(data));
 				successCallback();
@@ -273,7 +288,6 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				function success(data, headers) {
 					console.log('Pobrano dane: ' + JSON.stringify(data));
 					console.log(headers('Content-Type'));
-					successCallback();
 				},
 				function error(response) {
 					console.log(response.status);
@@ -295,6 +309,8 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	.controller('LoginController', function($rootScope, $location, AuthenticationService) {
 		var vm = this;
 		vm.credentials = {};
+		vm.showErrMessage = false;
+		
 		var loginSuccess = function() {
 			$rootScope.authenticated = true;
 			$location.path('/problems');
@@ -304,8 +320,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			$location.path('/');
 		}
 		vm.login = function() {
-			AuthenticationService.authenticate(vm.credentials, loginSuccess);
-			if (AuthenticationService.loginErr == true) vm.showErrMess();
+			AuthenticationService.authenticate(vm.credentials, loginSuccess, vm.showErrMess);
 		}
 		vm.showErrMess = function() {
 			vm.showErrMessage = true;
@@ -332,17 +347,19 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.file = {};
 		vm.file.name = "";
 		vm.accessInfo = "";
+		vm.problemsCount = 0;
 
 		vm.refreshData = function(name) {
+			vm.problemsCount = ProblemService.getProblemsCount();
 			vm.problems = ProblemService.getProblemsList(name, vm.success = function() {
-			});
+			}
+			);
 
 		}
 		vm.loadComments = function() {
 			vm.comments = InfoService.getComments(vm.success = function() {
 			});
-		}
-		
+		}		
 		
 		vm.addSolution = function(solution) {
 			ProblemService.addSolution(solution, vm.details.id,
@@ -381,7 +398,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 			vm.file = {};
 			vm.file.name = "";
 		}
-		vm.loadData = function(id) {
+		vm.loadData = function(id) {			
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
 			vm.details = ProblemService.getProblemDetails((id),
@@ -406,14 +423,13 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		var vm = this;
 		vm.comment = new Comment();
 
-
 		vm.addComment = function() {
 			InfoService.addNewComment(vm.comment,
 				vm.success = function() {
-					console.log("comment added - controller")
+					console.log("comment added")
 					vm.comment = new Comment();
-				});
-
+				},
+				);
 		}
 	})
 	.directive('fileModel', ['$parse', function($parse) {

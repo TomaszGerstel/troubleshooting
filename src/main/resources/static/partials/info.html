@@ -10,42 +10,43 @@
 		<p>Aplikacja daje wgląd w typowe wady produktu, w powiązane z nimi
 			przyczyny oraz proponowane działania, które należy podjąć, aby pozbyć
 			się nieprawidłowości na produkowanym opakowaniu.</p>
-		<p class="important">Uwaga! Baza nie jest oficjalnym narzędziem pracodawcy.
-		Autor nie odpowiada za potencjalne konsekwencje wynikające ze stosowania się
-		do wskazówek zawartych w bazie. Główny cel utworzenia i 
-		rozwijania narzędzia to chęć własnego rozwoju i prezentacja kwalifikacji programistycznych.</p>
+		<p class="important">Uwaga! Baza nie jest oficjalnym narzędziem
+			pracodawcy. Autor nie odpowiada za potencjalne konsekwencje
+			wynikające ze stosowania się do wskazówek zawartych w bazie. Główny
+			cel utworzenia i rozwijania narzędzia to chęć własnego rozwoju i
+			prezentacja kwalifikacji programistycznych.</p>
 		<p>Na stronie można się zarejestrować, aby następnie się
 			zalogować. Zalogowany użytkownik ma możliwość dodawania własnych
-			przyczyn oraz proponowanych rowiązań do wybranych problemów.
-			Dodane przez siebie wpisy można usuwać.</p>
-		<p>Źródła: instrukcje producenta maszyn ASB oraz własne doświadczenie.</p>
-		<p>Opracował/Kontakt: gerstel.tomasz@gmail.com</p>
-			
-		
-		
+			przyczyn oraz proponowanych rowiązań do wybranych problemów. Dodane
+			przez siebie wpisy można usuwać.</p>
+		<p>Źródła: instrukcje producenta maszyn ASB oraz własne
+			doświadczenie.</p>
+		<p>Opracował/Kontakt: gerstel.tomasz@gmail.com</p><br>
 		<div>
-		<h1>Wyślij wiadomość</h1>
-		<p>Wyślij wiadomość, jeżeli masz uwagi na temat działania aplikacji lub 
-					do treści zawartej w bazie (widzisz błędy, niejasności):</p>
-		<div class="add_mess">
-					
-					
-						<form>
-							<label for="temat">Temat:</label><br>
-							<textarea id="temat" ng-model="infoCtrl.comment.subject"
-								rows="1" cols="30" maxlength="50" required></textarea>
-							<br> <label for="autor">Autor:</label><br>
-							<textarea id="autor" ng-model="infoCtrl.comment.author"
-								rows="1" cols="30" maxlength="30"></textarea>
-							<br> <label for="wiadomość">Wiadomość:</label><br>
-							<textarea id="wiadomość" ng-model="infoCtrl.comment.message"
-								rows="2" cols="30" maxlength="350"></textarea>
-							<br> 
-							<button class="add_button"
-								ng-click="infoCtrl.addComment()">Wyślij wiadomość</button>
-						</form>
-				</div>
-				</div>
-		
+			<h1>Wyślij wiadomość do administratora</h1>
+			<p>
+				Wyślij wiadomość, jeżeli masz uwagi na temat działania aplikacji lub
+				do treści zawartej w bazie.</p>
+				<p>Wiadomości mogą odczytać użytkownicy w aplikacji posiadający rolę "ADMIN".</p>
+				<p> Napisz o swoich pomysłach na
+				nowe problemy lub na poprawę/przekształcenie problemów istniejących.
+			</p>
+			<div class="add_mess">
+				<form>
+					<label for="temat">Temat:</label><br>
+					<textarea id="temat" ng-model="infoCtrl.comment.subject" rows="1"
+						cols="30" maxlength="50"></textarea>
+					<br> <label for="autor">Autor:</label><br>
+					<textarea id="autor" ng-model="infoCtrl.comment.author" rows="1"
+						cols="30" maxlength="30" required></textarea>
+					<br> <label for="wiadomość">Wiadomość:</label><br>
+					<textarea id="wiadomość" ng-model="infoCtrl.comment.message"
+						rows="2" cols="30" maxlength="350" required></textarea>
+					<br>
+					<button class="add_button" ng-click="infoCtrl.addComment()">Wyślij
+						wiadomość</button>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>

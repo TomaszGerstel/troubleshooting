@@ -1,6 +1,7 @@
 package com.tg.model;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,12 +18,12 @@ public class TroubleComments {
 	private String author;
 	private String subject;
 	private String message;
-	private Date date;
+	private Timestamp date;
 	
 	public TroubleComments() {
 		super();
 	}
-	public TroubleComments(String author, String subject, String message, Date date)  {
+	public TroubleComments(String author, String subject, String message, Timestamp date)  {
 		super();
 		this.author = author;
 		this.subject = subject;
@@ -53,10 +54,10 @@ public class TroubleComments {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}	
 

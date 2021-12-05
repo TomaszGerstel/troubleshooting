@@ -3,15 +3,22 @@ package com.tg.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -121,9 +128,28 @@ public class ProblemService {
 		return problem;
 	}
 	
-	public TroubleComments saveComment(TroubleComments comment) {
-		Date date = new Date();
-		comment.setDate(date);
+	public TroubleComments saveComment(TroubleComments comment) throws ParseException {		
+		
+//		Calendar dateNow = Calendar.getInstance();
+
+		Instant dateNow = Instant.now();
+		ZoneId zoneId = ZoneId.of("Poland");
+		dateNow.atZone(zoneId);
+		
+		Timestamp timestamp = Timestamp.from(dateNow);
+	
+//		
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss (dd-MM-yyyy)");
+//		dateFormat.setTimeZone(TimeZone.getTimeZone("Poland"));	
+//		
+//		String data = dateFormat.format(dateNow);
+//		Date date = dateFormat.parse(data);
+//		
+//		
+		
+	
+		
+		comment.setDate(timestamp);
 		commentsRepo.save(comment);
 		return comment;
 	}
@@ -132,14 +158,27 @@ public class ProblemService {
 		
 		List<TroubleComments> allComments = commentsRepo.findAll();
 		allComments.stream().filter(comment -> comment.getDate() == null)
-		.forEach(comment -> comment.setDate(new Date(0)));
+		.forEach(comment -> comment.setDate(new Timestamp(0)));
+		
+//		 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss (dd-MM-yyyy)");
+//		dateFormat.format(present.getTime();
+		
+//		instant = timestamp.toInstant();
+
+		ZoneId zoneId = ZoneId.of("Poland");
+		
+//		allComments.stream().forEach(c -> c.setDate(  Timestamp.from(  c.getDate().toInstant().atZone(zoneId)  )  ));
+		
 		
 		List<TroubleComments> sortedComments = allComments.stream()
 				.sorted(Comparator.comparing(TroubleComments::getDate).reversed())
 				.collect(Collectors.toList());
 		
 		return sortedComments;	
-//		return allComments;
-	} 
+	}
+	
+	public Long countProblems() {
+		return problemRepo.count();
+	}
 
 }
