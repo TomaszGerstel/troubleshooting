@@ -24,7 +24,7 @@
 			<button class="add_button" ng-click="problemCtrl.loadComments()">Pokaż
 				komentarze</button>
 			<div ng_repeat="comment in problemCtrl.comments">
-				<h4>od: {{comment.author}}; temat: {{comment.subject}}; data: {{comment.date}}</h4>
+				<h4>od: {{comment.author}}; temat: {{comment.subject}}; data: {{comment.dateString}}</h4>
 				<p>{{comment.message}}</p>
 				<hr>
 

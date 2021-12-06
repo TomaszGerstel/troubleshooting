@@ -127,58 +127,39 @@ public class ProblemService {
 		problemRepo.save(problem);
 		return problem;
 	}
-	
-	public TroubleComments saveComment(TroubleComments comment) throws ParseException {		
-		
-//		Calendar dateNow = Calendar.getInstance();
+
+	public TroubleComments saveComment(TroubleComments comment) throws ParseException {
 
 		Instant dateNow = Instant.now();
-		ZoneId zoneId = ZoneId.of("Poland");
-		dateNow.atZone(zoneId);
-		
 		Timestamp timestamp = Timestamp.from(dateNow);
-	
-//		
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss (dd-MM-yyyy)");
-//		dateFormat.setTimeZone(TimeZone.getTimeZone("Poland"));	
-//		
-//		String data = dateFormat.format(dateNow);
-//		Date date = dateFormat.parse(data);
-//		
-//		
-		
-	
-		
 		comment.setDate(timestamp);
 		commentsRepo.save(comment);
 		return comment;
 	}
-	
+
 	public List<TroubleComments> showComments() {
-		
+
 		List<TroubleComments> allComments = commentsRepo.findAll();
 		allComments.stream().filter(comment -> comment.getDate() == null)
-		.forEach(comment -> comment.setDate(new Timestamp(0)));
-		
-//		 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss (dd-MM-yyyy)");
-//		dateFormat.format(present.getTime();
-		
-//		instant = timestamp.toInstant();
+				.forEach(comment -> comment.setDate(new Timestamp(0)));
 
-		ZoneId zoneId = ZoneId.of("Poland");
-		
-//		allComments.stream().forEach(c -> c.setDate(  Timestamp.from(  c.getDate().toInstant().atZone(zoneId)  )  ));
-		
-		
 		List<TroubleComments> sortedComments = allComments.stream()
-				.sorted(Comparator.comparing(TroubleComments::getDate).reversed())
-				.collect(Collectors.toList());
+				.sorted(Comparator.comparing(TroubleComments::getDate).reversed()).collect(Collectors.toList());
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss (dd-MM-yyyy)");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Poland"));
 		
-		return sortedComments;	
+		sortedComments.stream().forEach(comment -> comment.setDateString(dateFormat.format(comment.getDate())));
+
+		return sortedComments;
 	}
-	
+
 	public Long countProblems() {
 		return problemRepo.count();
+	}
+	
+	public Long countRecords() {
+		return causeRepo.count() + solutionRepo.count();
 	}
 
 }

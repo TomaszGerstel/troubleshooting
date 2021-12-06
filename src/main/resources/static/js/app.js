@@ -422,12 +422,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
 
 		var vm = this;
 		vm.comment = new Comment();
+		vm.addCommentMess = "";
 
 		vm.addComment = function() {
+			vm.addCommentMess = "";
 			InfoService.addNewComment(vm.comment,
 				vm.success = function() {
 					console.log("comment added")
 					vm.comment = new Comment();
+					vm.addCommentMess = "Wiadomość wysłana!";
 				},
 				);
 		}

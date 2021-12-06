@@ -152,8 +152,10 @@ public class ProblemController {
 	@GetMapping(path = "/problem/counts", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Long>> getCountOfProblems() {
 		Long problemCount = problemService.countProblems();
+		Long recordsCount = problemService.countRecords();
 		Map<String, Long> counter = new TreeMap<>();
 		counter.put("problemsQuantity", problemCount);
+		counter.put("recordsQuantity", recordsCount);
 		return ResponseEntity.ok(counter);
 	}
 }

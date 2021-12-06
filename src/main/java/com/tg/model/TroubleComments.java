@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity(name = "TroubleComments")
 public class TroubleComments {
@@ -19,6 +20,8 @@ public class TroubleComments {
 	private String subject;
 	private String message;
 	private Timestamp date;
+	@Transient
+	private String dateString;
 	
 	public TroubleComments() {
 		super();
@@ -59,6 +62,13 @@ public class TroubleComments {
 	}
 	public void setDate(Timestamp date) {
 		this.date = date;
-	}	
+	}
+	public String getDateString() {
+		return dateString;
+	}
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+	
 
 }

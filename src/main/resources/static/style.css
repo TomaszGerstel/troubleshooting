@@ -30,7 +30,7 @@ h2 {
 	background-color: black;
 	font-size: 1.2em;
 	opacity: 0.8;
-	padding: 8px;
+	padding: 6px;
 	margin: 0 auto;
 }
 
@@ -132,7 +132,7 @@ h2 {
 .search_info {	
 	margin-left:25px;
 	margin-top:10px;
-	font-size: 0.6rem;
+	font-size: 0.70rem;
 	width: 100%;
 }
 
@@ -148,7 +148,7 @@ h2 {
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 1.5em;
+	font-size: 1rem;
 	font-weight: 600;
 	background-color: azure;
 	font-family: monospace;
@@ -227,7 +227,7 @@ body::-webkit-scrollbar {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.3rem;
+	font-size: 1.1rem;
 }
 
 .records_block {
@@ -266,6 +266,20 @@ body::-webkit-scrollbar {
 	justify-content: center;	
 }
 
+.add_mess form {
+	font-size: 1rem;
+	width: 90%;
+}
+
+.add_mess textarea {
+	width: 100%;
+	min-height: 40px;
+}
+
+label {
+	font-size: 1.1rem;
+}
+
 .add_button {
 	background-color: black;
 	color: #858585;
@@ -293,6 +307,7 @@ body::-webkit-scrollbar {
 
 .add textarea {
 	width: 100%;
+	height: 60px;
 }
 
 select {
@@ -304,7 +319,7 @@ select {
 }
 
 textarea {
-	font-size: 1.1em;
+	font-size: 1.2rem;
 }
 
 .board {
@@ -313,6 +328,7 @@ textarea {
 	min-width: 545px;
 	padding: 5px;	
 	font-family: monospace;
+	font-size: 24px;
 	color: black;
 	text-align: justify;
 	background: rgba(0, 128, 150, 0.7);
@@ -329,7 +345,7 @@ textarea {
 
 .board p {
 	padding: 10px;
-	text-indent: 1.5em;
+	text-indent: 1rem;
 	margin: 0 auto;
 	font-size: 1rem;
 }
