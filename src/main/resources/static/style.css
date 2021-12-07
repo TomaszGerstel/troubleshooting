@@ -148,7 +148,7 @@ h2 {
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 1rem;
+	font-size: 24px;
 	font-weight: 600;
 	background-color: azure;
 	font-family: monospace;
@@ -227,7 +227,7 @@ body::-webkit-scrollbar {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.1rem;
+	font-size: 24px;
 }
 
 .records_block {

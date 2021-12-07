@@ -371,14 +371,14 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.addCause = function(cause) {
 			ProblemService.addCause(cause, vm.details.id,
 				vm.success = function() {
-					vm.loadData(cause.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
+					vm.loadData(cause.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu						
 					vm.cause = new Cause();
 				});
 		}
 		vm.deleteCause = function(id, problemId) {
 			ProblemService.deleteCause(id,
 				vm.success = function() {
-					vm.loadData(problemId);
+					vm.loadData(problemId);			
 				});
 		}
 		vm.deleteSolution = function(id, problemId) {
@@ -401,6 +401,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		vm.loadData = function(id) {			
 			vm.showSolutionForm = false;
 			vm.showCauseForm = false;
+			vm.problemsCount = ProblemService.getProblemsCount();
 			vm.details = ProblemService.getProblemDetails((id),
 				vm.success = function() {
 					if (vm.details.imageAddress == null) { vm.image = 'images/temporary.png' }
