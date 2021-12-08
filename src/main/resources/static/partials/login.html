@@ -1,9 +1,11 @@
 <meta charset="UTF-8"></meta>
 <div class="main">
+	<h1>Logowanie</h1>
 	<div class="board">
-		<h1>Logowanie</h1>
-		<h3 ng-show="loginCtrl.showErrMessage">Nieprawidłowe dane logowania! Spróbuj ponownie</h3>
-		<div class="register" ng-show="!authenticated">		
+
+		<h3 ng-show="loginCtrl.showErrMessage">Nieprawidłowe dane
+			logowania! Spróbuj ponownie</h3>
+		<div class="register" ng-show="!authenticated">
 			<form>
 				<input type="text" ng-model="loginCtrl.credentials.username"
 					required="required" placeholder="login"><br> <input
@@ -11,7 +13,7 @@
 					required="required" placeholder="hasło"><br>
 				<button class="login_button" ng-click="loginCtrl.login()">ZALOGUJ
 					SIĘ</button>
-			</form>			
+			</form>
 		</div>
 	</div>
 </div>
