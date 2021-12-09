@@ -2,17 +2,18 @@
 
 html {
 	font-family: monospace;
-	font-size: 24px;	
+	font-size: 24px;
+	width:930px;
+	margin: 0 auto;	
 }
 
 body {
 	text-align: left;
-	width: 100%;	
-	margin: 0 auto;
+	margin: 0 auto;	
 	background: azure url(images/back.png);
 	background-size: 980px 500px;
 	display: block;
-	
+	width: 100%;	
 }
 
 h1 {
@@ -36,7 +37,7 @@ h2 {
 
 .top-bar {
 	height: 260px;
-	background: url(images/topb.png) repeat-x;
+	background: url(images/topb.png) ;
 }
 
 .block {
@@ -90,6 +91,7 @@ h2 {
 	padding-top: 10px;	
 	margin: 0 auto;
 	padding-top: 10px;
+	font-size: 24px;
 }
 
 .search form {	
@@ -126,7 +128,8 @@ h2 {
 }
 
 .search_block {
-	display:flex;	
+	display:flex;
+	font-size: 1rem;
 }
 
 .search_info {	
@@ -148,7 +151,7 @@ h2 {
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 0.8em;
+	font-size: 1.1rem;
 	font-weight: 800;
 	background-color: azure;
 	font-family: monospace;
@@ -227,7 +230,7 @@ body::-webkit-scrollbar {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 24px;
+	font-size: 1.1rem;
 	max-height: 300px;
 }
 
