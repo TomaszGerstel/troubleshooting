@@ -148,11 +148,12 @@ h2 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	display: flex;
+	width: fit-content;
 }
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 1rem;
+	font-size: 1.2rem;
 	font-weight: 800;
 	background-color: azure;
 	font-family: monospace;
