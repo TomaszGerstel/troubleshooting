@@ -38,7 +38,7 @@ h2 {
 
 .top-bar {
 	height: 260px;
-	background: url(images/topb.png) ;
+	background: url(images/topb.png) repeat-x;
 }
 
 .block {
@@ -231,21 +231,22 @@ body::-webkit-scrollbar {
 	margin: 0 auto;
 	padding: 10px;
 	background: azure;
+	width: 98%;
 }
 
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.1rem;
+	font-size: 1.2rem;
 	max-height: 350px;
 	width: fit-content;
 }
 
 .records_block {
-	display: flex;
+	display: block;
 }
 
-.records:first-of-type {
+/* .records:first-of-type {
 	width: 40%;
 	float: left;
 }
@@ -254,7 +255,7 @@ body::-webkit-scrollbar {
 	margin-left: 25px;
 	width: 60%;
 	float: left;
-}
+} */
 
 .records form {
 	font-size: 1rem;
@@ -270,6 +271,11 @@ body::-webkit-scrollbar {
 	font-size: 1.3rem;
 	margin: 8px auto;
 	padding-bottom: 5px;
+	margin-left: 25px;
+}
+
+.add {
+	margin-bottom: 25px;
 }
 
 .add_mess {

@@ -362,6 +362,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		}		
 		
 		vm.addSolution = function(solution) {
+			if(solution.description == null) return;
 			ProblemService.addSolution(solution, vm.details.id,
 				vm.success = function() {
 					vm.loadData(solution.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu	
@@ -369,6 +370,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				});
 		}
 		vm.addCause = function(cause) {
+			if(cause.description == null) return;
 			ProblemService.addCause(cause, vm.details.id,
 				vm.success = function() {
 					vm.loadData(cause.problemId);	// odświeża listę rozwiązań	i przyczyn danego problemu						
@@ -388,6 +390,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 				});
 		}
 		vm.addNewProblem = function() {
+			if (vm.newProblem.name == null || vm.newProblem.description == null) return;
 			if ($rootScope.currentRole != 'ADMIN') { vm.accessInfo = 'Brak dostępu'; return; }
 			ProblemService.addNewProblemImage(vm.file);
 			ProblemService.addProblem(vm.newProblem, vm.file.name,

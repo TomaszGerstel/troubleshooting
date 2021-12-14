@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/api/user/register").permitAll()
         	.antMatchers("/api/problem/comments").permitAll()
             .antMatchers(HttpMethod.POST).authenticated()
+            .antMatchers(HttpMethod.DELETE).authenticated()
             .antMatchers("/api/problem/newProblem").access("hasRole('ADMIN')")
             .and()
         .sessionManagement()
