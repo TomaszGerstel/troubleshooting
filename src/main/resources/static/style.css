@@ -9,8 +9,7 @@ html {
 
 body {
 	text-align: left;
-	margin: 0 auto;
-	
+	margin: 0 auto;	
 	background: azure url(images/back.png);
 	background-size: 980px 500px;
 	display: block;
@@ -25,6 +24,8 @@ h1 {
 	color: rgb(254, 156, 24);
 	padding: 10px;
 	margin: 0 auto;
+	max-height: 100rem;
+;
 }
 
 h2 {
@@ -34,6 +35,7 @@ h2 {
 	opacity: 0.8;
 	padding: 6px;
 	margin: 0 auto;
+	max-height: 100rem;
 }
 
 .top-bar {
@@ -244,6 +246,9 @@ body::-webkit-scrollbar {
 
 .records_block {
 	display: block;
+	overflow-y: scroll;
+	height: 900px;	
+	
 }
 
 /* .records:first-of-type {
@@ -272,6 +277,8 @@ body::-webkit-scrollbar {
 	margin: 8px auto;
 	padding-bottom: 5px;
 	margin-left: 25px;
+	height: fit-content;
+	width: fit-content;
 }
 
 .add {
