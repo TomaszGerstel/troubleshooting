@@ -25,7 +25,6 @@ h1 {
 	color: rgb(254, 156, 24);
 	padding: 10px;
 	margin: 0 auto;
-	max-height: 100rem;
 }
 
 h2 {
@@ -35,7 +34,6 @@ h2 {
 	opacity: 0.8;
 	padding: 6px;
 	margin: 0 auto;
-	max-height: 100rem;
 }
 
 .top-bar {
@@ -274,8 +272,6 @@ body::-webkit-scrollbar {
 	margin: 8px auto;
 	padding-bottom: 5px;
 	margin-left: 25px;
-	height: fit-content;
-	width: fit-content;
 }
 
 .add {
