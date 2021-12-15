@@ -9,12 +9,12 @@ html {
 
 body {
 	text-align: left;
-	margin: 0 auto;
-	
+	margin: 0 auto;	
 	background: azure url(images/back.png);
 	background-size: 980px 500px;
 	display: block;
 	width: 100%;	
+	max-height: 100vh;
 }
 
 h1 {
@@ -35,7 +35,6 @@ h2 {
 	opacity: 0.8;
 	padding: 6px;
 	margin: 0 auto;
-	max-height: 100rem;
 }
 
 .top-bar {
@@ -239,7 +238,7 @@ body::-webkit-scrollbar {
 .details {
 	color: #555;
 	text-align: left;
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 	max-height: 350px;
 	width: fit-content;
 }
@@ -248,6 +247,7 @@ body::-webkit-scrollbar {
 	display: block;
 	overflow-y: scroll;
 	max-height: 600px;
+	font-size: initial;
 }
 
 
@@ -277,8 +277,10 @@ body::-webkit-scrollbar {
 	margin: 8px auto;
 	padding-bottom: 5px;
 	margin-left: 25px;
-	width: fit-content;
-	line-height: max(3vh, 10px);
+}
+
+.records h2, .records h3 {
+	font-size: 1.3rem;
 }
 
 .add {
@@ -353,7 +355,7 @@ textarea {
 	width: fit-content;
 	padding: 5px;	
 	font-family: monospace;
-	font-size: 24px;
+	font-size: initial;
 	color: black;
 	text-align: justify;
 	background: rgba(0, 128, 150, 0.7);
@@ -375,6 +377,10 @@ textarea {
 	font-size: 1rem;
 }
 
+.board h1 {
+	font-size: 2em;
+}
+
 .board .important {
 	color: white;
 }
@@ -393,7 +399,6 @@ textarea {
 .register form {
 	padding: 10px;	
 }
-
 
 .login_button, .register_button {
 	padding: 15px 15px 15px 15px;
