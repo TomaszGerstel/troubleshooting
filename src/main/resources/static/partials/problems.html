@@ -37,11 +37,10 @@
 		<h1>{{problemCtrl.details.name}}</h1>
 		<p class="details">Opis: {{problemCtrl.details.description}}</p>
 
-		<div class="records_block">
-			<div class="records">
+		<div class="records_block">		
 			
 				<h2>Przyczyny</h2>
-				<ol>
+				<ul>
 					<li ng-repeat="cause in problemCtrl.causes"><b>{{cause.description}};
 					</b><i ng-show="cause.userName"><br>dodał: {{cause.userName}}</i>
 						<span
@@ -49,7 +48,7 @@
 							<i class="fas fa-trash-alt" title="usuń"
 							ng-click="problemCtrl.deleteCause(cause.id, cause.problemId)">
 						</i> </span></li>
-				</ol>
+				</ul>
 				<div class="add">
 					<p ng-click="problemCtrl.showAddCauseForm()"
 						ng-show="authenticated">Dodaj przyczynę do wybranego problemu
@@ -71,11 +70,10 @@
 					<h3>
 						<i>Zaloguj się aby dodać nowy wpis</i>
 					</h3>
-				</div>
-			</div>
-			<div class="records">
+				</div>			
+	
 				<h2>Rozwiązania</h2>
-				<ol>
+				<ul>
 					<li ng-repeat="solution in problemCtrl.solutions"><b>{{solution.description}};
 					</b> <span ng-show="solution.remarks"><br>{{solution.remarks}};
 					</span> <i ng-show="solution.userName"><br>dodał:
@@ -84,7 +82,7 @@
 							<i class="fas fa-trash-alt" title="usuń"
 							ng-click="problemCtrl.deleteSolution(solution.id, solution.problemId)">
 						</i></span></li>
-				</ol>
+				</ul>
 				<div class="add">
 					<p ng-click="problemCtrl.showAddSolutionForm()"
 						ng-show="authenticated">Dodaj rozwiązanie do wybranego
@@ -116,7 +114,6 @@
 						<i>Zaloguj się aby dodać nowy wpis</i>
 					</h3>
 				</div>
-			</div>
 		</div>
 
 	</div>

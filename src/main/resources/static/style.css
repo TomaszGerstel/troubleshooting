@@ -252,8 +252,7 @@ background: rgba(0, 128, 150, 0.1);
 	display: block;
 	overflow-y: scroll;
 	max-height: 600px;
-	font-size: 24px;
-	
+	font-size: 24px;	
 }
 
 
@@ -268,29 +267,23 @@ background: rgba(0, 128, 150, 0.1);
 	float: left;
 } */
 
-.records form {
+.records_block form {
 	font-size: 1rem;
 }
 
-.records ol {
-	margin-left: 10px;
+.records_block ul {
+	 list-style-type: disc;
 }
 
-.records li {
-    font-size: initial;
-}
-
-.records li, .records p {
-	color: #555;
-	text-align: left;
+.records_block li, .records_block p {
+	color: black;
 	margin: 8px auto;
 	padding-bottom: 5px;
-	margin-left: 25px;
-	font-size: 1.2em;
-	display: table;
+	margin-left: 15px;
+	font-size: 1.2em;	
 }
 
-.records h2, .records h3 {
+.records_block h2, .records_block h3 {
 	font-size: 1.1em;
 }
 
