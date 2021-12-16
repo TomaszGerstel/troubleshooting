@@ -252,6 +252,8 @@ background: rgba(0, 128, 150, 0.1);
 	display: block;
 	overflow-y: scroll;
 	max-height: 600px;
+	font-size: inherit;
+	text-size-adjust: none;
 }
 
 
@@ -272,6 +274,7 @@ background: rgba(0, 128, 150, 0.1);
 
 .records_block ul {
 	 list-style-type: disc;
+	 font-size: 1.2em;
 }
 
 .records_block li, .records_block p {
@@ -279,11 +282,10 @@ background: rgba(0, 128, 150, 0.1);
 	margin: 8px auto;
 	padding-bottom: 5px;
 	margin-left: 15px;
-	font-size: inherit;	
 }
 
 .records_block h2, .records_block h3 {
-	font-size: 1.1em;
+	font-size: 1.2em;
 }
 
 .add {
