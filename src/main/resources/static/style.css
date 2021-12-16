@@ -14,7 +14,7 @@ body {
 	background-size: 980px 500px;
 	display: block;
 	width: 100%;	
-	max-height: 100vh;
+	max-height: 130vh;
 }
 
 h1 {
@@ -155,7 +155,7 @@ h2 {
 
 .problems_list {
 	overflow-y: scroll;
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 	font-weight: 800;
 	background-color: azure;
 	font-family: monospace;
@@ -167,6 +167,7 @@ h2 {
 	height: 373px;
 	list-style-type: none;
 	padding-left: 5px;
+	text-size-adjust: none;
 }
 
 .problems_list li:nth-of-type(odd) {
@@ -251,7 +252,7 @@ background: rgba(0, 128, 150, 0.1);
 .records_block {
 	display: block;
 	overflow-y: scroll;
-	max-height: 600px;
+	max-height: 700px;
 	font-size: inherit;
 	text-size-adjust: none;
 }
@@ -274,7 +275,7 @@ background: rgba(0, 128, 150, 0.1);
 
 .records_block ul {
 	 list-style-type: disc;
-	 font-size: 1.2em;
+	 font-size: 1.3em;
 }
 
 .records_block li, .records_block p {
@@ -285,7 +286,7 @@ background: rgba(0, 128, 150, 0.1);
 }
 
 .records_block h2, .records_block h3 {
-	font-size: 1.2em;
+	font-size: 1.3em;
 }
 
 .add {
@@ -360,11 +361,11 @@ textarea {
 	width: fit-content;
 	padding: 5px;	
 	font-family: monospace;
-
 	color: black;
 	background: rgba(0, 128, 150, 0.7);
 	display: block;
 	overflow-y: scroll;
+	text-size-adjust: none;
 }
 
 .board h3 {
