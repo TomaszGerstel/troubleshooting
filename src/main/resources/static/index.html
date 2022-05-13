@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html data-ng-app="app">
 <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=G-JT0J9TENY9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JT0J9TENY9');
+</script>
 <meta charset="UTF-8"></meta>
-<meta name=viewport content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1"></meta>
+<meta name=viewport
+	content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1"></meta>
 <title>Problemy jakościowe</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet"
@@ -10,12 +20,14 @@
 <link rel="icon" type="image/png" ng-href="images/favicon.png" />
 <link rel="shortcut icon" type="image/png" ng-href="images/favicon.png" />
 </head>
+
 <body>
 	<div class="top-bar"></div>
 	<div class="block" ng-controller="LoginController as loginCtrl">
 		<div class="menu">
 			<ul>
-				<li><a href="#!problems"><i class="fas fa-home"></i><br>Home</a></li>
+				<li><a href="#!problems:window.location.reload(true)"><i
+						class="fas fa-home"></i><br>Home</a></li>
 				<li><a href="#!info"><i class="fas fa-info-circle"></i><br>Info</a></li>
 				<li><a href="#!register"><i class="fas fa-user-plus"></i><br>Register</a></li>
 				<li ng-show="!authenticated"><a href="#!login"><i
@@ -30,7 +42,7 @@
 
 	</div>
 	<div ng-view></div>
-	
+
 	<div class="block">
 		<div class="footer">
 			<p>&copy TG 2021</p>
@@ -45,13 +57,6 @@
 	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/service.js"></script>
 	<script type="text/javascript" src="js/controller.js"></script>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JT0J9TENY9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-JT0J9TENY9');
-</script>
+
 </body>
 </html>
