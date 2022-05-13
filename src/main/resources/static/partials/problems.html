@@ -117,7 +117,7 @@
 		</div>
 
 	</div>
-	<div ng-show="authenticated && currentRole=='ADMIN'"
+	<div ng-show="authenticated && problemCtrl.hasAdminAuthority()"
 		class="manage_link">
 		<h3>
 			<a href="#!addproblem"><i class="fas fa-tasks"></i>Zarządzaj/dodaj

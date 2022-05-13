@@ -111,6 +111,7 @@ h2 {
 
 .search_input {
 	display: flex;
+	resize: none;
 }
 
 .search button {
@@ -256,18 +257,6 @@ background: rgba(0, 128, 150, 0.1);
 	font-size: inherit;
 	text-size-adjust: none;
 }
-
-
-/* .records:first-of-type {
-	width: 40%;
-	float: left;
-}
-
-.records:last-of-type {
-	margin-left: 25px;
-	width: 60%;
-	float: left;
-} */
 
 .records_block form {
 	font-size: 1rem;
