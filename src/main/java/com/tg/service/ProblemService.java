@@ -88,7 +88,7 @@ public class ProblemService {
 		solutions.stream().filter(solution -> solution.getUserId() != null)
 				.forEach(solution -> solution.setUserName(userRepo.getById(solution.getUserId()).getName()));
 		List<Solution> sortedSolutions = solutions.stream()
-				.filter(solution -> solution.getVisible() == true && solution.getConfirmed() == true)
+//				.filter(solution -> solution.getVisible() == true && solution.getConfirmed() == true)
 				.sorted(Comparator.comparing(Solution::getPriority))
 				.collect(Collectors.toList());
 		return sortedSolutions;
@@ -97,14 +97,14 @@ public class ProblemService {
 	public List<Solution> solutionsToConfirm() {
 		List<Solution> solutions = solutionRepo.findAll();
 		List<Solution> notConfirmedSolutions = solutions.stream()
-				.filter(solution -> solution.getVisible() == true && solution.getConfirmed() == false)
+//				.filter(solution -> solution.getVisible() == true && solution.getConfirmed() == false)
 				.collect(Collectors.toList());
 		return notConfirmedSolutions;		
 	}
 
 	public Solution saveSolution(Solution solution) {
-		solution.setConfirmed(false);
-		solution.setVisible(true);
+//		solution.setConfirmed(false);
+//		solution.setVisible(true);
 		solutionRepo.save(solution);
 		return solution;
 	}
@@ -120,8 +120,8 @@ public class ProblemService {
 	}
 
 	public Cause saveCause(Cause cause) {
-		cause.setConfirmed(false);
-		cause.setVisible(true);
+//		cause.setConfirmed(false);
+//		cause.setVisible(true);
 		causeRepo.save(cause);
 		return cause;
 	}
