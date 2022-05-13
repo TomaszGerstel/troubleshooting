@@ -57,6 +57,7 @@ angular.module('app')
 		vm.accessInfo = "";
 		vm.problemsCount = 0;
 		vm.appName = 'Rozwiązywanie problemów z jakością opakowań';
+		
 
 		vm.refreshData = function(name) {
 			vm.problemsCount = ProblemService.getProblemsCount();
