@@ -15,8 +15,8 @@ public class Cause {
 	private String description;
 	private Integer problemId;
 	private Long userId;
-	private Boolean visible;
-	private Boolean confirmed;
+//	private Boolean visible;
+//	private Boolean confirmed;
 	@Transient
 	private String userName;
 	
@@ -71,26 +71,26 @@ public class Cause {
 		this.userName = userName;
 	}	
 
-	public Boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(Boolean visible) {
-		this.visible = visible;
-	}
-
-	public Boolean getConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(Boolean confirmed) {
-		this.confirmed = confirmed;
-	}
+//	public Boolean getVisible() {
+//		return visible;
+//	}
+//
+//	public void setVisible(Boolean visible) {
+//		this.visible = visible;
+//	}
+//
+//	public Boolean getConfirmed() {
+//		return confirmed;
+//	}
+//
+//	public void setConfirmed(Boolean confirmed) {
+//		this.confirmed = confirmed;
+//	}
 
 	@Override
 	public String toString() {
 		return "Cause [id=" + id + ", description=" + description + ", problemId=" + problemId + ", userId=" + userId
-				+ ", visible=" + visible + ", confirmed=" + confirmed + ", userName=" + userName + "]";
+				+ ", userName=" + userName + "]";
 	}
 	
 }
