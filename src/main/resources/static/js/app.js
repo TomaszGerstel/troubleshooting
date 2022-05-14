@@ -80,7 +80,7 @@ angular.module('app', ['ngRoute', 'ngResource'])
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	})
 	.run(function($rootScope, $location) {
-		$rootScope.$on('$routeChangeSuccess', function() {
+		$rootScope.$on('$routeChangeSuccess', function(event) {
 			gtag('config', 'G-JT0J9TENY9', { 'page_path': $location.path() });
 			gtag('event', 'page_view');
 		});
