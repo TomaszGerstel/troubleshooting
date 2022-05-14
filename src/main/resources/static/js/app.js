@@ -61,26 +61,30 @@ angular.module('app', ['ngRoute', 'ngResource'])
 	})
 	.factory('Comment', function($resource) {
 		return $resource('api/problem/comments');
-	})	
+	})
 	.directive('fileModel', ['$parse', function($parse) {
-			return {
-				restrict: 'A',
-				link: function(scope, element, attrs) {
-					var model = $parse(attrs.fileModel);
-					var modelSetter = model.assign;
-					element.bind('change', function() {
-						scope.$apply(function() {
-							modelSetter(scope, element[0].files[0]);
-						});
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				var model = $parse(attrs.fileModel);
+				var modelSetter = model.assign;
+				element.bind('change', function() {
+					scope.$apply(function() {
+						modelSetter(scope, element[0].files[0]);
 					});
-				}
-			};
-		}])
-		.config(function($httpProvider) {
-			$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+				});
+			}
+		};
+	}])
+	.config(function($httpProvider) {
+		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+	})
+	.run(function($rootScope, $location) {
+		$rootScope.$on('$routeChangeSuccess', function() {
+			gtag('config', 'G-JT0J9TENY9', { 'page_path': $location.path() });
+			gtag('event', 'page_view');
 		});
-		
-
+	});
 
 
 

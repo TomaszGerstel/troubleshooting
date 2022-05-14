@@ -113,8 +113,9 @@ h2 {
 	display: flex;
 }
 
-input {
+#search {
 	resize: none;
+	font-size: 2em;
 }
 
 .search button {
